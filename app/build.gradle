@@ -1,0 +1,77 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.superpeer.tutuyoudian"
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            //设置支持的so库架构
+            abiFilters "armeabi-v7a"
+        }
+
+        manifestPlaceholders = [
+                qqappid      : "1106950434",
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "7df49ca1e2dbeb7fb7514f4e", //JPush上注册的包名对应的appkey.
+                JPUSH_CHANNEL: "developer-default" //暂时填写默认值即可.
+        ]
+
+        //开启分包模式
+        multiDexEnabled = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets.main {
+        jniLibs.srcDirs = ['libs']
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //noinspection GradleCompatible
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.0.0-beta4'
+    implementation files('libs/TencentLocationSdk_v7.1.4.3_r4aa8ac63_20180911_165428.jar')
+    implementation files('libs/jcore-android-1.1.9.jar')
+    implementation files('libs/jpush-android-3.1.1.jar')
+    //滚轮选择省市区
+    compile 'com.wx.wheelview:wheelview:latest.integration'
+    //glide图片
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.github.lovetuzitong:MultiImageSelector:1.2'
+    compile 'com.github.sychaos:PasswordinputView:1.0.1'
+    compile 'com.github.iwgang:countdownview:2.1.6'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    compile 'cn.bertsir.zbarLibary:zbarlibary:latest.release'
+//    compile 'com.tencent.map:tencent-map-vector-sdk:latest.release'
+    compile 'com.tencent.map:tencent-map-vector-sdk:4.0.3.2'
+    //支付宝支付
+    compile(name: 'alipaySdk-15.5.7-20181023110917', ext: 'aar')
+    //微信支付
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+
+    implementation project(':base_libs')
+
+    compile 'com.yanzhenjie:recyclerview-swipe:1.1.4'
+
+    implementation 'com.github.nanchen2251:CompressHelper:1.0.5'
+
+    //友盟
+    compile 'com.umeng.sdk:common:1.5.0'
+    compile 'com.umeng.sdk:share-core:6.9.0'
+//    compile 'com.umeng.sdk:share-wechat:6.9.0'
+}

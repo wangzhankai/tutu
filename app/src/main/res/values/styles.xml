@@ -1,0 +1,167 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!-- Navigation Header -->
+    <style name="NavPage">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center_horizontal</item>
+        <!-- <item name="android:background">@drawable/nav_page</item> -->
+        <item name="android:background">@color/backgroundLight</item>
+    </style>
+
+
+    <style name="textPrimaryStyle24">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/sp_24</item>
+    </style>
+
+    <style name="textPrimaryStyle18">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/sp_18</item>
+    </style>
+
+    <style name="textPrimaryStyle16">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+    </style>
+
+    <style name="textPrimaryStyle14">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+    </style>
+
+    <style name="textPrimaryStyle13">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/sp_13</item>
+    </style>
+
+    <style name="textPrimaryStyle8">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/sp_8</item>
+    </style>
+
+    <style name="textGrey3Style21">
+        <item name="android:textColor">@color/grey3</item>
+        <item name="android:textSize">@dimen/sp_21</item>
+    </style>
+
+    <style name="textGrey3Style18">
+        <item name="android:textColor">@color/grey3</item>
+        <item name="android:textSize">@dimen/sp_18</item>
+    </style>
+
+    <style name="textGrey3Style16">
+        <item name="android:textColor">@color/grey3</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+    </style>
+
+    <style name="textGrey3Style15">
+        <item name="android:textColor">@color/grey3</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+    </style>
+
+    <style name="textGrey3Style14">
+        <item name="android:textColor">@color/grey3</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+    </style>
+
+    <style name="textGrey3Style13">
+        <item name="android:textColor">@color/grey3</item>
+        <item name="android:textSize">@dimen/sp_13</item>
+    </style>
+
+    <style name="textGrey3Style12">
+        <item name="android:textColor">@color/grey3</item>
+        <item name="android:textSize">@dimen/sp_12</item>
+    </style>
+
+    <style name="textGreyD8Style14">
+        <item name="android:textColor">@color/greyD8</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+    </style>
+
+    <style name="texthintColorStyle14">
+        <item name="android:textColor">@color/hintColor</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+    </style>
+
+    <style name="texthintColorStyle10">
+        <item name="android:textColor">@color/hintColor</item>
+        <item name="android:textSize">@dimen/sp_10</item>
+    </style>
+
+    <style name="textGrey9Style20">
+        <item name="android:textColor">@color/grey9</item>
+        <item name="android:textSize">@dimen/sp_20</item>
+    </style>
+
+    <style name="textGrey9Style14">
+        <item name="android:textColor">@color/grey9</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+    </style>
+
+    <style name="textGrey9Style13">
+        <item name="android:textColor">@color/grey9</item>
+        <item name="android:textSize">@dimen/sp_13</item>
+    </style>
+
+    <style name="textGrey9Style12">
+        <item name="android:textColor">@color/grey9</item>
+        <item name="android:textSize">@dimen/sp_12</item>
+    </style>
+
+    <style name="textWhiteStyle30">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/sp_30</item>
+    </style>
+
+    <style name="textWhiteStyle14">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+    </style>
+
+    <style name="textWhiteStyle13">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/sp_13</item>
+    </style>
+
+    <style name="textWhiteStyle8">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/sp_8</item>
+    </style>
+
+    <style name="textYellowStyle14">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/sp_12</item>
+    </style>
+
+    <style name="textYellowStyle12">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/sp_12</item>
+    </style>
+
+    <style name="textYellowStyle16">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+    </style>
+
+    <style name="textRedStyle18">
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textSize">@dimen/sp_18</item>
+    </style>
+
+    <style name="textRedStyle14">
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+    </style>
+
+</resources>

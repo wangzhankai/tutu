@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.superpeer.tutuyoudian">
+
+    <!-- Required -->
+    <permission
+        android:name="com.superpeer.tutuyoudian.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission
+        android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
+
+    <uses-feature android:name="android.hardware.Camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <!-- Required -->
+    <uses-permission android:name="com.superpeer.tutuyoudian.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- Optional. Required for location feature -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 用于开启 debug 版本的应用在6.0 系统上 层叠窗口权限 -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <!-- 用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 用于获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 用于访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 用于写入缓存数据到扩展存储卡 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 用于申请调用A-GPS模块 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <!-- 用于申请获取蓝牙信息进行室内定位 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <application
+        android:name=".BaseApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".activity.welcome.WelcomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.login.LoginActivity" />
+        <activity android:name=".activity.main.MainActivity" />
+        <activity android:name=".activity.forgot.ForgotActivity" />
+        <activity android:name=".activity.setpwd.SetPwdActivity" />
+        <activity android:name=".activity.apply.ApplyActivity" />
+        <activity android:name=".activity.info.StoreInfoActivity" />
+        <activity
+            android:name=".activity.store.StoreApplyActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name=".activity.announce.AnnounceActivity" />
+        <activity android:name=".activity.announce.detail.AnnounceDetailActivity" />
+        <activity android:name=".activity.datacount.CountActivity" />
+        <activity android:name=".activity.income.IncomeDetailActivity" />
+        <activity android:name=".activity.order.OrderActivity" />
+        <activity android:name=".activity.order.detail.OrderDetailActivity" />
+        <activity android:name=".activity.WebActivity" />
+
+        <meta-data
+            android:name="TencentMapSDK"
+            android:value="T3NBZ-2ZD3J-XDTFR-FR7HI-UHC3O-KLBBQ" />
+
+        <!-- 极光推送 -->
+        <!-- Required SDK 核心功能 -->
+        <!-- 可配置android:process参数将PushService放在其他进程中 -->
+        <service
+            android:name="cn.jpush.android.service.PushService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTER" />
+                <action android:name="cn.jpush.android.intent.REPORT" />
+                <action android:name="cn.jpush.android.intent.PushService" />
+                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
+            </intent-filter>
+        </service>
+
+        <!-- since 3.0.9 Required SDK 核心功能 -->
+        <provider
+            android:name="cn.jpush.android.service.DataProvider"
+            android:authorities="com.superpeer.tutuyoudian.DataProvider"
+            android:exported="true" />
+
+        <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
+        <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
+        <service
+            android:name="cn.jpush.android.service.DaemonService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.DaemonService" />
+
+                <category android:name="com.superpeer.tutuyoudian" />
+            </intent-filter>
+        </service>
+
+        <!-- since 3.1.0 Required SDK 核心功能 -->
+        <provider
+            android:name="cn.jpush.android.service.DownloadProvider"
+            android:authorities="com.superpeer.tutuyoudian.DownloadProvider"
+            android:exported="true" />
+
+        <!-- Required SDK核心功能 -->
+        <receiver
+            android:name="cn.jpush.android.service.PushReceiver"
+            android:enabled="true">
+            <intent-filter android:priority="1000">
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
+
+                <category android:name="com.superpeer.tutuyoudian" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <!-- Optional -->
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Required SDK核心功能 -->
+        <activity
+            android:name="cn.jpush.android.ui.PushActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="false"
+            android:theme="@android:style/Theme.NoTitleBar">
+            <intent-filter>
+                <action android:name="cn.jpush.android.ui.PushActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.superpeer.tutuyoudian" />
+            </intent-filter>
+        </activity>
+        <!-- SDK核心功能 -->
+        <activity
+            android:name="cn.jpush.android.ui.PopWinActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="false"
+            android:theme="@style/MyDialogStyle">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.superpeer.tutuyoudian" />
+            </intent-filter>
+        </activity>
+
+        <!-- Required SDK核心功能 -->
+        <service
+            android:name="cn.jpush.android.service.DownloadService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <!-- Required SDK核心功能 -->
+        <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
+
+        <!-- User defined. 用户自定义的广播接收器 -->
+        <receiver
+            android:name=".jpush.MyReceiver"
+            android:enabled="true">
+            <intent-filter>
+
+                <!-- Required 用户注册SDK的intent -->
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <!-- Required 用户接收SDK消息的intent -->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <!-- Required 用户接收SDK通知栏信息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <!-- Required 用户打开自定义通知栏的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+
+                <category android:name="com.superpeer.tutuyoudian" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Required. For publish channel feature -->
+        <!-- JPUSH_CHANNEL 是为了方便开发者统计APK分发渠道。 -->
+        <!-- 例如: -->
+        <!-- 发到 Google Play 的APK可以设置为 google-play; -->
+        <!-- 发到其他市场的 APK 可以设置为 xxx-market。 -->
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="developer-default" />
+        <!-- Required. AppKey copied from Portal -->
+        <!-- 极光Key -->
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="7df49ca1e2dbeb7fb7514f4e" />
+
+        <activity
+            android:name=".activity.position.PositionActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name=".activity.setting.StoreSettingActivity" />
+        <activity android:name=".activity.storeuse.StoreUseActivity" />
+        <activity android:name=".activity.announce.publish.NoticePublishActivity" />
+        <activity android:name=".activity.storesendset.StoreSendSetActivity" />
+        <activity android:name=".activity.collageorder.CollageOrderActivity" />
+        <activity android:name=".activity.collageorder.detail.CollageOrderDetailActivity" />
+        <activity android:name=".activity.verify.VerifyActivity" />
+        <activity android:name=".activity.verify.successorfail.VerifySuccessOrFailActivity" />
+        <activity android:name=".activity.addshop.AddShopActivity" />
+        <activity android:name=".activity.shoplibrary.ShopLibraryActivity" />
+        <activity android:name=".activity.cash.withdraw.CashWithDrawActivity" />
+        <activity android:name=".activity.cash.record.CashRecordActivity" />
+        <activity android:name=".activity.shopedit.ShopEditActivity" />
+        <activity android:name=".activity.collageset.CollageSetActivity" />
+        <activity android:name=".activity.collageadd.AddCollageActivity" />
+        <activity android:name=".activity.paytype.PayTypeActivity" />
+        <activity android:name=".activity.shopmanager.ShopManagerActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".activity.selectshop.SelectShopActivity" />
+        <activity android:name=".activity.selectDay.SelectDayActivity" />
+        <activity android:name=".activity.addaccount.AddAccountActivity" />
+        <activity android:name=".activity.account.AccountActivity" />
+        <activity android:name=".activity.driver.register.DriverRegisterActivity" />
+        <activity android:name=".activity.driver.main.DriverMainActivity" />
+        <activity android:name=".activity.driver.info.DriverInfoActivity" />
+        <activity android:name=".activity.driver.userinfo.UserInfoActivity" />
+        <activity android:name=".activity.driver.qrcode.QrCodeActivity" />
+        <activity android:name=".activity.driver.identify.DriverIdentifyActivity" />
+        <activity android:name=".activity.driver.withdraw.DriverWithDrawActivity" />
+        <activity android:name=".activity.driver.record.WithDrawRecordActivity" />
+        <activity android:name=".activity.driver.modifyphone.ModifyPhoneActivity" />
+        <activity android:name=".activity.storedriver.DriverListActivity" />
+        <activity android:name=".activity.adddriver.AddDriverActivity" />
+        <activity android:name=".activity.storeorder.StoreOrderActivity" />
+        <activity android:name=".activity.driver.historyorder.HistoryOrderActivity" />
+        <activity android:name=".activity.driver.orderdetail.DriverOrderDetailActivity" />
+        <activity android:name=".activity.safesetting.SafeSettingActivity" />
+        <activity android:name=".activity.paypwd.setting.PayPwdAgainSettingActivity" />
+        <activity android:name=".activity.paypwd.setting.PayPwdSettingActivity" />
+        <activity android:name=".activity.paypwd.modify.verify.PayPwdModifyActivity" />
+        <activity android:name=".activity.paypwd.modify.PayPwdModifyAgainActivity" />
+        <activity android:name=".activity.modifypwd.ModifyPwdActivity" />
+        <activity android:name=".activity.forgotpaypwd.ForgotPayPwdActivity" />
+        <activity android:name=".activity.paypwd.SuccessActivity" />
+        <activity android:name=".activity.driver.paytype.DriverTypeActivity" />
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="wxfeeb7daf89519654" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.search.SearchActivity" />
+        <activity android:name=".activity.goodssearch.GoodsSearchActivity" />
+        <activity android:name=".activity.selectshopsearch.SelectShopSearchActivity" />
+        <activity android:name=".activity.shopcode.ShopCodeActivity"></activity>
+    </application>
+
+</manifest>

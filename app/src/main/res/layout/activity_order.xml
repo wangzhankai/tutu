@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.superpeer.tutuyoudian.activity.order.OrderActivity">
+
+    <include layout="@layout/base_title"/>
+
+    <com.androidkun.xtablayout.XTabLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:background="@color/white"
+        app:xTabTextSelectedBold="true"
+        app:xTabTextSize="@dimen/sp_13"
+        app:xTabSelectedTextSize="@dimen/sp_13"
+        app:xTabTextColor="@color/orange"
+        app:tabIndicatorHeight="1dp"
+        android:id="@+id/tab"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dp_10">
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>

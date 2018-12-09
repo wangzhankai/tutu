@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="LiteAVSDK_UGC_4.7.4395:@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-3.3-all/caches/transforms-1/files-1.1/LiteAVSDK_UGC_4.7.4395.aar/b0b5976fd1cd2a6778adac6f6328ecda/jars/libs/LiteAVSDK_UGC.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-3.3-all/caches/transforms-1/files-1.1/LiteAVSDK_UGC_4.7.4395.aar/b0b5976fd1cd2a6778adac6f6328ecda/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-3.3-all/caches/transforms-1/files-1.1/LiteAVSDK_UGC_4.7.4395.aar/b0b5976fd1cd2a6778adac6f6328ecda/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

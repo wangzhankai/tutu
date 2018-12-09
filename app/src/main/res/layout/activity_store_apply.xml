@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linear"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bgcolor"
+    tools:context=".activity.store.StoreApplyActivity">
+
+    <include layout="@layout/base_title"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_5"
+                android:background="@color/white"
+                android:padding="@dimen/dp_10">
+
+                <TextView
+                    android:text="@string/store_name"
+                    style="@style/textGrey3Style14"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/etStoreName"
+                    style="@style/textGrey3Style14"
+                    android:hint="@string/input_store_name"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_35" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_1"
+                android:background="@color/white"
+                android:padding="@dimen/dp_10">
+
+                <TextView
+                    android:text="@string/store_photo"
+                    style="@style/textGrey3Style14"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/ivPhoto"
+                        style="@style/textGrey3Style14"
+                        android:src="@mipmap/iv_add"
+                        android:layout_width="@dimen/dp_60"
+                        android:layout_height="@dimen/dp_60" />
+
+                    <TextView
+                        style="@style/texthintColorStyle14"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/click_upload"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:layout_marginTop="@dimen/dp_1"
+                android:background="@color/white"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:text="@string/store_type"
+                    style="@style/textGrey3Style14"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvStoreType"
+                    style="@style/textGrey3Style14"
+                    android:hint="@string/store_type"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:drawableRight="@mipmap/iv_arrow"
+                    android:gravity="center_vertical"
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_35" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/dp_1"
+                android:background="@color/white">
+
+                <TextView
+                    style="@style/textGrey3Style14"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:text="经营范围" />
+
+                <EditText
+                    android:id="@+id/etRange"
+                    style="@style/textGrey3Style14"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_35"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:background="@null"
+                    android:hint="请填写经营范围" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:layout_marginTop="@dimen/dp_1"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/textGrey3Style14"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:text="@string/store_city" />
+
+                <TextView
+                    android:id="@+id/tvCity"
+                    style="@style/textGrey3Style14"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_35"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:background="@null"
+                    android:drawableRight="@mipmap/iv_arrow"
+                    android:gravity="center_vertical"
+                    android:hint="请选择所在城市" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/dp_1"
+                android:background="@color/white">
+
+                <TextView
+                    android:text="@string/store_pos"
+                    style="@style/textGrey3Style14"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvAddress"
+                    style="@style/textGrey3Style14"
+                    android:hint="请选择店铺地址"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:drawableRight="@mipmap/iv_arrow"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:gravity="center_vertical"
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_35" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/dp_1"
+                android:background="@color/white">
+
+                <TextView
+                    android:text="@string/store_seller"
+                    style="@style/textGrey3Style14"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/etUserName"
+                    style="@style/textGrey3Style14"
+                    android:hint="请输入联系人姓名"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_35" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:layout_marginTop="@dimen/dp_1"
+                android:gravity="center_vertical"
+                android:background="@color/white">
+
+                <TextView
+                    android:text="@string/store_phone"
+                    style="@style/textGrey3Style14"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/etPhone"
+                    style="@style/textGrey3Style14"
+                    android:hint="请输入联系人电话"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_35" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:layout_marginTop="@dimen/dp_1"
+                android:layout_marginBottom="@dimen/dp_20"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/textGrey3Style14"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:text="@string/store_pay_type" />
+
+                <TextView
+                    android:id="@+id/tvPayType"
+                    style="@style/textGrey3Style14"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_35"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:drawableRight="@mipmap/iv_arrow"
+                    android:gravity="center_vertical"
+                    android:hint="请选择结算方式" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="@dimen/dp_45">
+
+        <TextView
+            android:id="@+id/tvQuit"
+            style="@style/textWhiteStyle14"
+            android:background="@color/grey9"
+            android:text="@string/quit_apply"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/tvSure"
+            style="@style/textWhiteStyle14"
+            android:background="@color/colorPrimary"
+            android:text="@string/sure_apply"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</LinearLayout>

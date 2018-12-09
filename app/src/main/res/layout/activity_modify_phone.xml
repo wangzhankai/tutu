@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.driver.modifyphone.ModifyPhoneActivity">
+
+    <include layout="@layout/base_title"/>
+
+    <TextView
+        style="@style/textGrey9Style12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_15"
+        android:text="仅修改联系手机信息，登录请使用原注册手机号"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:paddingLeft="@dimen/dp_15"
+        android:paddingRight="@dimen/dp_15"
+        android:gravity="center_vertical"
+        android:background="@color/white">
+
+        <TextView
+            android:text="手机号"
+            style="@style/textGrey3Style14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/etPhone"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_10"
+            android:hint="输入手机号"
+            style="@style/textGrey3Style14"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvModify"
+        android:text="确认修改"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:layout_marginRight="@dimen/dp_15"
+        android:layout_marginBottom="@dimen/dp_30"
+        style="@style/textWhiteStyle14"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:background="@drawable/bg_orange"/>
+
+</LinearLayout>

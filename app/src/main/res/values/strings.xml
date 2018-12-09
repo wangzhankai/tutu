@@ -1,0 +1,94 @@
+<resources>
+    <string name="app_name">兔兔优店</string>
+
+    <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
+    <!-- 登录 -->
+    <string name="app_shop_name">兔兔优店助手</string>
+    <string name="app_shop_name_english">Rabbit rabbit shop business version</string>
+    <string name="input_username">请输入用户名</string>
+    <string name="input_password">请输入密码</string>
+    <string name="forgot_password">忘记密码?</string>
+    <string name="login">登录</string>
+    <string name="apply">入驻申请</string>
+
+    <!-- 忘记密码 -->
+    <string name="forgot">忘记密码</string>
+    <string name="username">用户名：</string>
+    <string name="code">验证码：</string>
+    <string name="next">下一步</string>
+    <string name="reset_pwd">重置密码</string>
+    <string name="get_code">获取验证码</string>
+    <string name="input_code">请输入验证码</string>
+
+    <!-- 设置新密码 -->
+    <string name="new_pwd">输入新密码：</string>
+    <string name="new_pwd_again">重复新密码：</string>
+    <string name="input_pwd">6-18位字母、数字、特殊符号</string>
+    <string name="input_pwd_again">请重复输入新密码</string>
+
+    <!--店铺入驻-->
+    <string name="input_phone">输入手机号</string>
+    <string name="input_phone_code">输入手机验证码</string>
+    <string name="set_pwd">设置登录密码</string>
+    <string name="repeat_pwd">重复登陆密码</string>
+    <string name="invite_code">输入邀请码</string>
+    <string name="agree">我已阅读并同意《兔兔优店用户服务协议》</string>
+
+    <!--店铺入驻-->
+    <string name="store_tips">开店前，您需准备如下材料</string>
+    <string name="identify">法人身份证</string>
+    <string name="identify_one">1.清晰的法人身份证原件正面（有头像为正面）图片</string>
+    <string name="identify_two">2.身份证姓名需与营业执照上法人姓名一致</string>
+    <string name="identify_phone">营业执照</string>
+    <string name="identify_phone_one">1.质量清晰的营业执照原件图片</string>
+    <string name="identify_phone_two">2.如无原件，拍复印件并加盖鲜印</string>
+    <string name="identify_allow">食品经营许可证</string>
+    <string name="identify_allow_one">1.超市/便利店，美食、保健品等行业，需提供食品经营许可证</string>
+    <string name="identify_allow_two">2.可用食品流通许可证或餐饮服务许可证代替</string>
+    <string name="quit_apply">放弃入驻</string>
+    <string name="sure_apply">申请入驻</string>
+
+    <string name="store_name">店铺名称</string>
+    <string name="input_store_name">请输入营业执照上的店铺名称</string>
+    <string name="store_photo">门头照片</string>
+    <string name="store_type">店铺分类</string>
+    <string name="store_range">店铺范围</string>
+    <string name="store_city">入驻城市</string>
+    <string name="store_pos">店铺地址</string>
+    <string name="store_seller">联系人</string>
+    <string name="store_phone">联系电话</string>
+    <string name="store_pay_type">结算方式</string>
+    <string name="click_upload">点击上传</string>
+
+    <!--首页-->
+    <string name="today_income">今日营业额（元）</string>
+    <string name="auto_get_order">自动接单</string>
+    <string name="today_order_num">今日付款单数</string>
+    <string name="today_view_num">今日浏览量</string>
+    <string name="yesterday">昨日</string>
+    <string name="normal_order">普通订单</string>
+    <string name="collage_order">拼团订单</string>
+    <string name="get_goods_vertify">提货验证</string>
+    <string name="add_goods">添加商品</string>
+    <string name="goods_manager">商品管理</string>
+    <string name="collage_set">拼团设置</string>
+    <string name="data_count">数据统计</string>
+    <string name="cash_withdraw">资金提现</string>
+    <string name="store_set">店铺设置</string>
+    <string name="online">营业</string>
+    <string name="offline">休息</string>
+    <string name="onlining">营业中</string>
+
+    <!-- 数据统计 -->
+    <string name="view_people">访客</string>
+    <string name="order">订单</string>
+    <string name="income">营收</string>
+    <string name="pay_order">付款订单</string>
+    <string name="send_order">发货订单</string>
+
+    <string name="package_fee">包装费</string>
+    <string name="driver_fee">配送费</string>
+    <string name="cancel_order">取消订单</string>
+    <string name="scan_allcode_hint">将二维码或条形码对入取景框，即可自动扫描</string>
+
+</resources>

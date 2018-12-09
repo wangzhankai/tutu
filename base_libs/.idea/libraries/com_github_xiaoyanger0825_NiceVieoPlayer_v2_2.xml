@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="com.github.xiaoyanger0825:NiceVieoPlayer-v2.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-3.3-all/caches/transforms-1/files-1.1/NiceVieoPlayer-v2.2.aar/7247cfeaf0b1fcae4eec53908b987ddb/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-3.3-all/caches/transforms-1/files-1.1/NiceVieoPlayer-v2.2.aar/7247cfeaf0b1fcae4eec53908b987ddb/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

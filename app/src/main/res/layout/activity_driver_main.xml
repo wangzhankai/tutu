@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.driver.main.DriverMainActivity">
+
+    <include layout="@layout/base_title"/>
+
+    <com.androidkun.xtablayout.XTabLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:background="@color/white"
+        app:xTabTextSelectedBold="true"
+        app:xTabTextSize="@dimen/sp_13"
+        app:xTabSelectedTextSize="@dimen/sp_13"
+        app:xTabTextColor="@color/orange"
+        app:tabIndicatorHeight="1dp"
+        android:id="@+id/tab"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="@dimen/dp_10">
+    </android.support.v4.view.ViewPager>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60">
+
+        <LinearLayout
+            android:id="@+id/linearOnline"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvOnline"
+                style="@style/textWhiteStyle14"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:background="@drawable/bg_orange_circle"
+                android:gravity="center"
+                android:text="接单" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvStatus"
+            style="@style/textGrey3Style16"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="接单中" />
+
+        <LinearLayout
+            android:id="@+id/linearOffline"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvOffline"
+                style="@style/textWhiteStyle14"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:background="@drawable/bg_grey"
+                android:gravity="center"
+                android:text="@string/offline" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

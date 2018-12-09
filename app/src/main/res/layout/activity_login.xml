@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    tools:context=".activity.login.LoginActivity">
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="@dimen/dp_60"
+        android:layout_height="@dimen/dp_60"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_90"
+        android:src="@mipmap/ic_launcher"/>
+
+    <TextView
+        android:id="@+id/tvName"
+        style="@style/textPrimaryStyle24"
+        android:text="@string/app_shop_name"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/ivLogo"
+        android:layout_marginTop="@dimen/dp_40"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvNameEnglish"
+        style="@style/texthintColorStyle10"
+        android:text="@string/app_shop_name_english"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tvName"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvNameEnglish"
+        android:orientation="vertical"
+        android:gravity="right"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_50">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/iv_user"/>
+
+            <EditText
+                android:id="@+id/etUserName"
+                style="@style/textGrey3Style14"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:background="@null"
+                android:hint="@string/input_username" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/greyD8"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/dp_20">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/iv_pwd"/>
+
+            <EditText
+                android:id="@+id/etPassword"
+                style="@style/textGrey3Style14"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:background="@null"
+                android:hint="@string/input_password"
+                android:inputType="textPassword" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/greyD8"/>
+
+        <TextView
+            android:id="@+id/tvForgot"
+            style="@style/textGrey9Style12"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="@string/forgot_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvLogin"
+            style="@style/textWhiteStyle14"
+            android:background="@drawable/bg_orange"
+            android:gravity="center"
+            android:text="@string/login"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_45" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/dp_20">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/dp_1"
+                android:background="@color/greyD8"/>
+
+            <TextView
+                android:id="@+id/tvApply"
+                style="@style/textYellowStyle12"
+                android:text="@string/apply"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tvDriverRegister"
+                style="@style/textGrey9Style12"
+                android:text="跑腿注册"
+                android:gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:layout_marginRight="@dimen/dp_5"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/dp_1"
+                android:background="@color/greyD8"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

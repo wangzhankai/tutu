@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".activity.modifypwd.ModifyPwdActivity">
+
+    <include layout="@layout/base_title"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dp_30"
+        android:paddingRight="@dimen/dp_30">
+
+        <TextView
+            android:text="请输入原登录密码"
+            style="@style/textGrey3Style14"
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/etPwd"
+            style="@style/textGrey3Style14"
+            android:layout_marginTop="@dimen/dp_10"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_35"
+            android:background="@color/backgroundLight"/>
+
+        <TextView
+            android:text="请设置登录密码"
+            style="@style/textGrey3Style14"
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/etNewPwd"
+            style="@style/textGrey3Style14"
+            android:layout_marginTop="@dimen/dp_10"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_35"
+            android:background="@color/backgroundLight"/>
+
+        <TextView
+            android:text="登录密码不少于6~20个密码，字符为数字、英语字母和标题符号（空格除外）"
+            android:layout_marginTop="@dimen/dp_10"
+            style="@style/textGrey9Style14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvSure"
+            style="@style/textWhiteStyle14"
+            android:background="@drawable/bg_orange"
+            android:gravity="center"
+            android:text="确定"
+            android:layout_marginTop="@dimen/dp_50"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_45" />
+
+    </LinearLayout>
+
+</LinearLayout>

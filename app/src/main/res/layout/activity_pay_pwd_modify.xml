@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    tools:context=".activity.paypwd.modify.verify.PayPwdModifyActivity">
+
+    <include layout="@layout/base_title"/>
+
+    <TextView
+        style="@style/textGrey3Style14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_15"
+        android:text="请输入原支付密码" />
+
+    <cloudist.cc.library.view.PasswordInputView
+        android:id="@+id/password_inputview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:borderWidth="0.5dp"
+        app:itemHeight="45dp"
+        app:itemPadding="10dp"
+        app:passwordLength="6"
+        app:borderRadius="1dp"
+        app:passwordWidth="6dp" />
+
+    <TextView
+        android:id="@+id/tvSure"
+        style="@style/textWhiteStyle14"
+        android:background="@drawable/bg_orange"
+        android:gravity="center"
+        android:text="确定"
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:layout_marginRight="@dimen/dp_15"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45" />
+
+</LinearLayout>

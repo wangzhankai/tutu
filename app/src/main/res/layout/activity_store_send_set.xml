@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/linear"
+    tools:context="com.superpeer.tutuyoudian.activity.storesendset.StoreSendSetActivity">
+
+    <include layout="@layout/base_title"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingRight="@dimen/dp_12"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:text="配送范围"
+            style="@style/textGrey3Style14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/etRange"
+            style="@style/textGrey3Style14"
+            android:textColorHint="@color/grey9"
+            android:hint="周边配送距离"
+            android:gravity="right|center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@null"/>
+
+        <TextView
+            style="@style/textGrey9Style14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:text="(米)" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:layout_marginTop="@dimen/dp_1"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingRight="@dimen/dp_12"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:text="起送金额"
+            style="@style/textGrey3Style14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/etStartMoney"
+            style="@style/textGrey3Style14"
+            android:textColorHint="@color/grey9"
+            android:gravity="right|center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@null"/>
+
+        <TextView
+            android:text="(元)"
+            style="@style/textGrey9Style14"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:layout_marginTop="@dimen/dp_1"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingRight="@dimen/dp_12"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:text="包装费"
+            style="@style/textGrey3Style14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/etPackageFee"
+            style="@style/textGrey3Style14"
+            android:textColorHint="@color/grey9"
+            android:gravity="right|center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@null"/>
+
+        <TextView
+            android:text="(元)"
+            style="@style/textGrey9Style14"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:layout_marginTop="@dimen/dp_1"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingRight="@dimen/dp_12"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:text="配送费"
+            style="@style/textGrey3Style14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/etSendFee"
+            style="@style/textGrey3Style14"
+            android:textColorHint="@color/grey9"
+            android:gravity="right|center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@null"/>
+
+        <TextView
+            android:text="(元)"
+            style="@style/textGrey9Style14"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:layout_marginTop="@dimen/dp_1"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingRight="@dimen/dp_12"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:text="送达时间"
+            style="@style/textGrey3Style14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/etSendTime"
+            style="@style/textGrey3Style14"
+            android:textColorHint="@color/grey9"
+            android:gravity="right|center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@null"/>
+
+        <TextView
+            android:text="(分钟)"
+            style="@style/textGrey9Style14"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingRight="@dimen/dp_12"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:text="开始营业时间"
+            style="@style/textGrey3Style14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvStartTime"
+            style="@style/textGrey3Style14"
+            android:textColorHint="@color/grey9"
+            android:hint="请选择"
+            android:gravity="right|center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:src="@mipmap/iv_arrow"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:layout_marginTop="@dimen/dp_1"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingRight="@dimen/dp_12"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:text="结束营业时间"
+            style="@style/textGrey3Style14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvEndTime"
+            style="@style/textGrey3Style14"
+            android:textColorHint="@color/grey9"
+            android:hint="请选择"
+            android:gravity="right|center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:src="@mipmap/iv_arrow"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:layout_marginTop="@dimen/dp_1"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingRight="@dimen/dp_12"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/textGrey3Style14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="店铺休息日" />
+
+        <TextView
+            android:id="@+id/tvStoreDay"
+            style="@style/textGrey3Style14"
+            android:textColorHint="@color/grey9"
+            android:hint="请选择"
+            android:gravity="right|center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:src="@mipmap/iv_arrow"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvSure"
+        style="@style/textWhiteStyle14"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:layout_marginRight="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_50"
+        android:background="@drawable/bg_orange"
+        android:gravity="center"
+        android:text="保存" />
+
+</LinearLayout>

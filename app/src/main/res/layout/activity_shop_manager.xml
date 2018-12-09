@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundLight"
+    tools:context="com.superpeer.tutuyoudian.activity.shopmanager.ShopManagerActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <include layout="@layout/base_title"/>
+
+    <TextView
+        android:id="@+id/tvSearch"
+        style="@style/textGrey3Style14"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_height="@dimen/dp_35"
+        android:layout_margin="@dimen/dp_5"
+        android:paddingLeft="@dimen/dp_10"
+        android:hint="搜索商品"
+        android:drawableLeft="@mipmap/iv_search"
+        android:background="@drawable/bg_edit_search"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:gravity="center_vertical"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tvUp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="在售商品"
+            android:textColor="@drawable/bg_select_color"
+            android:textSize="@dimen/dp_14" />
+
+        <View
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="@dimen/dp_25"
+            android:background="@color/greyD8"/>
+
+        <TextView
+            android:id="@+id/tvRest"
+            android:textSize="@dimen/dp_14"
+            android:textColor="@drawable/bg_select_color"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="待补库存"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+
+        <View
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="@dimen/dp_25"
+            android:background="@color/greyD8"/>
+
+        <TextView
+            android:id="@+id/tvDown"
+            android:textSize="@dimen/dp_14"
+            android:textColor="@drawable/bg_select_color"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="待上架"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <!--<ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/backgroundLight">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerCategory"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+
+                <com.superpeer.base_libs.view.refresh.RefreshLayout
+                    android:id="@+id/refresh"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="match_parent"
+                    >
+
+                    <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
+                        android:id="@+id/rv_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView>
+
+                </com.superpeer.base_libs.view.refresh.RefreshLayout>
+
+            </LinearLayout>
+
+        <!--</LinearLayout>
+    </ScrollView>-->
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearUpload"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical"
+        android:padding="@dimen/dp_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivScan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/iv_shop_upload"/>
+
+        <ImageView
+            android:id="@+id/ivUpload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:src="@mipmap/iv_shop_scan"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

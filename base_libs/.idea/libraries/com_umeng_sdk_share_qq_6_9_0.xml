@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="com.umeng.sdk:share-qq-6.9.0">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-3.3-all/caches/transforms-1/files-1.1/share-qq-6.9.0.aar/00d036d60cd9cc863d9410fae64dc422/res" />
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-3.3-all/caches/transforms-1/files-1.1/share-qq-6.9.0.aar/00d036d60cd9cc863d9410fae64dc422/jars/libs/open_sdk_r5923_lite.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-3.3-all/caches/transforms-1/files-1.1/share-qq-6.9.0.aar/00d036d60cd9cc863d9410fae64dc422/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-3.3-all/caches/modules-2/files-2.1/com.umeng.sdk/share-qq/6.9.0/fdcea7db3cff238ea101d8790d581fe96b8c872/share-qq-6.9.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

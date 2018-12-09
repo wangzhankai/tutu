@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    tools:context=".activity.forgotpaypwd.ForgotPayPwdActivity">
+
+    <include layout="@layout/base_title"/>
+
+    <TextView
+        android:text="忘记密码"
+        android:textStyle="bold"
+        style="@style/textGrey3Style21"
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dp_30"
+        android:paddingRight="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_30">
+
+        <TextView
+            android:text="手机号"
+            style="@style/textGrey3Style14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/etPhone"
+            style="@style/textGrey3Style14"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@color/backgroundLight"
+            android:layout_height="@dimen/dp_40" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dp_30"
+        android:paddingRight="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_30">
+
+        <TextView
+            style="@style/textGrey3Style14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="验证码" />
+
+        <EditText
+            android:id="@+id/etCode"
+            style="@style/textGrey3Style14"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@color/backgroundLight"
+            android:layout_height="@dimen/dp_40" />
+
+        <TextView
+            android:id="@+id/tvGetCode"
+            android:text="获取验证码"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:gravity="center"
+            style="@style/textWhiteStyle13"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_40"
+            android:background="@color/orange"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvSure"
+        style="@style/textWhiteStyle14"
+        android:background="@drawable/bg_orange"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:gravity="center"
+        android:text="确定"
+        android:layout_marginTop="@dimen/dp_50"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45" />
+
+</LinearLayout>

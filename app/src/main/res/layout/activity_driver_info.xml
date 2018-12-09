@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.driver.info.DriverInfoActivity">
+
+    <include layout="@layout/base_title"/>
+
+    <TextView
+        android:id="@+id/tvSafeSetting"
+        android:text="安全设置"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:gravity="center_vertical"
+        android:drawableRight="@mipmap/iv_arrow"
+        style="@style/textGrey3Style14"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:layout_marginTop="@dimen/dp_10"/>
+
+    <TextView
+        android:id="@+id/tvPersonInfo"
+        android:text="个人信息"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:gravity="center_vertical"
+        android:drawableRight="@mipmap/iv_arrow"
+        style="@style/textGrey3Style14"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"/>
+
+    <TextView
+        android:id="@+id/tvHistoryOrder"
+        android:text="历史配送订单"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:gravity="center_vertical"
+        android:drawableRight="@mipmap/iv_arrow"
+        style="@style/textGrey3Style14"
+        android:layout_marginTop="@dimen/dp_1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"/>
+
+    <LinearLayout
+        android:id="@+id/linearWithDraw"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_1">
+
+        <TextView
+            android:id="@+id/tvWithDraw"
+            android:text="提现"
+            android:gravity="center_vertical"
+            style="@style/textGrey3Style14"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_45"/>
+
+        <TextView
+            android:id="@+id/tvWithDrawCash"
+            style="@style/textPrimaryStyle14"
+            android:text="￥"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|right"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:src="@mipmap/iv_arrow"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearIdentify"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10">
+
+        <TextView
+            android:text="认证状态"
+            android:gravity="center_vertical"
+            style="@style/textGrey3Style14"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_45"/>
+
+        <TextView
+            android:id="@+id/tvIdentifyStatus"
+            style="@style/textGrey9Style14"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|right"
+            android:text="去认证" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:src="@mipmap/iv_arrow"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearSetting"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:layout_marginTop="@dimen/dp_1"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:visibility="gone">
+
+        <TextView
+            style="@style/textGrey3Style14"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_45"
+            android:gravity="center_vertical"
+            android:text="结算设置" />
+
+        <TextView
+            android:id="@+id/tvSettingStatus"
+            style="@style/textGrey9Style14"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|right"
+            android:text="去设置" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:src="@mipmap/iv_arrow" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvExit"
+        android:text="退出登录"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dp_50"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:layout_marginRight="@dimen/dp_15"
+        android:layout_marginBottom="@dimen/dp_30"
+        style="@style/textWhiteStyle14"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:background="@drawable/bg_orange"/>
+
+</LinearLayout>
