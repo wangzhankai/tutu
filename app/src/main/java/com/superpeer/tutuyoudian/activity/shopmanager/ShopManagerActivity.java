@@ -125,7 +125,7 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
         ivScan = (ImageView) findViewById(R.id.ivScan);
         ivUpload = (ImageView) findViewById(R.id.ivUpload);
 
-        if("".equals(typeId)){
+        if(typeId == null ||"".equals(typeId)){
             linearUpload.setVisibility(View.GONE);
         }else{
             linearUpload.setVisibility(View.VISIBLE);
@@ -383,7 +383,7 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
                         categoryList = baseBeanResult.getData().getList();
                         categoryAdapter = new CategoryAdapter(R.layout.item_category, categoryList);
                         recyclerCategory.setAdapter(categoryAdapter);
-                        if(!"".equals(typeId)){
+                        if(!"".equals(typeId)&&null!=typeId){
                             for(int i=0; i<categoryList.size(); i++){
                                 if(typeId.equals(categoryList.get(i).getGoodsTypeId())){
                                     categoryAdapter.setSelectPos(i);
@@ -652,6 +652,7 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
     @Override
     public boolean onRefreshLayoutBeginLoadingMore(RefreshLayout refreshLayout) {
         if (result != null) {
+
             if(null!=result.getData()&&null!=result.getData().getTotal()) {
                 if (PAGE + 1 <= Integer.parseInt(result.getData().getTotal())/10) {
                     PAGE++;

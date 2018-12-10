@@ -1,5 +1,6 @@
 package com.superpeer.tutuyoudian.adapter;
 
+import android.graphics.Paint;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ public class OrderShopAdapter extends BaseQuickAdapter {
         }
         if(null!=bean.getPrice()){
             tvPrice.setText(bean.getPrice());
+            tvPrice.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG);
         }
         if(null!=bean.getNum()){
             tvNum.setText("x"+bean.getNum());

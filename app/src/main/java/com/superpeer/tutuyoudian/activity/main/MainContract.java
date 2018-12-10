@@ -23,7 +23,7 @@ public interface MainContract {
         //获取商品库分类
         Observable<BaseBeanResult> getCategory(String shopId);
         //抢单
-        Observable<BaseBeanResult> grabOrder(String orderId, String runnerId, String type);
+        Observable<BaseBeanResult> receiptOrder(String orderId);
         //召唤跑腿
         Observable<BaseBeanResult> callRunner(String shopId, String sendStatus);
     }
@@ -61,7 +61,7 @@ public interface MainContract {
 
         public abstract void getCategory(String shopId);
 
-        public abstract void grabOrder(String orderId, String runnerId, String type);
+        public abstract void receiptOrder(String orderId);
 
         public abstract void callRunner(String shopId, String sendStatus);
 

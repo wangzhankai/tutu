@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.superpeer.base_libs.base.baseadapter.BaseQuickAdapter;
 import com.superpeer.base_libs.utils.ConstantsUtils;
 import com.superpeer.base_libs.utils.DateUtils;
+import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.tutuyoudian.R;
 import com.superpeer.tutuyoudian.activity.verify.VerifyActivity;
 import com.superpeer.tutuyoudian.adapter.OrderShopAdapter;
@@ -20,6 +21,7 @@ import com.superpeer.tutuyoudian.api.Url;
 import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 import com.superpeer.tutuyoudian.bean.BaseObject;
+import com.superpeer.tutuyoudian.constant.Constants;
 
 public class DriverOrderDetailActivity extends BaseActivity<DriverOrderDetailPresenter, DriverOrderDetailModel> implements DriverOrderDetailContract.View {
 
@@ -31,7 +33,6 @@ public class DriverOrderDetailActivity extends BaseActivity<DriverOrderDetailPre
     private TextView tvGet;
     private TextView tvDelete;
     private TextView tvComplete;
-    private TextView tvVerify;
     private TextView tvStoreName;
     private TextView tvPackageFee;
     private TextView tvSendFee;
@@ -84,7 +85,6 @@ public class DriverOrderDetailActivity extends BaseActivity<DriverOrderDetailPre
         tvGet = (TextView) findViewById(R.id.tvGet);
         tvDelete = (TextView) findViewById(R.id.tvDelete);
         tvComplete = (TextView) findViewById(R.id.tvComplete);
-        tvVerify = (TextView) findViewById(R.id.tvVerify);
         tvStoreName = (TextView) findViewById(R.id.tvStoreName);
         tvPackageFee = (TextView) findViewById(R.id.tvPackageFee);
         tvSendFee = (TextView) findViewById(R.id.tvSendFee);
@@ -140,14 +140,7 @@ public class DriverOrderDetailActivity extends BaseActivity<DriverOrderDetailPre
         tvGet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.getOrder(orderId);
-            }
-        });
-        //验证
-        tvVerify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(VerifyActivity.class);
+                mPresenter.getOrder(orderId, PreferencesUtils.getString(mContext, Constants.SHOP_ID));
             }
         });
         //删除订单
@@ -212,15 +205,15 @@ public class DriverOrderDetailActivity extends BaseActivity<DriverOrderDetailPre
                     showShortToast(baseBeanResult.getMsg());
                 }
                 if("1".equals(baseBeanResult.getCode())){
-                    mRxManager.post("order", "");
+                    /*mRxManager.post("order", "");
                     tvCancel.setVisibility(View.GONE);
                     tvGet.setVisibility(View.GONE);
                     tvComplete.setVisibility(View.GONE);
                     tvVerify.setVisibility(View.GONE);
                     tvDelete.setVisibility(View.VISIBLE);
-                    object.setOrderStatus("6");
                     ivStatus.setImageResource(R.mipmap.iv_order_complete);
-                    tvStatus.setText("已取消");
+                    tvStatus.setText("已取消");*/
+                    object.setOrderStatus("6");
                     initData(object);
                 }
             }
@@ -237,7 +230,9 @@ public class DriverOrderDetailActivity extends BaseActivity<DriverOrderDetailPre
                     showShortToast(baseBeanResult.getMsg());
                 }
                 if("1".equals(baseBeanResult.getCode())){
-                    ivStatus.setImageResource(R.mipmap.iv_order_readyget);
+                    object.setOrderStatus("4");
+                    initData(object);
+                    /*ivStatus.setImageResource(R.mipmap.iv_order_readyget);
                     mRxManager.post("order", "");
                     tvGet.setVisibility(View.GONE);
 
@@ -257,7 +252,7 @@ public class DriverOrderDetailActivity extends BaseActivity<DriverOrderDetailPre
                             tvVerify.setVisibility(View.VISIBLE);
                             tvComplete.setVisibility(View.GONE);
                         }
-                    }
+                    }*/
                 }
             }
         }catch (Exception e){
@@ -272,7 +267,7 @@ public class DriverOrderDetailActivity extends BaseActivity<DriverOrderDetailPre
                 showShortToast(baseBeanResult.getMsg());
             }
             if("1".equals(baseBeanResult.getCode())) {
-                mRxManager.post("order", "");
+                mRxManager.post("drivermain", "");
                 finish();
             }
         }catch (Exception e){
@@ -288,7 +283,8 @@ public class DriverOrderDetailActivity extends BaseActivity<DriverOrderDetailPre
                     showShortToast(baseBeanResult.getMsg());
                 }
                 if("1".equals(baseBeanResult.getCode())){
-                    mRxManager.post("order", "");
+                    object.setOrderStatus("5");
+                    /*mRxManager.post("order", "");
                     tvCancel.setVisibility(View.GONE);
                     tvGet.setVisibility(View.GONE);
                     tvComplete.setVisibility(View.GONE);
@@ -296,7 +292,7 @@ public class DriverOrderDetailActivity extends BaseActivity<DriverOrderDetailPre
                     tvDelete.setVisibility(View.GONE);
                     object.setOrderStatus("5");
                     ivStatus.setImageResource(R.mipmap.iv_order_complete);
-                    tvStatus.setText("已完成");
+                    tvStatus.setText("已完成");*/
                     initData(object);
                 }
             }
@@ -325,45 +321,57 @@ public class DriverOrderDetailActivity extends BaseActivity<DriverOrderDetailPre
                 case "3":
                     ivStatus.setImageResource(R.mipmap.iv_order_readytaking);
                     tvStatus.setText("待接单");
-                    tvCancel.setVisibility(View.VISIBLE);
                     tvGet.setVisibility(View.VISIBLE);
+                    tvCancel.setVisibility(View.GONE);
+                    tvDelete.setVisibility(View.GONE);
+                    tvComplete.setVisibility(View.GONE);
                     break;
                 case "4":
+                    tvGet.setVisibility(View.GONE);
+                    tvCancel.setVisibility(View.VISIBLE);
+                    tvDelete.setVisibility(View.GONE);
+                    tvComplete.setVisibility(View.VISIBLE);
                     ivStatus.setImageResource(R.mipmap.iv_order_readyget);
                     if(null!=bean.getShippingType()){
                         if("1".equals(bean.getShippingType())){ //送货上门
                             tvStatus.setText("送货中");
-                            linearSend.setVisibility(View.VISIBLE);
-                            tvWantTime.setVisibility(View.VISIBLE);
-                            tvAddress.setVisibility(View.GONE);
-                            tvPhone.setVisibility(View.GONE);
-                            tvGetTime.setVisibility(View.GONE);
-                            tvCancel.setVisibility(View.VISIBLE);
-                            tvComplete.setVisibility(View.VISIBLE);
                         }else{      //自提
                             tvStatus.setText("待提货");
-                            linearSend.setVisibility(View.GONE);
-                            tvWantTime.setVisibility(View.GONE);
-                            tvAddress.setVisibility(View.VISIBLE);
-                            tvPhone.setVisibility(View.VISIBLE);
-                            tvGetTime.setVisibility(View.VISIBLE);
-                            tvCancel.setVisibility(View.VISIBLE);
-                            tvVerify.setVisibility(View.VISIBLE);
-                            tvComplete.setVisibility(View.GONE);
                         }
                     }
                     break;
                 case "5":
+                    tvGet.setVisibility(View.GONE);
+                    tvCancel.setVisibility(View.GONE);
+                    tvDelete.setVisibility(View.VISIBLE);
+                    tvComplete.setVisibility(View.GONE);
                     ivStatus.setImageResource(R.mipmap.iv_order_complete);
                     tvStatus.setText("已完成");
                     tvCancel.setVisibility(View.GONE);
                     break;
                 case "6":
+                    tvGet.setVisibility(View.GONE);
+                    tvCancel.setVisibility(View.GONE);
+                    tvDelete.setVisibility(View.VISIBLE);
+                    tvComplete.setVisibility(View.GONE);
                     ivStatus.setImageResource(R.mipmap.iv_order_complete);
                     tvStatus.setText("已取消");
                     tvDelete.setVisibility(View.VISIBLE);
                     tvCancel.setVisibility(View.GONE);
                     break;
+            }
+            if(null!=bean.getShippingType()){
+                if("1".equals(bean.getShippingType())){ //送货上门
+                    linearSend.setVisibility(View.VISIBLE);
+                    tvWantTime.setVisibility(View.VISIBLE);
+                    tvAddress.setVisibility(View.GONE);
+                    tvPhone.setVisibility(View.GONE);
+                }else{      //自提
+                    linearSend.setVisibility(View.GONE);
+                    tvWantTime.setVisibility(View.GONE);
+                    tvAddress.setVisibility(View.VISIBLE);
+                    tvPhone.setVisibility(View.VISIBLE);
+                }
             }
             if(null!=bean.getShopName()){
                 tvStoreName.setText(bean.getShopName());
@@ -406,14 +414,18 @@ public class DriverOrderDetailActivity extends BaseActivity<DriverOrderDetailPre
                 tvOrderNum.setText("订单号码："+bean.getOrderNum());
             }
             if(null!=bean.getCreateTime()){
-                tvOrderTime.setText("订单时间："+DateUtils.getStringToDate(bean.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
+//                tvOrderTime.setText("订单时间："+DateUtils.getStringToDate(bean.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
+                tvOrderTime.setText("订单时间："+bean.getCreateTime());
             }
-            if(null!=bean.getName()){
-                tvName.setText(bean.getName());
+            if(null!=bean.getConsignee()){
+                tvName.setText(bean.getConsignee());
             }
             if(null!=bean.getGoodsVos()&&bean.getGoodsVos().size()>0){
                 adapter.setNewData(bean.getGoodsVos());
                 adapter.loadComplete();
+            }
+            if(null!=bean.getShippingTime()){
+                tvWantTime.setText("期望时间："+bean.getShippingTime());
             }
         }
     }

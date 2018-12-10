@@ -429,7 +429,7 @@ public interface ApiService {
     //抢单操作
     @FormUrlEncoded
     @POST("app/order/grabOrder")
-    Observable<BaseBeanResult> grabOrder(@Field("orderId") String orderId, @Field("runnerId") String runnerId, @Field("type") String type);
+    Observable<BaseBeanResult> grabOrder(@Field("orderId") String orderId, @Field("runnerId") String runnerId);
 
     //放弃配送
     @FormUrlEncoded

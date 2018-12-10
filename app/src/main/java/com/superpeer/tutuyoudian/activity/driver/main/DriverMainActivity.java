@@ -64,12 +64,12 @@ import cn.jpush.android.api.TagAliasCallback;
 
 public class DriverMainActivity extends BaseActivity<DriverMainPresenter, DriverMainModel> implements DriverMainContract.View {
 
-    //极光推送
+    /*//极光推送
     public static boolean isForeground = false;
     private MessageReceiver mMessageReceiver;
     public static final String MESSAGE_RECEIVED_ACTION = "com.lxkj.video.MESSAGE_RECEIVED_ACTION";
     public static final String KEY_MESSAGE = "message";
-    public static final String KEY_EXTRAS = "extras";
+    public static final String KEY_EXTRAS = "extras";*/
     private RecyclerView rvContent;
     private RefreshLayout refresh;
     private DriverOrderAdapter adapter;
@@ -127,7 +127,7 @@ public class DriverMainActivity extends BaseActivity<DriverMainPresenter, Driver
     private int delPos;
     private BaseObject userInfo;
 
-    public class MessageReceiver extends BroadcastReceiver {
+    /*public class MessageReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -150,7 +150,7 @@ public class DriverMainActivity extends BaseActivity<DriverMainPresenter, Driver
                 e.printStackTrace();
             }
         }
-    }
+    }*/
 
     //权限
     public String[] permissions = {
@@ -303,13 +303,13 @@ public class DriverMainActivity extends BaseActivity<DriverMainPresenter, Driver
         });
     }
 
-    public void registerMessageReceiver() {
+    /*public void registerMessageReceiver() {
         mMessageReceiver = new MessageReceiver();
         IntentFilter filter = new IntentFilter();
         filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
         filter.addAction(MESSAGE_RECEIVED_ACTION);
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, filter);
-    }
+    }*/
 
     @Override
     public void showLoading(String title) {
@@ -421,7 +421,7 @@ public class DriverMainActivity extends BaseActivity<DriverMainPresenter, Driver
         }
     }
 
-    @Override
+    /*@Override
     protected void onResume() {
         isForeground = true;
         super.onResume();
@@ -437,5 +437,5 @@ public class DriverMainActivity extends BaseActivity<DriverMainPresenter, Driver
     protected void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         super.onDestroy();
-    }
+    }*/
 }

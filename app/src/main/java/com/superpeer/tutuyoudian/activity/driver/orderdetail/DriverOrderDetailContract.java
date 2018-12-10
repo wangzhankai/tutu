@@ -15,7 +15,7 @@ public interface DriverOrderDetailContract {
 
         Observable<BaseBeanResult> cancelOrder(String orderId);
         //接单
-        Observable<BaseBeanResult> getOrder(String orderId);
+        Observable<BaseBeanResult> getOrder(String orderId, String runnerId);
         //删除订单
         Observable<BaseBeanResult> delOrder(String orderId);
         //订单送达
@@ -39,7 +39,7 @@ public interface DriverOrderDetailContract {
 
         public abstract void cancelOrder(String orderId);
 
-        public abstract void getOrder(String orderId);
+        public abstract void getOrder(String orderId, String runnerId);
 
         public abstract void delOrder(String orderId);
 

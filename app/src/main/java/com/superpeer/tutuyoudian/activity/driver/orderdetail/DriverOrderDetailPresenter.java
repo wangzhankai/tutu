@@ -35,8 +35,8 @@ public class DriverOrderDetailPresenter extends DriverOrderDetailContract.Presen
     }
 
     @Override
-    public void getOrder(String orderId) {
-        mRxManage.add(mModel.getOrder(orderId).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
+    public void getOrder(String orderId, String runnerId) {
+        mRxManage.add(mModel.getOrder(orderId, runnerId).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
             @Override
             protected void _onNext(BaseBeanResult baseBeanResult) {
                 mView.showGetResult(baseBeanResult);

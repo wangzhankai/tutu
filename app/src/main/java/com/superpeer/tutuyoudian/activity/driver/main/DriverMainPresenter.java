@@ -36,8 +36,8 @@ public class DriverMainPresenter extends DriverMainContract.Presenter {
     }
 
     @Override
-    public void grabOrder(String orderId, String runnerId, String type) {
-        mRxManage.add(mModel.grabOrder(orderId, runnerId, type).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
+    public void grabOrder(String orderId, String runnerId) {
+        mRxManage.add(mModel.grabOrder(orderId, runnerId).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
             @Override
             protected void _onNext(BaseBeanResult baseBeanResult) {
                 mView.showGradResult(baseBeanResult);

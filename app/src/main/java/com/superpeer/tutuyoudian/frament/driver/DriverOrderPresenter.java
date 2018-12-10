@@ -21,8 +21,8 @@ public class DriverOrderPresenter extends DriverOrderContract.Presenter {
     }
 
     @Override
-    public void grabOrder(String orderId, String runnerId, String type) {
-        mRxManage.add(mModel.grabOrder(orderId, runnerId, type).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
+    public void grabOrder(String orderId, String runnerId) {
+        mRxManage.add(mModel.grabOrder(orderId, runnerId).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
             @Override
             protected void _onNext(BaseBeanResult baseBeanResult) {
                 mView.showGradResult(baseBeanResult);
@@ -41,6 +41,21 @@ public class DriverOrderPresenter extends DriverOrderContract.Presenter {
             @Override
             protected void _onNext(BaseBeanResult baseBeanResult) {
                 mView.showGiveUpResult(baseBeanResult);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                mView.showErrorTip(message);
+            }
+        }));
+    }
+
+    @Override
+    public void confirmOrder(String orderId) {
+        mRxManage.add(mModel.confirmOrder(orderId).subscribe(new RxSubscriber<BaseBeanResult>(mContext, true) {
+            @Override
+            protected void _onNext(BaseBeanResult baseBeanResult) {
+                mView.showConfirmResult(baseBeanResult);
             }
 
             @Override

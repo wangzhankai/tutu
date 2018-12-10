@@ -95,8 +95,8 @@ public class MainPresenter extends MainContract.Presenter {
     }
 
     @Override
-    public void grabOrder(String orderId, String runnerId, String type) {
-        mRxManage.add(mModel.grabOrder(orderId, runnerId, type).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
+    public void receiptOrder(String orderId) {
+        mRxManage.add(mModel.receiptOrder(orderId).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
             @Override
             protected void _onNext(BaseBeanResult baseBeanResult) {
                 mView.showGradResult(baseBeanResult);

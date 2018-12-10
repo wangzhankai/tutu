@@ -15,7 +15,7 @@ public interface DriverMainContract {
 
         Observable<BaseBeanResult> changeReceiptStatus(String id, String status);
 
-        Observable<BaseBeanResult> grabOrder(String orderId, String runnerId, String type);
+        Observable<BaseBeanResult> grabOrder(String orderId, String runnerId);
 
 //        Observable<BaseBeanResult> giveUpOrder(String orderId);
     }
@@ -37,7 +37,7 @@ public interface DriverMainContract {
 
         public abstract void changeReceiptStatus(String id, String status);
 
-        public abstract void grabOrder(String orderId, String runnerId, String type);
+        public abstract void grabOrder(String orderId, String runnerId);
 
 //        public abstract void giveUpOrder(String orderId);
 

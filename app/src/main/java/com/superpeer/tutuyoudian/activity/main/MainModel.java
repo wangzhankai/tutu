@@ -69,8 +69,8 @@ public class MainModel implements MainContract.Model {
     }
 
     @Override
-    public Observable<BaseBeanResult> grabOrder(String orderId, String runnerId, String type) {
-        return Api.getInstance().service.grabOrder(orderId, runnerId, type).map(new Func1<BaseBeanResult, BaseBeanResult>() {
+    public Observable<BaseBeanResult> receiptOrder(String orderId) {
+        return Api.getInstance().service.receiptOrder(orderId).map(new Func1<BaseBeanResult, BaseBeanResult>() {
             @Override
             public BaseBeanResult call(BaseBeanResult baseBeanResult) {
                 return baseBeanResult;

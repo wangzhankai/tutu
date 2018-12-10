@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,7 +26,10 @@ import com.superpeer.tutuyoudian.bean.BaseList;
 import com.superpeer.tutuyoudian.constant.Constants;
 import com.superpeer.tutuyoudian.listener.OnCancelListener;
 import com.superpeer.tutuyoudian.listener.OnCompleteListener;
+import com.superpeer.tutuyoudian.listener.OnGetListener;
 import com.superpeer.tutuyoudian.listener.OnItemListener;
+
+import rx.functions.Action1;
 
 public class DriverOrderFragment extends BaseFragment<DriverOrderPresenter, DriverOrderModel> implements DriverOrderContract.View, BaseQuickAdapter.RequestLoadMoreListener, RefreshLayout.RefreshLayoutDelegate {
 
@@ -36,6 +40,25 @@ public class DriverOrderFragment extends BaseFragment<DriverOrderPresenter, Driv
     private int delPos;
     private int PAGE = 1;
     private BaseBeanResult result;
+    private boolean isViewCreate;
+    private String type = "";
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        isViewCreate = true;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if(isVisibleToUser){
+            if(isViewCreate){
+                PAGE = 1;
+                mPresenter.getOrderList(PreferencesUtils.getString(getActivity(), Constants.SHOP_ID), type, PAGE+"", "10");
+            }
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
 
     @Override
     protected int getLayoutResource() {
@@ -49,9 +72,25 @@ public class DriverOrderFragment extends BaseFragment<DriverOrderPresenter, Driv
 
     @Override
     protected void initView(View rootView) {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            type = bundle.getString(TYPE);
+        }
+
         initRecyclerView(rootView);
 
-        mPresenter.getOrderList(PreferencesUtils.getString(getActivity(), Constants.SHOP_ID), TYPE, PAGE+"", "10");
+        initRxBus();
+        mPresenter.getOrderList(PreferencesUtils.getString(getActivity(), Constants.SHOP_ID), type, PAGE+"", "10");
+    }
+
+    private void initRxBus() {
+        mRxManager.on("drivermain", new Action1<String>() {
+            @Override
+            public void call(String s) {
+                PAGE = 1;
+                mPresenter.getOrderList(PreferencesUtils.getString(getActivity(), Constants.SHOP_ID), type, PAGE+"", "10");
+            }
+        });
     }
 
     private void initRecyclerView(View rootView) {
@@ -85,7 +124,13 @@ public class DriverOrderFragment extends BaseFragment<DriverOrderPresenter, Driv
         adapter.setOnCompleteListener(new OnCompleteListener() {
             @Override
             public void onComplete(int position) {
-
+                mPresenter.confirmOrder(((BaseList)adapter.getItem(position)).getOrderId());
+            }
+        });
+        adapter.setOnGetListener(new OnGetListener() {
+            @Override
+            public void onGet(int position) {
+                mPresenter.grabOrder(((BaseList)adapter.getItem(position)).getOrderId(), PreferencesUtils.getString(getActivity(), Constants.SHOP_ID));
             }
         });
     }
@@ -155,7 +200,7 @@ public class DriverOrderFragment extends BaseFragment<DriverOrderPresenter, Driv
     @Override
     public void onRefreshLayoutBeginRefreshing(RefreshLayout refreshLayout) {
         PAGE = 1;
-        mPresenter.getOrderList(PreferencesUtils.getString(getActivity(), Constants.SHOP_ID), TYPE, PAGE+"", "10");
+        mPresenter.getOrderList(PreferencesUtils.getString(getActivity(), Constants.SHOP_ID), type, PAGE+"", "10");
     }
 
     @Override
@@ -164,7 +209,7 @@ public class DriverOrderFragment extends BaseFragment<DriverOrderPresenter, Driv
             if (null != result.getData() && null != result.getData().getTotal()) {
                 if (PAGE + 1 <= Integer.parseInt(result.getData().getTotal())/10) {
                     PAGE++;
-                    mPresenter.getOrderList(PreferencesUtils.getString(getActivity(), Constants.SHOP_ID), TYPE, PAGE+"", "10");
+                    mPresenter.getOrderList(PreferencesUtils.getString(getActivity(), Constants.SHOP_ID), type, PAGE+"", "10");
                 } else {
                     return false;
                 }
@@ -207,7 +252,7 @@ public class DriverOrderFragment extends BaseFragment<DriverOrderPresenter, Driv
     public void showGradResult(BaseBeanResult baseBeanResult) {
         try{
             PAGE = 1;
-            mPresenter.getOrderList(PreferencesUtils.getString(getActivity(), Constants.SHOP_ID), TYPE, PAGE+"", "10");
+            mPresenter.getOrderList(PreferencesUtils.getString(getActivity(), Constants.SHOP_ID), type, PAGE+"", "10");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -218,6 +263,16 @@ public class DriverOrderFragment extends BaseFragment<DriverOrderPresenter, Driv
         try{
             adapter.getData().remove(delPos);
             adapter.notifyDataSetChanged();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void showConfirmResult(BaseBeanResult baseBeanResult) {
+        try{
+            PAGE = 1;
+            mPresenter.getOrderList(PreferencesUtils.getString(getActivity(), Constants.SHOP_ID), type, PAGE+"", "10");
         }catch (Exception e){
             e.printStackTrace();
         }

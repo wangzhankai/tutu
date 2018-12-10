@@ -15,6 +15,7 @@ import com.superpeer.tutuyoudian.bean.BaseList;
 import com.superpeer.tutuyoudian.bean.GoodsVos;
 import com.superpeer.tutuyoudian.listener.OnCancelListener;
 import com.superpeer.tutuyoudian.listener.OnCompleteListener;
+import com.superpeer.tutuyoudian.listener.OnGetListener;
 import com.superpeer.tutuyoudian.listener.OnItemListener;
 
 import java.util.List;
@@ -24,6 +25,15 @@ public class DriverOrderAdapter extends BaseQuickAdapter {
     private OnItemListener onItemListener;
     private OnCancelListener onCancelListener;
     private OnCompleteListener onCompleteListener;
+    private OnGetListener onGetListener;
+
+    public OnGetListener getOnGetListener() {
+        return onGetListener;
+    }
+
+    public void setOnGetListener(OnGetListener onGetListener) {
+        this.onGetListener = onGetListener;
+    }
 
     public OnItemListener getOnItemListener() {
         return onItemListener;
@@ -70,6 +80,7 @@ public class DriverOrderAdapter extends BaseQuickAdapter {
         TextView tvDriverFee = ((TextView) helper.getView(R.id.tvDriverFee));
         TextView tvQuit = ((TextView) helper.getView(R.id.tvQuit));
         TextView tvArrive = ((TextView) helper.getView(R.id.tvArrive));
+        TextView tvGet = ((TextView) helper.getView(R.id.tvGet));
         ImageView ivImg = ((ImageView)helper.getView(R.id.ivImg));
         ImageView ivStatus = ((ImageView)helper.getView(R.id.ivStatus));
 
@@ -106,6 +117,12 @@ public class DriverOrderAdapter extends BaseQuickAdapter {
         if(null!=bean.getFreight()){
             tvDriverFee.setText("(含运费"+bean.getFreight()+")");
         }
+        tvGet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onGetListener.onGet(position);
+            }
+        });
         tvQuit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

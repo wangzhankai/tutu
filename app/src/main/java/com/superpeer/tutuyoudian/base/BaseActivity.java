@@ -89,15 +89,16 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                     SystemTTS systemTTS = SystemTTS.getInstance(mContext);
                     systemTTS.playText(message);
 
-                    PushBean bean = new Gson().fromJson(extras, PushBean.class);
+                    if("0".equals(PreferencesUtils.getString(context, Constants.USER_TYPE))){       //商家
+                        PushBean bean = new Gson().fromJson(extras, PushBean.class);
 
-                    if(null!=bean&&null!=bean.getOrderType()&&"1".equals(bean.getOrderType())){
+                        if(null!=bean&&null!=bean.getOrderType()&&"1".equals(bean.getOrderType())){
 //                        mRxManager.post("jpush", bean);
-                        if("0".equals(PreferencesUtils.getString(context, Constants.USER_TYPE))){
                             showOrderDialog(bean);
-                        }else{
-                            showOrderDialog(extras);
                         }
+                    }else{
+                        showOrderDialog(extras);
+                        mRxManager.post("drivermain", "");
                     }
                 }
             } catch (Exception e){
@@ -139,8 +140,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                 public void onClick(View v) {
                     if(null!=bean.getOrderId()){
                         dialog.dismiss();
-//                        mPresenter.grabOrder(bean.getOrderId(), PreferencesUtils.getString(mContext, Constants.SHOP_ID), "0");
-                        Observable<BaseBeanResult>  model = Api.getInstance().service.grabOrder(bean.getOrderId(), PreferencesUtils.getString(mContext, Constants.SHOP_ID), "0").map(new Func1<BaseBeanResult, BaseBeanResult>() {
+                        Observable<BaseBeanResult>  model = Api.getInstance().service.grabOrder(bean.getOrderId(), PreferencesUtils.getString(mContext, Constants.SHOP_ID)).map(new Func1<BaseBeanResult, BaseBeanResult>() {
                             @Override
                             public BaseBeanResult call(BaseBeanResult baseBeanResult) {
                                 return baseBeanResult;
@@ -220,7 +220,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                 public void onClick(View v) {
                     if(null!=bean.getOrderId()){
                         dialog.dismiss();
-                        Observable<BaseBeanResult>   model = Api.getInstance().service.grabOrder(bean.getOrderId(), PreferencesUtils.getString(mContext, Constants.SHOP_ID), "1").map(new Func1<BaseBeanResult, BaseBeanResult>() {
+                        Observable<BaseBeanResult>   model = Api.getInstance().service.receiptOrder(bean.getOrderId()).map(new Func1<BaseBeanResult, BaseBeanResult>() {
                             @Override
                             public BaseBeanResult call(BaseBeanResult baseBeanResult) {
                                 return baseBeanResult;
@@ -251,7 +251,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                                 Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
                             }
                         }));
-//                        mPresenter.grabOrder(bean.getOrderId(), PreferencesUtils.getString(mContext, Constants.SHOP_ID), "1");
                     }
                 }
             });
