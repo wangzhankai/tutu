@@ -57,7 +57,7 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
     private SwipeMenuRecyclerView rvContent;
     private RefreshLayout refresh;
     private ShopManagerAdapter adapter;
-    private String type = "0";
+    private String type = "1";
     private String stock = "";
 
     private int PAGE = 1;
@@ -165,7 +165,7 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
                     .setLineSpeed(QrConfig.LINE_MEDIUM)//设置扫描线速度
                     .setScanType(QrConfig.TYPE_ALL)//设置扫码类型（二维码，条形码，全部，自定义，默认为二维码）
                     .setScanViewType(QrConfig.SCANVIEW_TYPE_QRCODE)//设置扫描框类型（二维码还是条形码，默认为二维码）
-                    .setCustombarcodeformat(QrConfig.BARCODE_I25)//此项只有在扫码类型为TYPE_CUSTOM时才有效
+//                    .setCustombarcodeformat(QrConfig.BARCODE_I25)//此项只有在扫码类型为TYPE_CUSTOM时才有效
                     .setPlaySound(true)//是否扫描成功后bi~的声音
 //                .setDingPath(R.raw.test)//设置提示音(不设置为默认的Ding~)
                     .setIsOnlyCenter(true)//是否只识别框中内容(默认为全屏识别)

@@ -57,7 +57,7 @@ dependencies {
     compile 'com.github.iwgang:countdownview:2.1.6'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     compile 'cn.bertsir.zbarLibary:zbarlibary:latest.release'
-//    compile 'com.tencent.map:tencent-map-vector-sdk:latest.release'
+    compile 'com.tencent.map:tencent-map-vector-sdk:latest.release'
     compile 'com.tencent.map:tencent-map-vector-sdk:4.0.3.2'
     //支付宝支付
     compile(name: 'alipaySdk-15.5.7-20181023110917', ext: 'aar')
@@ -74,4 +74,8 @@ dependencies {
     compile 'com.umeng.sdk:common:1.5.0'
     compile 'com.umeng.sdk:share-core:6.9.0'
 //    compile 'com.umeng.sdk:share-wechat:6.9.0'
+
+    /*添加依赖*/
+//    implementation 'com.github.yuzhiqiang1993:zxing:2.2.4'
+
 }

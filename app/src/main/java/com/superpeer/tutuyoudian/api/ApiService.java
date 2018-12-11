@@ -239,7 +239,12 @@ public interface ApiService {
     //获取店铺分类的商品
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @GET("app/shop/getMyGoodsByType")
-    Observable<BaseBeanResult> getGoods(@Query("shopId") String shopId, @Query("goodsTypeId") String goodsTypeId, @Query("saleState") String saleState, @Query("stock") String stock, @Query("defaultCurrent") String defaultCurrent, @Query("pageSize") String pageSize, @Query("name") String name);
+    Observable<BaseBeanResult> getGoods(@Query("shopId") String shopId, @Query("goodsTypeId") String goodsTypeId, @Query("saleState") String saleState, @Query("stock") String stock, @Query("defaultCurrent") String defaultCurrent, @Query("pageSize") String pageSize);
+
+    //获取店铺分类的商品
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @GET("app/shop/getMyGoodsByType")
+    Observable<BaseBeanResult> getGoodsSearch(@Query("shopId") String shopId, @Query("saleState") String saleState, @Query("stock") String stock, @Query("defaultCurrent") String defaultCurrent, @Query("pageSize") String pageSize, @Query("name") String name);
 
     //库存商品
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
