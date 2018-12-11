@@ -59,7 +59,6 @@
             android:maxLength="6"
             app:passwordLength="6"
             app:passwordWidth="6dp" />-->
-
         <com.superpeer.tutuyoudian.widget.PasswordView
             android:id="@+id/password_inputview"
             android:layout_width="match_parent"
