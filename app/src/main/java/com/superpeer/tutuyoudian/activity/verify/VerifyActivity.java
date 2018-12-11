@@ -13,6 +13,7 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.tutuyoudian.R;
@@ -20,6 +21,7 @@ import com.superpeer.tutuyoudian.activity.verify.successorfail.VerifySuccessOrFa
 import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 import com.superpeer.tutuyoudian.constant.Constants;
+import com.superpeer.tutuyoudian.widget.PasswordView;
 
 import java.io.Serializable;
 
@@ -30,7 +32,7 @@ import cn.bertsir.zbar.QrManager;
 public class VerifyActivity extends BaseActivity<VerifyPresenter, VerifyModel> implements VerifyContract.View{
 
     private TextView tvVerify;
-    private PasswordInputView password_inputview;
+    private PasswordView password_inputview;
     private ImageView ivScan;
 
     @Override
@@ -49,10 +51,16 @@ public class VerifyActivity extends BaseActivity<VerifyPresenter, VerifyModel> i
 
         ivScan = (ImageView) findViewById(R.id.ivScan);
         tvVerify = (TextView) findViewById(R.id.tvVerify);
-        password_inputview = (PasswordInputView) findViewById(R.id.password_inputview);
-        password_inputview.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD | InputType.TYPE_CLASS_NUMBER);
+        password_inputview = (PasswordView) findViewById(R.id.password_inputview);
+        password_inputview.initStyle(R.drawable.edit_num_bg, 6, 0.33f, R.color.colorAccent, R.color.colorAccent,20);
+        password_inputview.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        password_inputview.setOnTextFinishListener(new PasswordView.OnTextFinishListener() {
+            @Override
+            public void onFinish(String str) {//密码输入完后的回调
+            }
+        });
 
-        password_inputview.bindKeyBoard(getSupportFragmentManager(), "");
+//        password_inputview.bindKeyBoard(getSupportFragmentManager(), "");
 
         initListener();
     }
@@ -61,7 +69,7 @@ public class VerifyActivity extends BaseActivity<VerifyPresenter, VerifyModel> i
         tvVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String password = password_inputview.getText().toString().trim();
+                String password = password_inputview.getPwdText().toString().trim();
                 if(TextUtils.isEmpty(password)){
                     showShortToast("请输入或扫描取货码");
                     return;

@@ -46,7 +46,7 @@
         android:gravity="center_horizontal"
         android:background="@color/white">
 
-        <cloudist.cc.library.view.PasswordInputView
+        <!--<cloudist.cc.library.view.PasswordInputView
             android:id="@+id/password_inputview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,7 +58,15 @@
             app:itemPadding="10dp"
             android:maxLength="6"
             app:passwordLength="6"
-            app:passwordWidth="6dp" />
+            app:passwordWidth="6dp" />-->
+
+        <com.superpeer.tutuyoudian.widget.PasswordView
+            android:id="@+id/password_inputview"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_5"/>
 
     </LinearLayout>
 
