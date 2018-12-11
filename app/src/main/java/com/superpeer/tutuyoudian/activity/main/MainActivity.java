@@ -925,6 +925,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                 tvNum.setText(object.getNoRead());
             }
             if(null!=object.getValidityPeriod()&&!"".equals(object.getValidityPeriod())){
+                PreferencesUtils.putString(mContext, Constants.VALIDITYPERIOD, object.getValidityPeriod());
                 mRxManager.post("validityPeriod", object.getValidityPeriod());
             }
         }catch (Exception e){
@@ -969,7 +970,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     @Override
     protected void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
-        super.onDestroy();
+        super.onDestroy();validityPeriod
     }*/
 
     @Override

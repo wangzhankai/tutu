@@ -1,16 +1,23 @@
 package com.superpeer.tutuyoudian.activity.storeuse;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.superpeer.base_libs.base.baseadapter.BaseQuickAdapter;
+import com.superpeer.base_libs.base.baseadapter.OnItemClickListener;
 import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.tutuyoudian.R;
+import com.superpeer.tutuyoudian.adapter.DialogCategoryAdapter;
+import com.superpeer.tutuyoudian.adapter.FeeAdapter;
 import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
+import com.superpeer.tutuyoudian.bean.BaseList;
 import com.superpeer.tutuyoudian.bean.BaseObject;
 import com.superpeer.tutuyoudian.constant.Constants;
+import com.superpeer.tutuyoudian.widget.NoScrollRecyclerView;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -32,6 +39,7 @@ public class StoreUseActivity extends BaseActivity<StoreUsePresenter, StoreUseMo
 
     private int index =0;
     private String flag = "";
+    private FeeAdapter feeAdapter;
 
     @Override
     protected void doBeforeSetcontentView() {
@@ -51,7 +59,7 @@ public class StoreUseActivity extends BaseActivity<StoreUsePresenter, StoreUseMo
 
     @Override
     public void initView() {
-        setHeadTitle("店铺激活");
+        setHeadTitle("兔兔店家服务费");
 
         tvSure = (TextView) findViewById(R.id.tvSure);
         linearWx = (LinearLayout) findViewById(R.id.linearWx);
@@ -59,13 +67,30 @@ public class StoreUseActivity extends BaseActivity<StoreUsePresenter, StoreUseMo
         ivWx = (ImageView) findViewById(R.id.ivWx);
         ivZfb = (ImageView) findViewById(R.id.ivZfb);
 
+        initRecyclerView();
+
         initListener();
 
         msgApi = WXAPIFactory.createWXAPI(mContext, null);
         // 将该app注册到微信
         msgApi.registerApp(Constants.APP_ID);
 
-        mPresenter.activation(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+//        mPresenter.activation(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+        mPresenter.queryFeeSetting();
+    }
+
+    private void initRecyclerView() {
+        NoScrollRecyclerView recycler = (NoScrollRecyclerView) findViewById(R.id.recycler);
+        recycler.setLayoutManager(new LinearLayoutManager(mContext));
+        feeAdapter = new FeeAdapter(R.layout.item_fee, null);
+        recycler.setAdapter(feeAdapter);
+        recycler.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
+                feeAdapter.setSelectPos(position);
+                feeAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void initListener() {
@@ -91,10 +116,7 @@ public class StoreUseActivity extends BaseActivity<StoreUsePresenter, StoreUseMo
             @Override
             public void onClick(View v) {
                 try{
-                    /*msgApi = WXAPIFactory.createWXAPI(mContext, null);
-                    // 将该app注册到微信
-                    msgApi.registerApp(Constants.APP_ID);*/
-                    msgApi.sendReq(request);
+                    mPresenter.activation(PreferencesUtils.getString(mContext, Constants.SHOP_ID), ((BaseList)feeAdapter.getItem(feeAdapter.getSelectPos())).getId());
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -133,6 +155,24 @@ public class StoreUseActivity extends BaseActivity<StoreUsePresenter, StoreUseMo
         }
     }
 
+    @Override
+    public void showFeeList(BaseBeanResult baseBeanResult) {
+        try{
+            if(null!=baseBeanResult){
+                if("1".equals(baseBeanResult.getCode())){
+                    if(null!=baseBeanResult.getData()){
+                        if(null!=baseBeanResult.getData().getList()&&baseBeanResult.getData().getList().size()>0){
+                            feeAdapter.setNewData(baseBeanResult.getData().getList());
+                        }
+                    }
+                    feeAdapter.loadComplete();
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     private void initReq(BaseObject object) {
         try {
             request = new PayReq();
@@ -144,6 +184,8 @@ public class StoreUseActivity extends BaseActivity<StoreUsePresenter, StoreUseMo
             request.nonceStr = object.getNoncestr();
             request.timeStamp = object.getTimestamp();
             request.sign = object.getSign();
+
+            msgApi.sendReq(request);
 
         }catch (Exception e){
             e.printStackTrace();

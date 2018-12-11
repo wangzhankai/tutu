@@ -296,6 +296,34 @@ public class StoreSendSetActivity extends BaseActivity<StoreSendSetPresenter, St
             public void onClick(View v) {
                 String hourStr = hourList.get(wheelviewDay.getCurrentPosition());
                 String secondStr = secondList.get(wheelviewTime.getCurrentPosition());
+
+                String startTime = tvStartTime.getText().toString().trim();
+                String endTime = tvEndTime.getText().toString().trim();
+                if(!TextUtils.isEmpty(startTime)){
+                    String hourStart = startTime.substring(0, startTime.indexOf(":"));
+                    String secondStart = startTime.substring(startTime.indexOf(":") + 1);
+                    if(Integer.parseInt(hourStart)>Integer.parseInt(hourStr)){
+                        showShortToast("结束时间应大于开始时间");
+                        return;
+                    }else if(Integer.parseInt(hourStart)==Integer.parseInt(hourStr)){
+                        if(Integer.parseInt(secondStart)>=Integer.parseInt(secondStr)){
+                            showShortToast("结束时间应大于开始时间");
+                            return;
+                        }
+                    }
+                }else if(!TextUtils.isEmpty(endTime)){
+                    String hourEnd = endTime.substring(0, startTime.indexOf(":"));
+                    String secondEnd = endTime.substring(startTime.indexOf(":") + 1);
+                    if(Integer.parseInt(hourStr)>Integer.parseInt(hourEnd)){
+                        showShortToast("结束时间应大于开始时间");
+                        return;
+                    }else if(Integer.parseInt(hourStr)==Integer.parseInt(hourEnd)){
+                        if(Integer.parseInt(secondStr)>=Integer.parseInt(secondEnd)){
+                            showShortToast("结束时间应大于开始时间");
+                            return;
+                        }
+                    }
+                }
                 if(type == 0){
                     tvStartTime.setText(hourStr+":"+secondStr);
                 }else{

@@ -85,6 +85,42 @@ public class BaseList implements Serializable {
     private String joinNum;
     private String originalPrice;
     private String cancelTime;
+    private String description;
+    private String discountPrice;
+    private String discount;
+    private String keep;
+
+    public String getKeep() {
+        return keep;
+    }
+
+    public void setKeep(String keep) {
+        this.keep = keep;
+    }
+
+    public String getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
+
+    public String getDiscountPrice() {
+        return discountPrice;
+    }
+
+    public void setDiscountPrice(String discountPrice) {
+        this.discountPrice = discountPrice;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public String getBarCode() {
         return barCode;

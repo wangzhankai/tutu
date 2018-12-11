@@ -13,8 +13,18 @@ import rx.functions.Func1;
 
 public class StoreUseModel implements StoreUseContract.Model {
     @Override
-    public Observable<BaseBeanResult> activation(String shopId) {
-        return Api.getInstance().service.activation(shopId).map(new Func1<BaseBeanResult, BaseBeanResult>() {
+    public Observable<BaseBeanResult> activation(String shopId, String feeSettingId) {
+        return Api.getInstance().service.activation(shopId, feeSettingId).map(new Func1<BaseBeanResult, BaseBeanResult>() {
+            @Override
+            public BaseBeanResult call(BaseBeanResult baseBeanResult) {
+                return baseBeanResult;
+            }
+        }).compose(RxSchedulers.<BaseBeanResult>io_main());
+    }
+
+    @Override
+    public Observable<BaseBeanResult> queryFeeSetting() {
+        return Api.getInstance().service.queryFeeSetting().map(new Func1<BaseBeanResult, BaseBeanResult>() {
             @Override
             public BaseBeanResult call(BaseBeanResult baseBeanResult) {
                 return baseBeanResult;

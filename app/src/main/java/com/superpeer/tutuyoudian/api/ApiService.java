@@ -474,7 +474,12 @@ public interface ApiService {
     //店铺激活
     @FormUrlEncoded
     @POST("app/shop/activation")
-    Observable<BaseBeanResult> activation(@Field("shopId") String shopId);
+    Observable<BaseBeanResult> activation(@Field("shopId") String shopId, @Field("feeSettingId") String feeSettingId);
+
+    //获取套餐
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @GET("app/shop/queryFeeSetting")
+    Observable<BaseBeanResult> queryFeeSetting();
 
     //召唤骑士
     @FormUrlEncoded

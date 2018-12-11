@@ -2,9 +2,14 @@ package com.superpeer.tutuyoudian.activity.verify;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
+import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,10 +50,9 @@ public class VerifyActivity extends BaseActivity<VerifyPresenter, VerifyModel> i
         ivScan = (ImageView) findViewById(R.id.ivScan);
         tvVerify = (TextView) findViewById(R.id.tvVerify);
         password_inputview = (PasswordInputView) findViewById(R.id.password_inputview);
+        password_inputview.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD | InputType.TYPE_CLASS_NUMBER);
 
         password_inputview.bindKeyBoard(getSupportFragmentManager(), "");
-        password_inputview.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-
 
         initListener();
     }

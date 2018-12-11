@@ -114,8 +114,8 @@ public class WXPayEntryActivity extends BaseActivity<PayPresenter, PayModel> imp
 					PreferencesUtils.putString(mContext, Constants.SHOP_NOTICE, baseBeanResult.getData().getObject().getContent());
 					PreferencesUtils.putString(mContext, Constants.ACCOUNT_ID, baseBeanResult.getData().getObject().getAccountId());
 					PreferencesUtils.putString(mContext, Constants.USER_TYPE, baseBeanResult.getData().getObject().getRoleType());
-					if(null!=baseBeanResult.getData().getObject().getRoleType()){
-						if ("0".equals(baseBeanResult.getData().getObject().getRoleType())) {
+//					if(null!=baseBeanResult.getData().getObject().getRoleType()){
+//						if ("0".equals(baseBeanResult.getData().getObject().getRoleType())) {
 							if(null!=baseBeanResult.getData().getObject().getState()){
 								if("0".equals(baseBeanResult.getData().getObject().getState())){
 									startActivity(StoreApplyActivity.class);
@@ -135,9 +135,10 @@ public class WXPayEntryActivity extends BaseActivity<PayPresenter, PayModel> imp
 							startActivity(DriverMainActivity.class);
 							PreferencesUtils.putString(mContext, Constants.SHOP_ID, baseBeanResult.getData().getObject().getId());
 						}
+						mRxManager.post("notice", "");
 						finish();
-					}
-				}
+//					}
+//				}
 			}
 		}catch (Exception e){
 			e.printStackTrace();

@@ -182,7 +182,7 @@ public class SelectShopActivity extends BaseActivity<SelectShopPresenter, Select
     public boolean onRefreshLayoutBeginLoadingMore(RefreshLayout refreshLayout) {
         if (result != null) {
             if(null!=result.getData()&&null!=result.getData().getTotal()) {
-                if (PAGE + 1 <= Integer.parseInt(result.getData().getTotal())/10) {
+                if (PAGE + 1 <= (Integer.parseInt(result.getData().getTotal())%10>0?Integer.parseInt(result.getData().getTotal())/10+1:Integer.parseInt(result.getData().getTotal())/10)) {
                     PAGE++;
                     mPresenter.getGoods(PreferencesUtils.getString(mContext, Constants.SHOP_ID), typeId, "", "", PAGE+"", "10", "");
                 } else {

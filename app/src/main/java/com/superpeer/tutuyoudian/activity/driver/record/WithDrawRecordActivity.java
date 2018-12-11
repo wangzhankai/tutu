@@ -115,7 +115,7 @@ public class WithDrawRecordActivity extends BaseActivity<WithDrawRecordPresenter
     public boolean onRefreshLayoutBeginLoadingMore(RefreshLayout refreshLayout) {
         if (result != null) {
             if(null!=result.getData()&&null!=result.getData().getTotal()) {
-                if (PAGE + 1 <= Integer.parseInt(result.getData().getTotal())/10) {
+                if (PAGE + 1 <= (Integer.parseInt(result.getData().getTotal())%10>0?Integer.parseInt(result.getData().getTotal())/10+1:Integer.parseInt(result.getData().getTotal())/10)) {
                     PAGE++;
                     mPresenter.queryWithdrawRecord(PreferencesUtils.getString(mContext, Constants.SHOP_ID), PAGE+"", "10");
                 } else {

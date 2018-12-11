@@ -654,7 +654,7 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
         if (result != null) {
 
             if(null!=result.getData()&&null!=result.getData().getTotal()) {
-                if (PAGE + 1 <= Integer.parseInt(result.getData().getTotal())/10) {
+                if (PAGE + 1 <= (Integer.parseInt(result.getData().getTotal())%10>0?Integer.parseInt(result.getData().getTotal())/10+1:Integer.parseInt(result.getData().getTotal())/10)) {
                     PAGE++;
                     if(isSort){
                         mPresenter.getSortGoodsInfo(PreferencesUtils.getString(mContext, Constants.SHOP_ID), typeId, PAGE+"", "10");

@@ -186,7 +186,7 @@ public class CollageOrderFragment extends BaseFragment<CollageOrderPresenter, Co
     public boolean onRefreshLayoutBeginLoadingMore(RefreshLayout refreshLayout) {
         if (result != null) {
             if(null!=result.getData()&&null!=result.getData().getTotal()) {
-                if (PAGE + 1 <= Integer.parseInt(result.getData().getTotal())/10) {
+                if (PAGE + 1 <= (Integer.parseInt(result.getData().getTotal())%10>0?Integer.parseInt(result.getData().getTotal())/10+1:Integer.parseInt(result.getData().getTotal())/10)) {
                     PAGE++;
                     mPresenter.getOrderList(PreferencesUtils.getString(getActivity(), Constants.SHOP_ID), PAGE+"", "10", "TYPE".equals(type)?"4":type, "TYPE".equals(type)?"1":("4".equals(type)?"2":""));
                 } else {

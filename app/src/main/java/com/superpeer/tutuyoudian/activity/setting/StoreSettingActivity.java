@@ -61,6 +61,10 @@ public class StoreSettingActivity extends BaseActivity<StoreSettingPresenter, St
         tvToUse = (TextView) findViewById(R.id.tvToUse);
         tvExit = (TextView) findViewById(R.id.tvExit);
 
+        if(null!=PreferencesUtils.getString(mContext, Constants.VALIDITYPERIOD)){
+            tvToUse.setText(PreferencesUtils.getString(mContext, Constants.VALIDITYPERIOD));
+        }
+
         initRxBus();
 
         initListener();
