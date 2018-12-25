@@ -81,6 +81,7 @@ public class DriverOrderAdapter extends BaseQuickAdapter {
         TextView tvQuit = ((TextView) helper.getView(R.id.tvQuit));
         TextView tvArrive = ((TextView) helper.getView(R.id.tvArrive));
         TextView tvGet = ((TextView) helper.getView(R.id.tvGet));
+        TextView tvDelete = ((TextView) helper.getView(R.id.tvDelete));
         ImageView ivImg = ((ImageView)helper.getView(R.id.ivImg));
         ImageView ivStatus = ((ImageView)helper.getView(R.id.ivStatus));
 
@@ -102,10 +103,10 @@ public class DriverOrderAdapter extends BaseQuickAdapter {
                 Glide.with(mContext).load(Url.IP+goods.get(0).getImagePath()).centerCrop().into(ivImg);
             }
             if(null!=goods.get(0).getNum()){
-                tvNum.setText(goods.get(0).getNum());
+                tvNum.setText("x"+goods.get(0).getNum());
             }
             if(null!=goods.get(0).getPrice()){
-                tvPrice.setText(goods.get(0).getPrice());
+                tvPrice.setText("￥"+goods.get(0).getPrice());
             }
         }
         if(null!=bean.getGoodsNum()){
@@ -151,16 +152,20 @@ public class DriverOrderAdapter extends BaseQuickAdapter {
                     break;
                 case "3":       //待成团
                     tvStatus.setText("待接单");
+                    tvGet.setVisibility(View.VISIBLE);
                     break;
                 case "4":       //待提货/带配送
                     if("1".equals(bean.getShippingType())){
                         tvStatus.setText("配送中");
+                        tvQuit.setVisibility(View.VISIBLE);
+                        tvArrive.setVisibility(View.VISIBLE);
                     }else{
                         tvStatus.setText("待提货");
                     }
                     break;
                 case "5":       //已完成
                     tvStatus.setText("已完成");
+                    tvDelete.setVisibility(View.VISIBLE);
                     break;
                 case "6":       //已取消
                     tvStatus.setText("已取消");

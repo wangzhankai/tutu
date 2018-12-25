@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.superpeer.base_libs.base.AppManager;
 import com.superpeer.base_libs.utils.MD5Util;
 import com.superpeer.base_libs.utils.MPermissionUtils;
 import com.superpeer.base_libs.utils.PreferencesUtils;
@@ -207,11 +208,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                                         intent.putExtra("type", "1");
                                         startActivity(intent);
                                     }else{
+                                        AppManager.getAppManager().finishAllActivity();
                                         startActivity(MainActivity.class);
                                     }
                                 }
                             }else{
                                 PreferencesUtils.putString(mContext, Constants.SHOP_ID, baseBeanResult.getData().getObject().getId());
+                                AppManager.getAppManager().finishAllActivity();
                                 startActivity(DriverMainActivity.class);
                             }
                         }

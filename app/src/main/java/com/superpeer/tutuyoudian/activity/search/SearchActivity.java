@@ -75,7 +75,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchModel> i
         if("1".equals(type)){
             setHeadTitle("上架商品搜索");
         }else{
-            setHeadTitle("下架商品搜索");
+            setHeadTitle("待上架商品搜索");
         }
 
         WindowManager wm = (WindowManager) mContext
@@ -88,7 +88,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchModel> i
 
         initListener();
 
-        mPresenter.getGoods(PreferencesUtils.getString(mContext, Constants.SHOP_ID), "", type, "", PAGE+"", "10", name);
+//        mPresenter.getGoods(PreferencesUtils.getString(mContext, Constants.SHOP_ID), "", type, "", PAGE+"", "10", name);
     }
 
     private void initListener() {
@@ -262,6 +262,9 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchModel> i
         try{
             if(null!=baseBeanResult){
                 result = baseBeanResult;
+                if(null!=baseBeanResult.getMsg()){
+                    showShortToast(baseBeanResult.getMsg());
+                }
                 if(null!=baseBeanResult.getData()){
                     if(null!=baseBeanResult.getData().getList()&&baseBeanResult.getData().getList().size()>0){
                         if(PAGE == 1){
@@ -296,6 +299,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchModel> i
                 if("1".equals(baseBeanResult.getCode())){
                     adapter.getData().remove(adapterPosition);
                     adapter.notifyDataSetChanged();
+                    mRxManager.post("shopsearch", "");
                 }
             }
         }catch (Exception e){
@@ -307,9 +311,13 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchModel> i
     public void showDeleteResult(BaseBeanResult baseBeanResult) {
         try{
             if(null!=baseBeanResult){
+                if(null!=baseBeanResult.getMsg()){
+                    showShortToast(baseBeanResult.getMsg());
+                }
                 if("1".equals(baseBeanResult.getCode())){
                     adapter.getData().remove(adapterPosition);
                     adapter.notifyDataSetChanged();
+                    mRxManager.post("shopsearch", "");
                 }
             }
         }catch (Exception e){

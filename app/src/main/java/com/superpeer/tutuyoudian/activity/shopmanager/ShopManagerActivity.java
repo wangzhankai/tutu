@@ -1,5 +1,7 @@
 package com.superpeer.tutuyoudian.activity.shopmanager;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import com.superpeer.base_libs.base.baseadapter.BaseQuickAdapter;
 import com.superpeer.base_libs.base.baseadapter.OnItemClickListener;
+import com.superpeer.base_libs.utils.MPermissionUtils;
 import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.base_libs.view.refresh.NormalRefreshViewHolder;
 import com.superpeer.base_libs.view.refresh.RefreshLayout;
@@ -23,6 +26,7 @@ import com.superpeer.tutuyoudian.R;
 import com.superpeer.tutuyoudian.activity.addshop.AddShopActivity;
 import com.superpeer.tutuyoudian.activity.main.MainActivity;
 import com.superpeer.tutuyoudian.activity.search.SearchActivity;
+import com.superpeer.tutuyoudian.activity.stocksearch.StockSearchActivity;
 import com.superpeer.tutuyoudian.adapter.CategoryAdapter;
 import com.superpeer.tutuyoudian.adapter.ShopManagerAdapter;
 import com.superpeer.tutuyoudian.base.BaseActivity;
@@ -43,11 +47,11 @@ import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
+import com.yzq.zxinglibrary.android.CaptureActivity;
+import com.yzq.zxinglibrary.common.Constant;
 
 import java.util.List;
 
-import cn.bertsir.zbar.QrConfig;
-import cn.bertsir.zbar.QrManager;
 import rx.functions.Action1;
 
 public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, ShopManagerModel> implements ShopManagerContract.View, BaseQuickAdapter.RequestLoadMoreListener, RefreshLayout.RefreshLayoutDelegate {
@@ -79,11 +83,14 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
     private ImageView ivScan;
     private ImageView ivUpload;
     private String barCode = "";
+    private static final int REQUEST_CODE_SCAN = 888;
+    private String typeName = "";
 
     @Override
     protected void doBeforeSetcontentView() {
         super.doBeforeSetcontentView();
         typeId = getIntent().getStringExtra("type");
+        typeName = getIntent().getStringExtra("typeName");
     }
 
     @Override
@@ -125,7 +132,7 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
         ivScan = (ImageView) findViewById(R.id.ivScan);
         ivUpload = (ImageView) findViewById(R.id.ivUpload);
 
-        if(typeId == null ||"".equals(typeId)){
+        if(typeName == null ||"".equals(typeName)){
             linearUpload.setVisibility(View.GONE);
         }else{
             linearUpload.setVisibility(View.VISIBLE);
@@ -149,12 +156,31 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
 
         initListener();
 
+        initRxBus();
+
         mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+    }
+
+    private void initRxBus() {
+        mRxManager.on("stocksearch", new Action1<String>() {
+            @Override
+            public void call(String s) {
+                PAGE = 1;
+                mPresenter.getStock(PreferencesUtils.getString(mContext, Constants.SHOP_ID), typeId, PAGE+"", "10");
+            }
+        });
+        mRxManager.on("shopsearch", new Action1<String>() {
+            @Override
+            public void call(String s) {
+                PAGE = 1;
+                mPresenter.getGoods(PreferencesUtils.getString(mContext, Constants.SHOP_ID), typeId, type, stock, PAGE+"", "10", "");
+            }
+        });
     }
 
     private void initQRCode() {
         try {
-            QrConfig qrConfig = new QrConfig.Builder()
+            /*QrConfig qrConfig = new QrConfig.Builder()
                     .setDesText("(识别二维码或条形码)")//扫描框下文字
                     .setShowDes(false)//是否显示扫描框下面文字
                     .setShowLight(true)//显示手电筒按钮
@@ -179,6 +205,18 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
                     barCode = result;
                     mPresenter.codeUpload(result, PreferencesUtils.getString(mContext, Constants.SHOP_ID));
                 }
+            });*/
+            MPermissionUtils.requestPermissionsResult((Activity) mContext, 1, new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, new MPermissionUtils.OnPermissionListener() {
+                @Override
+                public void onPermissionGranted() {
+                    Intent intent = new Intent(mContext, CaptureActivity.class);
+                    startActivityForResult(intent, REQUEST_CODE_SCAN);
+                }
+
+                @Override
+                public void onPermissionDenied() {
+                    MPermissionUtils.showTipsDialog(mContext);
+                }
             });
         }catch (Exception e){
             e.printStackTrace();
@@ -189,17 +227,21 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
         tvSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, SearchActivity.class);
-                intent.putExtra("type", type);
-                intent.putExtra("stock", stock);
-                startActivity(intent);
+                if("1".equals(stock)){
+                    Intent intent = new Intent(mContext, StockSearchActivity.class);
+                    startActivity(intent);
+                }else {
+                    Intent intent = new Intent(mContext, SearchActivity.class);
+                    intent.putExtra("type", type);
+                    intent.putExtra("stock", stock);
+                    startActivity(intent);
+                }
             }
         });
 
         tvUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tvSearch.setVisibility(View.VISIBLE);
                 tvRight.setVisibility(View.GONE);
                 type = "1";
                 stock = "";
@@ -213,7 +255,6 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
         tvRest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tvSearch.setVisibility(View.GONE);
                 tvRight.setVisibility(View.GONE);
                 type = "";
                 stock = "1";
@@ -227,7 +268,6 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
         tvDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tvSearch.setVisibility(View.VISIBLE);
                 tvRight.setVisibility(View.GONE);
                 type = "0";
                 stock = "";
@@ -379,13 +419,14 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
         try{
             if(null!=baseBeanResult){
                 if(null!=baseBeanResult.getData()){
-                    if(null!=baseBeanResult.getData().getList()){
+                    if(null!=baseBeanResult.getData().getList()&&baseBeanResult.getData().getList().size()>0){
                         categoryList = baseBeanResult.getData().getList();
                         categoryAdapter = new CategoryAdapter(R.layout.item_category, categoryList);
                         recyclerCategory.setAdapter(categoryAdapter);
-                        if(!"".equals(typeId)&&null!=typeId){
+                        if(!"typeName".equals(typeName)&&!"".equals(typeName)&&null!=typeName){
                             for(int i=0; i<categoryList.size(); i++){
-                                if(typeId.equals(categoryList.get(i).getGoodsTypeId())){
+                                if(typeName.equals(categoryList.get(i).getName())){
+                                    typeId = categoryList.get(i).getGoodsTypeId();
                                     categoryAdapter.setSelectPos(i);
                                     categoryAdapter.notifyDataSetChanged();
                                 }
@@ -652,7 +693,6 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
     @Override
     public boolean onRefreshLayoutBeginLoadingMore(RefreshLayout refreshLayout) {
         if (result != null) {
-
             if(null!=result.getData()&&null!=result.getData().getTotal()) {
                 if (PAGE + 1 <= (Integer.parseInt(result.getData().getTotal())%10>0?Integer.parseInt(result.getData().getTotal())/10+1:Integer.parseInt(result.getData().getTotal())/10)) {
                     PAGE++;
@@ -673,5 +713,22 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
             return false;
         }
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try{
+            // 扫描二维码/条码回传
+            if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
+                if (data != null) {
+                    String content = data.getStringExtra(Constant.CODED_CONTENT);
+                    barCode = content;
+                    mPresenter.codeUpload(content, PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

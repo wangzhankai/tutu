@@ -89,6 +89,15 @@ public class BaseList implements Serializable {
     private String discountPrice;
     private String discount;
     private String keep;
+    private String runnerType;
+
+    public String getRunnerType() {
+        return runnerType;
+    }
+
+    public void setRunnerType(String runnerType) {
+        this.runnerType = runnerType;
+    }
 
     public String getKeep() {
         return keep;

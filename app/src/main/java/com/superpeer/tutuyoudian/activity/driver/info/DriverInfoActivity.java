@@ -11,6 +11,7 @@ import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.tutuyoudian.R;
 import com.superpeer.tutuyoudian.activity.driver.historyorder.HistoryOrderActivity;
 import com.superpeer.tutuyoudian.activity.driver.identify.DriverIdentifyActivity;
+import com.superpeer.tutuyoudian.activity.driver.paytype.DriverTypeActivity;
 import com.superpeer.tutuyoudian.activity.driver.userinfo.UserInfoActivity;
 import com.superpeer.tutuyoudian.activity.driver.withdraw.DriverWithDrawActivity;
 import com.superpeer.tutuyoudian.activity.login.LoginActivity;
@@ -145,7 +146,7 @@ public class DriverInfoActivity extends BaseActivity<DriverInfoPresenter, Driver
         linearSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(PayTypeActivity.class);
+                startActivity(DriverTypeActivity.class);
             }
         });
     }

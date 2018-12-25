@@ -16,7 +16,7 @@ public interface CashWithDrawContract {
     interface Model extends BaseModel{
         Observable<BaseBeanResult> getAccountInfo(String shopId);
 
-        Observable<BaseBeanResult> saveWithDraw(String shopId, String money, String type);
+        Observable<BaseBeanResult> saveWithDraw(String shopId, String money, String type, String payPwd);
     }
 
     interface View extends BaseView{
@@ -29,7 +29,7 @@ public interface CashWithDrawContract {
     abstract class Presenter extends BasePresenter<View, Model>{
         public abstract void getAccountInfo(String shopId);
 
-        public abstract void saveWithDraw(String shopId, String money, String type);
+        public abstract void saveWithDraw(String shopId, String money, String type, String payPwd);
     }
 
 }

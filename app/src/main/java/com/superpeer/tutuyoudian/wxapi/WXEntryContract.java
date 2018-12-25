@@ -13,6 +13,8 @@ public interface WXEntryContract {
 
     interface Model extends BaseModel{
 
+        Observable<BaseBeanResult> appOauth(String shopId, String runnerId, String code);
+
         Observable<WxBean> access_token(String appid, String secret, String code, String type);
 
         Observable<WxBean> getUserInfo(String token, String appid);
@@ -24,6 +26,8 @@ public interface WXEntryContract {
 
     interface View extends BaseView{
 
+        void showOauth(BaseBeanResult baseBeanResult);
+
         void showInfoResult(WxBean bean);
 
         void showToken(WxBean bean);
@@ -32,6 +36,8 @@ public interface WXEntryContract {
     }
 
     abstract class Presenter extends BasePresenter<View, Model>{
+
+        public abstract void appOauth(String shopId, String runnerId, String code);
 
         public abstract void getUserInfo(String token, String appid);
 

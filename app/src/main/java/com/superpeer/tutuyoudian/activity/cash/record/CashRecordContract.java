@@ -14,7 +14,7 @@ import rx.Observable;
 public interface CashRecordContract {
 
     interface Model extends BaseModel{
-        Observable<BaseBeanResult> getRecordList(String shopId);
+        Observable<BaseBeanResult> getRecordList(String shopId, String page, String pageSize);
     }
 
     interface View extends BaseView{
@@ -22,7 +22,7 @@ public interface CashRecordContract {
     }
 
     abstract class Presenter extends BasePresenter<View, Model>{
-        public abstract void getRecordList(String shopId);
+        public abstract void getRecordList(String shopId, String page, String pageSize);
     }
 
 }

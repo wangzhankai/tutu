@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--CircleImageView-->
+    <attr name="bordercolor" format="color"/>
+    <attr name="borderwidth" format="dimension"/>
+    <declare-styleable name="CircleImageView">
+        <attr name="bordercolor"/>
+        <attr name="borderwidth"/>
+    </declare-styleable>
+
+</resources>

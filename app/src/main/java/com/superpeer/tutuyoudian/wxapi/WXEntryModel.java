@@ -12,6 +12,16 @@ import rx.functions.Func1;
 public class WXEntryModel implements WXEntryContract.Model {
 
     @Override
+    public Observable<BaseBeanResult> appOauth(String shopId, String runnerId, String code) {
+        return Api.getInstance().service.appOauth2(shopId, runnerId, code).map(new Func1<BaseBeanResult, BaseBeanResult>() {
+            @Override
+            public BaseBeanResult call(BaseBeanResult baseBeanResult) {
+                return baseBeanResult;
+            }
+        }).compose(RxSchedulers.<BaseBeanResult>io_main());
+    }
+
+    @Override
     public Observable<WxBean> access_token(String appid, String secret, String code, String type) {
         return WxApi.getInstance().service.access_token(appid, secret, code, type).map(new Func1<WxBean, WxBean>() {
             @Override

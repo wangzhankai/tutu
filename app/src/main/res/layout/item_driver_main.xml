@@ -164,7 +164,6 @@
         android:padding="@dimen/dp_10"
         android:gravity="right">
 
-
         <TextView
             android:id="@+id/tvQuit"
             style="@style/textGrey3Style14"
@@ -195,6 +194,18 @@
             android:layout_height="@dimen/dp_30"
             android:layout_marginLeft="@dimen/dp_10"
             android:text="送达"
+            android:visibility="gone"
+            android:padding="@dimen/dp_5"
+            android:gravity="center"
+            android:background="@drawable/bg_orange" />
+
+        <TextView
+            android:id="@+id/tvDelete"
+            style="@style/textWhiteStyle14"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:text="删除订单"
             android:visibility="gone"
             android:padding="@dimen/dp_5"
             android:gravity="center"

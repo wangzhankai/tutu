@@ -56,7 +56,14 @@ public class ShopLibraryAdapter extends BaseQuickAdapter {
         TextView tvAddOrRemove = (TextView) helper.getView(R.id.tvAddOrRemove);
 
         Glide.with(mContext).load(bean.getImagePath().contains("http")?bean.getImagePath(): Url.IP+bean.getImagePath()).centerCrop().into(ivImg);
-        ((TextView) helper.getView(R.id.tvTitle)).setText(bean.getName());
+        StringBuilder sb = new StringBuilder();
+        if(null!=bean.getName()){
+            sb.append(bean.getName());
+        }
+        if(null!=bean.getSpecifications()){
+            sb.append("-"+bean.getSpecifications());
+        }
+        ((TextView) helper.getView(R.id.tvTitle)).setText(sb.toString());
         if(null!=bean.getPrice()){
             ((TextView) helper.getView(R.id.tvPrice)).setText("￥"+numberFormat.format(new BigDecimal(bean.getPrice())));
         }else{

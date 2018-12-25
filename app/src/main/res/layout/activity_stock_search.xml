@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.stocksearch.StockSearchActivity">
+
+    <include layout="@layout/base_title"/>
+
+    <EditText
+        android:id="@+id/etSearch"
+        style="@style/textGrey3Style14"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_35"
+        android:layout_margin="@dimen/dp_5"
+        android:paddingLeft="@dimen/dp_10"
+        android:singleLine="true"
+        android:imeOptions="actionSearch"
+        android:hint="搜索商品"
+        android:drawableLeft="@mipmap/iv_search"
+        android:background="@drawable/bg_edit_search"/>
+
+    <com.superpeer.base_libs.view.refresh.RefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
+            android:id="@+id/rv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView>
+
+    </com.superpeer.base_libs.view.refresh.RefreshLayout>
+
+</LinearLayout>

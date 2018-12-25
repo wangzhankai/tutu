@@ -6,8 +6,8 @@ import com.tencent.tencentmap.mapsdk.maps.MapView;
 
 public class AddDriverPresenter extends AddDriverContract.Presenter {
     @Override
-    public void getRunnerInfo(String id) {
-        mRxManage.add(mModel.getRunnerInfo(id).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
+    public void getRunnerInfo(String id, String shopId) {
+        mRxManage.add(mModel.getRunnerInfo(id, shopId).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
             @Override
             protected void _onNext(BaseBeanResult baseBeanResult) {
                 mView.showRunnerInfo(baseBeanResult);
@@ -21,8 +21,8 @@ public class AddDriverPresenter extends AddDriverContract.Presenter {
     }
 
     @Override
-    public void addRunner(String shopId, String id) {
-        mRxManage.add(mModel.addRunner(shopId, id).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
+    public void addRunner(String shopId, String id, String runnerType) {
+        mRxManage.add(mModel.addRunner(shopId, id, runnerType).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
             @Override
             protected void _onNext(BaseBeanResult baseBeanResult) {
                 mView.showAddResult(baseBeanResult);

@@ -4,6 +4,7 @@ package com.superpeer.tutuyoudian.api;
 
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 import com.superpeer.tutuyoudian.bean.BaseCountBean;
+import com.superpeer.tutuyoudian.bean.BaseCountList;
 import com.superpeer.tutuyoudian.bean.BaseLocationBean;
 import com.superpeer.tutuyoudian.bean.BaseRunBean;
 import com.superpeer.tutuyoudian.bean.BaseSearchResult;
@@ -199,12 +200,17 @@ public interface ApiService {
     //营销数据统计
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @GET("app/count/getRunNum")
-    Observable<BaseRunBean> getRunNum(@Query("shopId") String shopId, @Query("num") String num);
+    Observable<BaseCountBean> getRunNum(@Query("shopId") String shopId, @Query("num") String num);
 
     //获取营收明细
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @GET("app/count/getCapitalRecord")
     Observable<BaseBeanResult> getCapitalRecord(@Query("shopId") String shopId, @Query("defaultCurrent") String defaultCurrent, @Query("pageSize") String pageSize);
+
+    //获取商品销售量
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @GET("app/count/getSaleGoods")
+    Observable<BaseBeanResult> getSaleGoods(@Query("shopId") String shopId, @Query("num") String num, @Query("pageSize") String pageSize);
 
     //营销数据统计
 //    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
@@ -244,12 +250,17 @@ public interface ApiService {
     //获取店铺分类的商品
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @GET("app/shop/getMyGoodsByType")
-    Observable<BaseBeanResult> getGoodsSearch(@Query("shopId") String shopId, @Query("saleState") String saleState, @Query("stock") String stock, @Query("defaultCurrent") String defaultCurrent, @Query("pageSize") String pageSize, @Query("name") String name);
+    Observable<BaseBeanResult> getGoodsSearch(@Query("shopId") String shopId, @Query("goodsTypeId") String goodsTypeId, @Query("saleState") String saleState, @Query("stock") String stock, @Query("defaultCurrent") String defaultCurrent, @Query("pageSize") String pageSize, @Query("name") String name);
 
     //库存商品
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @GET("app/shop/getMyGoodsByStock")
     Observable<BaseBeanResult> getStock(@Query("shopId") String shopId, @Query("goodsTypeId") String goodsTypeId,@Query("defaultCurrent") String defaultCurrent, @Query("pageSize") String pageSize);
+
+    //库存商品
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @GET("app/shop/getMyGoodsByStock")
+    Observable<BaseBeanResult> getStockSearch(@Query("shopId") String shopId, @Query("name") String name,@Query("defaultCurrent") String defaultCurrent, @Query("pageSize") String pageSize);
 
     //扫码上传
     @FormUrlEncoded
@@ -301,12 +312,12 @@ public interface ApiService {
     //获取提现记录
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @GET("app/shop/getSettleDetail")
-    Observable<BaseBeanResult> getRecord(@Query("shopId") String shopId);
+    Observable<BaseBeanResult> getRecord(@Query("shopId") String shopId, @Query("pageSize") String pageSize, @Query("defaultCurrent") String defaultCurrent);
 
     //保存提现记录
     @FormUrlEncoded
     @POST("app/shop/saveSettleDetail")
-    Observable<BaseBeanResult> saveWithDraw(@Field("shopId") String shopId, @Field("withdrawMoney") String withdrawMoney, @Field("accountType") String accountType);
+    Observable<BaseBeanResult> saveWithDraw(@Field("shopId") String shopId, @Field("withdrawMoney") String withdrawMoney, @Field("accountType") String accountType, @Field("payPwd") String payPwd);
 
     //保存申请入驻
     @Multipart
@@ -494,7 +505,7 @@ public interface ApiService {
     //扫描骑手二维码
     @FormUrlEncoded
     @POST("/app/shop/scanQr")
-    Observable<BaseBeanResult> scanQr(@Field("qr") String qr);
+    Observable<BaseBeanResult> scanQr(@Field("qr") String qr, @Field("shopId") String shopId);
 
     //获取骑手列表
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
@@ -504,12 +515,17 @@ public interface ApiService {
     //绑定骑手
     @FormUrlEncoded
     @POST("app/shop/bindingRunner")
-    Observable<BaseBeanResult> bindingRunner(@Field("shopId") String shopId, @Field("id") String id);
+    Observable<BaseBeanResult> bindingRunner(@Field("shopId") String shopId, @Field("id") String id, @Field("runnerType") String runnerType);
 
     //刷新信息
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @GET("/app/shop/refreshShopInfo")
     Observable<BaseBeanResult> refreshShopInfo(@Query("shopId") String shopId);
+
+    //微信授权
+    @FormUrlEncoded
+    @POST("/app/shop/appOauth2")
+    Observable<BaseBeanResult> appOauth2(@Field("shopId") String shopId, @Field("runnerId") String runnerId, @Field("code") String code);
 
     //微信获取token
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头

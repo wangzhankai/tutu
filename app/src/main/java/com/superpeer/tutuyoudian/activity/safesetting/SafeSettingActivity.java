@@ -3,7 +3,9 @@ package com.superpeer.tutuyoudian.activity.safesetting;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.tutuyoudian.R;
+import com.superpeer.tutuyoudian.activity.driver.paytype.DriverTypeActivity;
 import com.superpeer.tutuyoudian.activity.forgotpaypwd.ForgotPayPwdActivity;
 import com.superpeer.tutuyoudian.activity.modifypwd.ModifyPwdActivity;
 import com.superpeer.tutuyoudian.activity.paypwd.modify.verify.PayPwdModifyActivity;
@@ -11,6 +13,7 @@ import com.superpeer.tutuyoudian.activity.paypwd.setting.PayPwdSettingActivity;
 import com.superpeer.tutuyoudian.activity.paytype.PayTypeActivity;
 import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseObject;
+import com.superpeer.tutuyoudian.constant.Constants;
 
 import rx.functions.Action1;
 
@@ -76,7 +79,11 @@ public class SafeSettingActivity extends BaseActivity{
         linearPayType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(PayTypeActivity.class);
+                if("0".equals(PreferencesUtils.getString(mContext, Constants.USER_TYPE))){
+                    startActivity(PayTypeActivity.class);
+                }else{
+                    startActivity(DriverTypeActivity.class);
+                }
             }
         });
         //支付密码设置

@@ -26,6 +26,9 @@ import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 import com.superpeer.tutuyoudian.bean.BaseList;
 import com.superpeer.tutuyoudian.constant.Constants;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.List;
 
@@ -176,6 +179,7 @@ public class DriverTypeActivity extends BaseActivity<DriverTypePresenter, Driver
         tvWx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                WXLogin();
                 popWindow.dismiss();
             }
         });
@@ -204,6 +208,18 @@ public class DriverTypeActivity extends BaseActivity<DriverTypePresenter, Driver
             }
         });
 
+    }
+
+    /**
+     * 登录微信
+     */
+    private void WXLogin() {
+        IWXAPI wxapi= WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
+        wxapi.registerApp(Constants.APP_ID);
+        SendAuth.Req req = new SendAuth.Req();
+        req.scope = "snsapi_userinfo";
+        req.state = "lazystore";
+        wxapi.sendReq(req);
     }
 
     private void showTipDialog() {
@@ -272,6 +288,22 @@ public class DriverTypeActivity extends BaseActivity<DriverTypePresenter, Driver
                     adapter.setNewData(baseBeanResult.getData().getList());
                 }
                 adapter.loadComplete();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void showSaveResult(BaseBeanResult baseBeanResult) {
+        try{
+            if(null!=baseBeanResult){
+                if(null!=baseBeanResult.getMsg()){
+                    showShortToast(baseBeanResult.getMsg());
+                }
+                if("1".equals(baseBeanResult.getCode())){
+                    mRxManager.post("savePayType", "");
+                }
             }
         }catch (Exception e){
             e.printStackTrace();

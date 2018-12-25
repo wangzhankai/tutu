@@ -20,6 +20,8 @@ import com.superpeer.tutuyoudian.api.Url;
 import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 import com.superpeer.tutuyoudian.bean.BaseObject;
+import com.superpeer.tutuyoudian.listener.OnSureListener;
+import com.superpeer.tutuyoudian.utils.DialogUtils;
 
 public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, OrderDetailModel> implements OrderDetailContract.View {
 
@@ -133,7 +135,12 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.cancelOrder(orderId);
+                DialogUtils.showDialog(mContext, "是否取消订单", new OnSureListener() {
+                    @Override
+                    public void onSure() {
+                        mPresenter.cancelOrder(orderId);
+                    }
+                });
             }
         });
         //接单
@@ -154,7 +161,12 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         tvDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.delOrder(orderId);
+                DialogUtils.showDialog(mContext, "是否删除订单", new OnSureListener() {
+                    @Override
+                    public void onSure() {
+                        mPresenter.delOrder(orderId);
+                    }
+                });
             }
         });
 
@@ -162,7 +174,12 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         tvComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.confirmOrder(orderId);
+                DialogUtils.showDialog(mContext, "订单送达", new OnSureListener() {
+                    @Override
+                    public void onSure() {
+                        mPresenter.confirmOrder(orderId);
+                    }
+                });
             }
         });
     }
@@ -343,20 +360,40 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                     ivStatus.setImageResource(R.mipmap.iv_no_pay);
                     tvStatus.setText("待付款");
                     tvCancel.setVisibility(View.VISIBLE);
+                    tvVerify.setVisibility(View.GONE);
+                    tvDelete.setVisibility(View.GONE);
                     break;
                 case "2":
                     ivStatus.setImageResource(R.mipmap.iv_no_pay);
                     tvStatus.setText("付款中");
                     tvCancel.setVisibility(View.VISIBLE);
+                    tvVerify.setVisibility(View.GONE);
+                    tvDelete.setVisibility(View.GONE);
                     break;
                 case "3":
                     ivStatus.setImageResource(R.mipmap.iv_order_readytaking);
                     tvStatus.setText("待接单");
                     tvCancel.setVisibility(View.VISIBLE);
                     tvGet.setVisibility(View.VISIBLE);
+                    tvVerify.setVisibility(View.GONE);
+                    tvDelete.setVisibility(View.GONE);
                     break;
                 case "4":
                     ivStatus.setImageResource(R.mipmap.iv_order_readyget);
+                    tvDelete.setVisibility(View.GONE);
+                    if(null!=bean.getShippingType()){
+                    if("1".equals(bean.getShippingType())){ //送货上门
+                        tvStatus.setText("送货中");
+                        tvCancel.setVisibility(View.VISIBLE);
+                        tvComplete.setVisibility(View.VISIBLE);
+                        tvVerify.setVisibility(View.GONE);
+                    }else{      //自提
+                        tvStatus.setText("待提货");
+                        tvCancel.setVisibility(View.VISIBLE);
+                        tvVerify.setVisibility(View.VISIBLE);
+                        tvComplete.setVisibility(View.GONE);
+                    }
+                }
                     break;
                 case "5":
                     ivStatus.setImageResource(R.mipmap.iv_order_complete);
@@ -364,6 +401,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                     tvComplete.setVisibility(View.GONE);
                     tvCancel.setVisibility(View.GONE);
                     tvVerify.setVisibility(View.GONE);
+                    tvDelete.setVisibility(View.GONE);
                     break;
                 case "6":
                     ivStatus.setImageResource(R.mipmap.iv_order_complete);
@@ -385,7 +423,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 }
             }
             if(null!=bean.getFreight()){
-                tvSendFee.setText(bean.getFreight());
+                tvSendFee.setText("￥"+bean.getFreight());
             }
             if(null!=bean.getPackingFee()){
                 tvPackageFee.setText("￥"+bean.getPackingFee());

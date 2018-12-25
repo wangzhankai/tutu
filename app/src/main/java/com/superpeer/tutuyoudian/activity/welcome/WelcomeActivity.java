@@ -2,6 +2,7 @@ package com.superpeer.tutuyoudian.activity.welcome;
 
 import android.os.Handler;
 
+import com.superpeer.base_libs.base.AppManager;
 import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.tutuyoudian.R;
 import com.superpeer.tutuyoudian.activity.driver.main.DriverMainActivity;
@@ -39,12 +40,14 @@ public class WelcomeActivity extends BaseActivity<WelcomePresenter, WelcomeModel
                         if("0".equals(PreferencesUtils.getString(mContext, Constants.USER_TYPE))){
                             if(null!=PreferencesUtils.getString(mContext, Constants.SHOP_STATE)&&!"".equals(PreferencesUtils.getString(mContext, Constants.SHOP_STATE))){
                                 if("4".equals(PreferencesUtils.getString(mContext, Constants.SHOP_STATE))){
+                                    AppManager.getAppManager().finishAllActivity();
                                     startActivity(MainActivity.class);
                                 }else{
                                     startActivity(LoginActivity.class);
                                 }
                             }
                         }else{
+                            AppManager.getAppManager().finishAllActivity();
                             startActivity(DriverMainActivity.class);
                         }
                     }

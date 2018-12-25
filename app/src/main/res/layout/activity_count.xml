@@ -149,6 +149,30 @@
                 android:background="@color/white"/>
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvStartTime"
+                    style="@style/textGrey3Style14"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvEndTime"
+                    style="@style/textGrey3Style14"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/lineaOrderOrVisit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -261,7 +285,7 @@
             </LinearLayout>
 
             <com.superpeer.tutuyoudian.widget.NoScrollRecyclerView
-                android:id="@+id/recyclerView"
+                android:id="@+id/recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 

@@ -1,11 +1,15 @@
 package com.superpeer.tutuyoudian.activity.storesendset;
 
 import android.content.Intent;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -24,6 +28,7 @@ import com.superpeer.tutuyoudian.utils.TvUtils;
 import com.wx.wheelview.adapter.ArrayWheelAdapter;
 import com.wx.wheelview.widget.WheelView;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,7 +72,7 @@ public class StoreSendSetActivity extends BaseActivity<StoreSendSetPresenter, St
 
     @Override
     public void initView() {
-        setHeadTitle("配送设置");
+        setHeadTitle("配送信息设置");
 
         linear = (LinearLayout) findViewById(R.id.linear);
 
@@ -131,12 +136,15 @@ public class StoreSendSetActivity extends BaseActivity<StoreSendSetPresenter, St
             if(bean.getShopDayOff().contains("4"))  shopdayOff =shopdayOff.replace("4", "周四");
             if(bean.getShopDayOff().contains("5"))  shopdayOff =shopdayOff.replace("5", "周五");
             if(bean.getShopDayOff().contains("6"))  shopdayOff =shopdayOff.replace("6", "周六");
-            if(bean.getShopDayOff().contains("0"))  shopdayOff =shopdayOff.replace("0", "周日");
+            if(bean.getShopDayOff().contains("7"))  shopdayOff =shopdayOff.replace("7", "周日");
+            if(bean.getShopDayOff().contains("0"))  shopdayOff =shopdayOff.replace("0", "无");
             if(TextUtils.isEmpty(days)){
                 tvStoreDay.setText("无");
             }else{
                 tvStoreDay.setText(shopdayOff);
             }
+        }else{
+            tvStoreDay.setText("无");
         }
     }
 
@@ -156,6 +164,27 @@ public class StoreSendSetActivity extends BaseActivity<StoreSendSetPresenter, St
     }
 
     private void initListener() {
+
+        /*etStartMoney.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                    String str = ((EditText) view).getText().toString().trim();
+                    if(!TextUtils.isEmpty(str)) {
+                        String sendFee = etSendFee.getText().toString().trim();
+                        if (TextUtils.isEmpty(sendFee)) {
+                            showShortToast("请输入配送费");
+                            return;
+                        }
+                        BigDecimal strBigDecimal = new BigDecimal(str);
+                        BigDecimal sendBigDecimal = new BigDecimal(sendFee);
+                        if (!(strBigDecimal.multiply(new BigDecimal("0.9962")).setScale(2, BigDecimal.ROUND_UP).compareTo(sendBigDecimal) >= 0)) {
+                            etStartMoney.setText("");
+                            showShortToast("满免金额应大于" + sendBigDecimal.divide(new BigDecimal("0.9962"), 2, BigDecimal.ROUND_UP).doubleValue());
+                        }
+                    }
+            }
+        });*/
+
         //店铺营业开始时间
         tvStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,6 +235,16 @@ public class StoreSendSetActivity extends BaseActivity<StoreSendSetPresenter, St
                 if(TextUtils.isEmpty(sendFee)){
                     showShortToast("请输入配送费");
                     return;
+                }
+                try{
+                    BigDecimal start = new BigDecimal(startMoney);
+                    BigDecimal send = new BigDecimal(sendFee);
+                    if(!(start.multiply(new BigDecimal("0.9962").setScale(2, BigDecimal.ROUND_UP)).compareTo(send) >= 0)){
+                        showShortToast("满免金额应大于" + send.divide(new BigDecimal("0.9962"), 0, BigDecimal.ROUND_UP).doubleValue());
+                        return;
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
                 if(TextUtils.isEmpty(sendTime)){
                     showShortToast("请输入送达时间");

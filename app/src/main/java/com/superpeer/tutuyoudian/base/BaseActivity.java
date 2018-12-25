@@ -72,6 +72,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     protected ImageView mIvLeft;
     protected ViewStub mViewStub;
     public Format numberFormat = new DecimalFormat("0.00");
+    private AlertDialog dialog;
 
     public class MessageReceiver extends BroadcastReceiver {
 
@@ -86,8 +87,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                     if (!ConstantsUtils.isEmpty(extras)) {
                         showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
                     }
-                    SystemTTS systemTTS = SystemTTS.getInstance(mContext);
-                    systemTTS.playText(message);
 
                     if("0".equals(PreferencesUtils.getString(context, Constants.USER_TYPE))){       //商家
                         PushBean bean = new Gson().fromJson(extras, PushBean.class);
@@ -97,7 +96,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                             showOrderDialog(bean);
                         }
                     }else{
-                        showOrderDialog(extras);
+                        showOrderDialog(extras, message);
                         mRxManager.post("drivermain", "");
                     }
                 }
@@ -114,7 +113,15 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, filter);
     }
 
-    public void showOrderDialog(String extra) {
+    public void showOrderDialog(String extra, String msg) {
+        try {
+            if (null != dialog && dialog.isShowing()) {
+                dialog.dismiss();
+                dialog = null;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_driver_order, null);
 
@@ -123,7 +130,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         TextView tvGetOrder = (TextView) view.findViewById(R.id.tvGetOrder);
         TextView tvLater = (TextView) view.findViewById(R.id.tvLater);
 
-        final Dialog dialog = builder.create();
+        dialog = builder.create();
         dialog.show();
         dialog.getWindow().setContentView(view);
 
@@ -132,6 +139,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
             if (null != bean) {
                 if (null != bean.getShopName()) {
                     tvDesc.setText(bean.getShopName()+"有新订单了，兔兔跑腿，快抢单吧");
+//                    tvDesc.setText(msg);
                 }
             }
             //接单
@@ -158,7 +166,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                                             Intent intent = new Intent(mContext, DriverOrderDetailActivity.class);
                                             intent.putExtra("orderId", bean.getOrderId());
                                             startActivity(intent);
-                                            finish();
                                         }
                                     }
                                 }catch (Exception e){
@@ -195,6 +202,14 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     }
 
     public void showOrderDialog(final PushBean bean) {
+        try {
+            if (null != dialog && dialog.isShowing()) {
+                dialog.dismiss();
+                dialog = null;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_order, null);
 
@@ -204,7 +219,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         TextView tvGetOrder = (TextView) view.findViewById(R.id.tvGetOrder);
         TextView tvLater = (TextView) view.findViewById(R.id.tvLater);
 
-        final Dialog dialog = builder.create();
+        dialog = builder.create();
         dialog.show();
         dialog.getWindow().setContentView(view);
 
@@ -238,7 +253,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                                             Intent intent = new Intent(mContext, OrderDetailActivity.class);
                                             intent.putExtra("orderId", bean.getOrderId());
                                             startActivity(intent);
-                                            finish();
                                         }
                                     }
                                 }catch (Exception e){

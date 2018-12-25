@@ -4,14 +4,9 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
+import android.media.MediaPlayer;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -29,12 +24,11 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.superpeer.base_libs.base.AppManager;
 import com.superpeer.base_libs.base.baseadapter.BaseQuickAdapter;
 import com.superpeer.base_libs.base.baseadapter.OnItemClickListener;
-import com.superpeer.base_libs.utils.ConstantsUtils;
 import com.superpeer.base_libs.utils.MPermissionUtils;
+import com.superpeer.base_libs.utils.MediaManager;
 import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.tutuyoudian.R;
 import com.superpeer.tutuyoudian.activity.addshop.AddShopActivity;
@@ -46,7 +40,6 @@ import com.superpeer.tutuyoudian.activity.datacount.CountActivity;
 import com.superpeer.tutuyoudian.activity.order.OrderActivity;
 import com.superpeer.tutuyoudian.activity.order.detail.OrderDetailActivity;
 import com.superpeer.tutuyoudian.activity.setting.StoreSettingActivity;
-import com.superpeer.tutuyoudian.activity.shopcode.ShopCodeActivity;
 import com.superpeer.tutuyoudian.activity.shoplibrary.ShopLibraryActivity;
 import com.superpeer.tutuyoudian.activity.shopmanager.ShopManagerActivity;
 import com.superpeer.tutuyoudian.activity.store.StoreApplyActivity;
@@ -58,11 +51,12 @@ import com.superpeer.tutuyoudian.bean.BaseList;
 import com.superpeer.tutuyoudian.bean.BaseObject;
 import com.superpeer.tutuyoudian.bean.PushBean;
 import com.superpeer.tutuyoudian.constant.Constants;
-import com.superpeer.tutuyoudian.utils.SystemTTS;
 import com.superpeer.tutuyoudian.widget.NoScrollRecyclerView;
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.yzq.zxinglibrary.android.CaptureActivity;
+import com.yzq.zxinglibrary.common.Constant;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -71,8 +65,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import cn.bertsir.zbar.QrConfig;
-import cn.bertsir.zbar.QrManager;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import rx.functions.Action1;
@@ -85,6 +77,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     public static final String MESSAGE_RECEIVED_ACTION = "com.lxkj.video.MESSAGE_RECEIVED_ACTION";
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_EXTRAS = "extras";*/
+    private static final int REQUEST_CODE_SCAN = 888;
     private RelativeLayout linearNotice;
     private TextView tvNum;
     private String barCode = "";
@@ -149,6 +142,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     private TextView tvYesterdayNum;
     private TextView tvYesterdayScan;
     private TextView tvTodayScan;
+    private TextView tvTips;
 
     private String status = "1";
     private String callStatus = "1";
@@ -224,7 +218,6 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
 
     @Override
     public void initView() {
-
         linearNotice = (RelativeLayout) findViewById(R.id.linearNotice);
 
         linearNotice.setOnClickListener(new View.OnClickListener() {
@@ -266,6 +259,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         tvYesterdayNum = (TextView) findViewById(R.id.tvYesterdayNum);
         tvTodayScan = (TextView) findViewById(R.id.tvTodayScan);
         tvYesterdayScan = (TextView) findViewById(R.id.tvYesterdayScan);
+        tvTips = (TextView) findViewById(R.id.tvTips);
 
         ivSummon = (ImageView) findViewById(R.id.ivSummon);
         ivAuto = (ImageView) findViewById(R.id.ivAuto);
@@ -343,27 +337,25 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                 if(null!=userInfo.getName()){
                     tvTitle.setText(userInfo.getName());
                 }
-                if(null!=userInfo.getOperatingStatus()){
-                    if("0".equals(userInfo.getOperatingStatus())){
-//                        tvOnline.setBackgroundResource(R.drawable.bg_grey);
-//                        tvOffline.setBackgroundResource(R.drawable.bg_orange_circle);
-//                        tvStatus.setText("休息中");
-                        ivAuto.setImageResource(R.mipmap.iv_switch_off);
+                if(null!=userInfo.getSendStatus()){
+                    if("1".equals(userInfo.getSendStatus())){
+                        callStatus = "0";
+                        ivSummon.setImageResource(R.mipmap.iv_switch_on);
                     }else{
-                        isOnline = true;
-                        ivAuto.setImageResource(R.mipmap.iv_switch_on);
-//                        tvOnline.setBackgroundResource(R.drawable.bg_orange_circle);
-//                        tvOffline.setBackgroundResource(R.drawable.bg_grey);
-//                        tvStatus.setText("营业中");
+                        callStatus = "1";
+                        ivSummon.setImageResource(R.mipmap.iv_switch_off);
                     }
                 }
-                /*if(null!=userInfo.getAutomaticStatus()){
-                    if("1".equals(userInfo.getAutomaticStatus())){
+                if(null!=userInfo.getOperatingStatus()){
+                    if("1".equals(userInfo.getOperatingStatus())){
+                        isOnline = true;
+                        status = "0";
                         ivAuto.setImageResource(R.mipmap.iv_switch_on);
                     }else{
+                        status = "1";
                         ivAuto.setImageResource(R.mipmap.iv_switch_off);
                     }
-                }*/
+                }
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -380,9 +372,9 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
 
                 WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
                 req.userName = Constants.WEIXIN_XIAOCHENGXU_ID; // 填小程序原始id
-                req.path = "/pages/shop/shop?shopId="+PreferencesUtils.getString(mContext, Constants.SHOP_ID);                  //拉起小程序页面的可带参路径，不填默认拉起小程序首页
-//                req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
+                req.path = "/pages/index/index?shopId="+PreferencesUtils.getString(mContext, Constants.SHOP_ID);                  //拉起小程序页面的可带参路径，不填默认拉起小程序首页
                 req.miniprogramType = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW;// 可选打开 开发版，体验版和正式版
+//                req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
                 api.sendReq(req);
             }
         });
@@ -656,7 +648,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
 
     private void initQRCode() {
         try {
-            QrConfig qrConfig = new QrConfig.Builder()
+            /*QrConfig qrConfig = new QrConfig.Builder()
                     .setDesText("(识别二维码或条形码)")//扫描框下文字
                     .setShowDes(false)//是否显示扫描框下面文字
                     .setShowLight(true)//显示手电筒按钮
@@ -680,6 +672,18 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                 public void onScanSuccess(String result) {
                     barCode = result;
                     mPresenter.codeUpload(result, PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+                }
+            });*/
+            MPermissionUtils.requestPermissionsResult((Activity) mContext, 1, new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, new MPermissionUtils.OnPermissionListener() {
+                @Override
+                public void onPermissionGranted() {
+                    Intent intent = new Intent(mContext, CaptureActivity.class);
+                    startActivityForResult(intent, REQUEST_CODE_SCAN);
+                }
+
+                @Override
+                public void onPermissionDenied() {
+                    MPermissionUtils.showTipsDialog(mContext);
                 }
             });
         }catch (Exception e){
@@ -928,6 +932,39 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                 PreferencesUtils.putString(mContext, Constants.VALIDITYPERIOD, object.getValidityPeriod());
                 mRxManager.post("validityPeriod", object.getValidityPeriod());
             }
+            if(null!=object.getActivationStatus()){
+                if("0".equals(object.getActivationStatus())){
+//                    ivAuto.setImageResource(R.mipmap.iv_switch_off);
+                    tvTips.setVisibility(View.VISIBLE);
+                    tvTips.setSelected(true);
+//                    tvTips.setText("您的店铺已到期，请重新续费");
+                }else{
+//                    ivAuto.setImageResource(R.mipmap.iv_switch_on);
+                    tvTips.setVisibility(View.GONE);
+                }
+            }
+            if(null!=object.getName()){
+                tvTitle.setText(object.getName());
+            }
+            if(null!=object.getSendStatus()){
+                if("1".equals(object.getSendStatus())){
+                    callStatus = "0";
+                    ivSummon.setImageResource(R.mipmap.iv_switch_on);
+                }else{
+                    callStatus = "1";
+                    ivSummon.setImageResource(R.mipmap.iv_switch_off);
+                }
+            }
+            if(null!=object.getOperatingStatus()){
+                if("1".equals(object.getOperatingStatus())){
+                    isOnline = true;
+                    status = "0";
+                    ivAuto.setImageResource(R.mipmap.iv_switch_on);
+                }else{
+                    status = "1";
+                    ivAuto.setImageResource(R.mipmap.iv_switch_off);
+                }
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -977,10 +1014,35 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         try{
-            //获取首页数据
-            mPresenter.getMainData(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+            // 扫描二维码/条码回传
+            if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
+                if (data != null) {
+                    String content = data.getStringExtra(Constant.CODED_CONTENT);
+                    barCode = content;
+                    mPresenter.codeUpload(content, PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+                }
+            }else {
+                //获取首页数据
+                mPresenter.getMainData(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void playVoice(){
+        final MediaPlayer mp = MediaPlayer.create(mContext, R.raw.money);//重新设置要播放的音频
+
+        mp.start();//开始播放
+
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer arg0) {
+                if(null!=mp){
+                    mp.stop();
+                    mp.release();
+                }
+            }
+        });
     }
 }

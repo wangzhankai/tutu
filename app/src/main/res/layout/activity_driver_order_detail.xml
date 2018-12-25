@@ -49,7 +49,7 @@
                     android:layout_width="@dimen/dp_80"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="取消订单"
+                    android:text="放弃配送"
                     android:visibility="gone"
                     android:paddingTop="@dimen/dp_10"
                     android:paddingBottom="@dimen/dp_10"
@@ -321,6 +321,7 @@
                     <TextView
                         android:id="@+id/tvGetTime"
                         android:text="提货时间："
+                        android:visibility="gone"
                         style="@style/textGrey9Style13"
                         android:layout_width="0dp"
                         android:layout_weight="1"

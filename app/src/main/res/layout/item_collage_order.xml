@@ -186,8 +186,7 @@
                 app:suffixTextColor="@color/red"
                 app:suffixDay=":"
                 app:suffixHour=":"
-                app:suffixMinute=":"
-                app:suffixSecond=":"/>
+                app:suffixMinute=":"/>
 
         </LinearLayout>
 

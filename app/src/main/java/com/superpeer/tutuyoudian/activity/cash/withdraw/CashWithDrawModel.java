@@ -23,8 +23,8 @@ public class CashWithDrawModel implements CashWithDrawContract.Model {
     }
 
     @Override
-    public Observable<BaseBeanResult> saveWithDraw(String shopId, String money, String type) {
-        return Api.getInstance().service.saveWithDraw(shopId, money, type).map(new Func1<BaseBeanResult, BaseBeanResult>() {
+    public Observable<BaseBeanResult> saveWithDraw(String shopId, String money, String type, String payPwd) {
+        return Api.getInstance().service.saveWithDraw(shopId, money, type, payPwd).map(new Func1<BaseBeanResult, BaseBeanResult>() {
             @Override
             public BaseBeanResult call(BaseBeanResult baseBeanResult) {
                 return baseBeanResult;

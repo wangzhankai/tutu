@@ -24,8 +24,8 @@ public class CashWithDrawPresenter extends CashWithDrawContract.Presenter {
     }
 
     @Override
-    public void saveWithDraw(String shopId, String money, String type) {
-        mRxManage.add(mModel.saveWithDraw(shopId, money, type).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
+    public void saveWithDraw(String shopId, String money, String type, String payPwd) {
+        mRxManage.add(mModel.saveWithDraw(shopId, money, type, payPwd).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
             @Override
             protected void _onNext(BaseBeanResult baseBeanResult) {
                 mView.showSaveResult(baseBeanResult);

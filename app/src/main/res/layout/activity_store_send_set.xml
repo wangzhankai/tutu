@@ -55,16 +55,69 @@
         android:gravity="center_vertical">
 
         <TextView
-            android:text="起送金额"
+            android:text="配送费"
             style="@style/textGrey3Style14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/etSendFee"
+            style="@style/textGrey3Style14"
+            android:textColorHint="@color/grey9"
+            android:gravity="right|center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@null"/>
+
+        <TextView
+            android:text="(元)"
+            style="@style/textGrey9Style14"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:layout_marginTop="@dimen/dp_1"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingRight="@dimen/dp_12"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:text="说明:若店铺添加有兔兔跑腿，则兔兔跑腿每单获得的费用为配送费金额"
+            style="@style/textGrey9Style12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:layout_marginTop="@dimen/dp_1"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingRight="@dimen/dp_12"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/textGrey3Style14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="满免配送费金额" />
 
         <EditText
             android:id="@+id/etStartMoney"
             style="@style/textGrey3Style14"
             android:textColorHint="@color/grey9"
             android:gravity="right|center_vertical"
+            android:imeOptions="actionDone"
+            android:inputType="numberDecimal"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
@@ -96,40 +149,6 @@
 
         <EditText
             android:id="@+id/etPackageFee"
-            style="@style/textGrey3Style14"
-            android:textColorHint="@color/grey9"
-            android:gravity="right|center_vertical"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:background="@null"/>
-
-        <TextView
-            android:text="(元)"
-            style="@style/textGrey9Style14"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_45"
-        android:layout_marginTop="@dimen/dp_1"
-        android:background="@color/white"
-        android:paddingLeft="@dimen/dp_12"
-        android:paddingRight="@dimen/dp_12"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:text="配送费"
-            style="@style/textGrey3Style14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/etSendFee"
             style="@style/textGrey3Style14"
             android:textColorHint="@color/grey9"
             android:gravity="right|center_vertical"

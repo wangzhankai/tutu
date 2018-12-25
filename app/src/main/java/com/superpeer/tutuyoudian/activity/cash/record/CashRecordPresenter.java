@@ -9,8 +9,8 @@ import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 
 public class CashRecordPresenter extends CashRecordContract.Presenter {
     @Override
-    public void getRecordList(String shopId) {
-        mRxManage.add(mModel.getRecordList(shopId).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
+    public void getRecordList(String shopId, String page, String pageSize) {
+        mRxManage.add(mModel.getRecordList(shopId, page, pageSize).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
             @Override
             protected void _onNext(BaseBeanResult baseBeanResult) {
                 mView.showResult(baseBeanResult);

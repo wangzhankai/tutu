@@ -13,8 +13,8 @@ import rx.functions.Func1;
 
 public class CashRecordModel implements CashRecordContract.Model {
     @Override
-    public Observable<BaseBeanResult> getRecordList(String shopId) {
-        return Api.getInstance().service.getRecord(shopId).map(new Func1<BaseBeanResult, BaseBeanResult>() {
+    public Observable<BaseBeanResult> getRecordList(String shopId, String page, String pageSize) {
+        return Api.getInstance().service.getRecord(shopId, page, pageSize).map(new Func1<BaseBeanResult, BaseBeanResult>() {
             @Override
             public BaseBeanResult call(BaseBeanResult baseBeanResult) {
                 return baseBeanResult;

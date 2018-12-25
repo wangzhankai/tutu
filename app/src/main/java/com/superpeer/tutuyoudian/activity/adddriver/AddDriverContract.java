@@ -10,9 +10,9 @@ import rx.Observable;
 public interface AddDriverContract {
 
     interface Model extends BaseModel{
-        Observable<BaseBeanResult> getRunnerInfo(String id);
+        Observable<BaseBeanResult> getRunnerInfo(String id, String shopId);
 
-        Observable<BaseBeanResult> addRunner(String shopId, String id);
+        Observable<BaseBeanResult> addRunner(String shopId, String id, String runnerType);
     }
 
     interface View extends BaseView{
@@ -23,9 +23,9 @@ public interface AddDriverContract {
 
     abstract class Presenter extends BasePresenter<View, Model>{
 
-        public abstract void getRunnerInfo(String id);
+        public abstract void getRunnerInfo(String id, String shopId);
 
-        public abstract void addRunner(String shopId, String id);
+        public abstract void addRunner(String shopId, String id, String runnerType);
     }
 
 }

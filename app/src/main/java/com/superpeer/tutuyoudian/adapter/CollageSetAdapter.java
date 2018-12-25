@@ -86,8 +86,14 @@ public class CollageSetAdapter extends BaseQuickAdapter {
         ((TextView) helper.getView(R.id.tvTitle)).setText(bean.getTitle());
         ((TextView) helper.getView(R.id.tvDesc)).setText(bean.getGroupDesc());
         ((TextView) helper.getView(R.id.tvPrice)).setText("￥"+bean.getGroupPrice());
-        tvOrignPrice.setText("￥"+new BigDecimal(bean.getPrice()).multiply(new BigDecimal(bean.getGoodsNum())));
-        tvOrignPrice.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG); //中划线
+        try {
+            if (null != bean.getPrice() && null != bean.getGoodsNum()) {
+                tvOrignPrice.setText("￥" + new BigDecimal(bean.getPrice()).multiply(new BigDecimal(bean.getGoodsNum())));
+                tvOrignPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //中划线
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         ((TextView) helper.getView(R.id.tvTotalNum)).setText("已团"+bean.getSuccessNum()+"件");
 
         final CountdownView countView = ((CountdownView) helper.getView(R.id.countView));
@@ -141,6 +147,11 @@ public class CollageSetAdapter extends BaseQuickAdapter {
             }
         });
         if(null!=bean.getRemainingTime()){
+            if("0".equals(bean.getRemainingTime())){
+                tvPublish.setVisibility(View.VISIBLE);
+            }else{
+                tvPublish.setVisibility(View.GONE);
+            }
             countView.setVisibility(View.VISIBLE);
             countView.start(Long.parseLong(bean.getRemainingTime()));
         }

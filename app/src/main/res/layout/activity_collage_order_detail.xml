@@ -148,6 +148,7 @@
                         android:id="@+id/tvGetTime"
                         android:text="提货时间:"
                         style="@style/textGrey9Style13"
+                        android:visibility="gone"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="@dimen/dp_40"

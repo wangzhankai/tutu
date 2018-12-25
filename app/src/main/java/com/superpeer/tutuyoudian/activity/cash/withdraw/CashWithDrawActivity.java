@@ -79,10 +79,20 @@ public class CashWithDrawActivity extends BaseActivity<CashWithDrawPresenter, Ca
         mRxManager.on("selectAccount", new Action1<BaseList>() {
             @Override
             public void call(BaseList bean) {
-                tvType.setText(bean.getBankName());
-                tvAccount.setText(bean.getBankCard());
-                etUserName.setText(bean.getAccountName());
-                accountType = bean.getAccountType();
+                try {
+                    accountType = bean.getAccountType();
+                    if ("0".equals(accountType)) {
+                        tvType.setText("微信");
+                        tvAccount.setText(bean.getBankName());
+                        etUserName.setText(bean.getBankName());
+                    } else {
+                        tvType.setText(bean.getBankName());
+                        tvAccount.setText(bean.getBankCard());
+                        etUserName.setText(bean.getAccountName());
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -112,12 +122,13 @@ public class CashWithDrawActivity extends BaseActivity<CashWithDrawPresenter, Ca
                     showShortToast("请选择付款方式");
                     return;
                 }
-                InputPasswordDialog.newInstance()
-                        .setTextChangeListener(new TextChangeListener() {
+                final InputPasswordDialog inputDialog = InputPasswordDialog.newInstance();
+                    inputDialog.setTextChangeListener(new TextChangeListener() {
                             @Override
                             public void textChange(String text) {
                                 if(text.length() == 6){
-                                    mPresenter.saveWithDraw(PreferencesUtils.getString(mContext, Constants.SHOP_ID), money, accountType);
+                                    mPresenter.saveWithDraw(PreferencesUtils.getString(mContext, Constants.SHOP_ID), money, accountType, text);
+                                    inputDialog.dismiss();
                                 }
                             }
                         }).show(getSupportFragmentManager(), "");
@@ -146,6 +157,9 @@ public class CashWithDrawActivity extends BaseActivity<CashWithDrawPresenter, Ca
         try{
             if(null!=baseBeanResult){
                 if(null!=baseBeanResult.getData()){
+                    if(null!=baseBeanResult.getMsg()){
+                        showShortToast(baseBeanResult.getMsg());
+                    }
                     if(null!=baseBeanResult.getData().getObject()){
                         initData(baseBeanResult.getData().getObject());
                     }

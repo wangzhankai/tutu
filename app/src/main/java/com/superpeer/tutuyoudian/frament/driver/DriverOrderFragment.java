@@ -28,6 +28,8 @@ import com.superpeer.tutuyoudian.listener.OnCancelListener;
 import com.superpeer.tutuyoudian.listener.OnCompleteListener;
 import com.superpeer.tutuyoudian.listener.OnGetListener;
 import com.superpeer.tutuyoudian.listener.OnItemListener;
+import com.superpeer.tutuyoudian.listener.OnSureListener;
+import com.superpeer.tutuyoudian.utils.DialogUtils;
 
 import rx.functions.Action1;
 
@@ -117,14 +119,26 @@ public class DriverOrderFragment extends BaseFragment<DriverOrderPresenter, Driv
         });
         adapter.setOnCancelListener(new OnCancelListener() {
             @Override
-            public void onCancel(int position) {
-                showGiveUpDialog(position);
+            public void onCancel(final int position) {
+                DialogUtils.showDialog(getActivity(), "放弃配送", new OnSureListener() {
+                    @Override
+                    public void onSure() {
+                        delPos = position;
+                        mPresenter.giveUpOrder(((BaseList)adapter.getItem(position)).getOrderId());
+                    }
+                });
+//                showGiveUpDialog(position);
             }
         });
         adapter.setOnCompleteListener(new OnCompleteListener() {
             @Override
-            public void onComplete(int position) {
-                mPresenter.confirmOrder(((BaseList)adapter.getItem(position)).getOrderId());
+            public void onComplete(final int position) {
+                DialogUtils.showDialog(getActivity(), "订单送达", new OnSureListener() {
+                    @Override
+                    public void onSure() {
+                        mPresenter.confirmOrder(((BaseList)adapter.getItem(position)).getOrderId());
+                    }
+                });
             }
         });
         adapter.setOnGetListener(new OnGetListener() {
@@ -261,8 +275,10 @@ public class DriverOrderFragment extends BaseFragment<DriverOrderPresenter, Driv
     @Override
     public void showGiveUpResult(BaseBeanResult baseBeanResult) {
         try{
-            adapter.getData().remove(delPos);
-            adapter.notifyDataSetChanged();
+            if("1".equals(baseBeanResult.getCode())){
+                adapter.getData().remove(delPos);
+                adapter.notifyDataSetChanged();
+            }
         }catch (Exception e){
             e.printStackTrace();
         }

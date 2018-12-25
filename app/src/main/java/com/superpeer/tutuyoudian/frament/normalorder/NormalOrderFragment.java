@@ -26,7 +26,9 @@ import com.superpeer.tutuyoudian.listener.OnCompleteListener;
 import com.superpeer.tutuyoudian.listener.OnDeleteListener;
 import com.superpeer.tutuyoudian.listener.OnGetListener;
 import com.superpeer.tutuyoudian.listener.OnItemListener;
+import com.superpeer.tutuyoudian.listener.OnSureListener;
 import com.superpeer.tutuyoudian.listener.OnVerifyListener;
+import com.superpeer.tutuyoudian.utils.DialogUtils;
 
 import rx.functions.Action1;
 
@@ -141,15 +143,20 @@ public class NormalOrderFragment extends BaseFragment<NormalOrderPresenter, Norm
         //取消订单
         adapter.setOnCancelListener(new OnCancelListener() {
             @Override
-            public void onCancel(int position) {
-                cancelPos = position;
-                mPresenter.cancelOrder(((BaseList)adapter.getItem(position)).getOrderId());
+            public void onCancel(final int position) {
+                DialogUtils.showDialog(getActivity(), "是否取消订单", new OnSureListener() {
+                    @Override
+                    public void onSure() {
+                        cancelPos = position;
+                        mPresenter.cancelOrder(((BaseList)adapter.getItem(position)).getOrderId());
+                    }
+                });
             }
         });
         //接单
         adapter.setOnGetListener(new OnGetListener() {
             @Override
-            public void onGet(int position) {
+            public void onGet(final int position) {
                 getPos = position;
                 mPresenter.getOrder(((BaseList)adapter.getItem(position)).getOrderId());
             }
@@ -166,17 +173,27 @@ public class NormalOrderFragment extends BaseFragment<NormalOrderPresenter, Norm
         //删除订单
         adapter.setOnDeleteListener(new OnDeleteListener() {
             @Override
-            public void onDeleteListener(int position) {
-                delPos = position;
-                mPresenter.delOrder(((BaseList)adapter.getItem(position)).getOrderId());
+            public void onDeleteListener(final int position) {
+                DialogUtils.showDialog(getActivity(), "是否删除订单", new OnSureListener() {
+                    @Override
+                    public void onSure() {
+                        delPos = position;
+                        mPresenter.delOrder(((BaseList)adapter.getItem(position)).getOrderId());
+                    }
+                });
             }
         });
         //订单送达
         adapter.setOnCompleteListener(new OnCompleteListener() {
             @Override
-            public void onComplete(int position) {
-                completePos = position;
-                mPresenter.confirmOrder(((BaseList)adapter.getItem(position)).getOrderId());
+            public void onComplete(final int position) {
+                DialogUtils.showDialog(getActivity(), "订单送达", new OnSureListener() {
+                    @Override
+                    public void onSure() {
+                        completePos = position;
+                        mPresenter.confirmOrder(((BaseList)adapter.getItem(position)).getOrderId());
+                    }
+                });
             }
         });
 
@@ -267,8 +284,13 @@ public class NormalOrderFragment extends BaseFragment<NormalOrderPresenter, Norm
                     showShortToast(baseBeanResult.getMsg());
                 }
                 if("1".equals(baseBeanResult.getCode())){
-                    adapter.getData().remove(cancelPos);
-                    adapter.notifyDataSetChanged();
+                    if(!"".equals(type)) {
+                        adapter.getData().remove(cancelPos);
+                        adapter.notifyDataSetChanged();
+                    }else{
+                        PAGE = 1;
+                        mPresenter.getOrderList(PreferencesUtils.getString(getActivity(), Constants.SHOP_ID), PAGE+"", "10", "TYPE".equals(type)?"4":type, "TYPE".equals(type)?"1":("4".equals(type)?"2":""));
+                    }
                 }
             }
         }catch (Exception e){
@@ -284,8 +306,13 @@ public class NormalOrderFragment extends BaseFragment<NormalOrderPresenter, Norm
                     showShortToast(baseBeanResult.getMsg());
                 }
                 if("1".equals(baseBeanResult.getCode())){
-                    adapter.getData().remove(getPos);
-                    adapter.notifyDataSetChanged();
+                    if(!"".equals(type)) {
+                        adapter.getData().remove(getPos);
+                        adapter.notifyDataSetChanged();
+                    }else{
+                        PAGE = 1;
+                        mPresenter.getOrderList(PreferencesUtils.getString(getActivity(), Constants.SHOP_ID), PAGE+"", "10", "TYPE".equals(type)?"4":type, "TYPE".equals(type)?"1":("4".equals(type)?"2":""));
+                    }
                 }
             }
         }catch (Exception e){
@@ -301,8 +328,13 @@ public class NormalOrderFragment extends BaseFragment<NormalOrderPresenter, Norm
                     showShortToast(baseBeanResult.getMsg());
                 }
                 if("1".equals(baseBeanResult.getCode())){
-                    adapter.getData().remove(delPos);
-                    adapter.notifyDataSetChanged();
+                    if(!"".equals(type)) {
+                        adapter.getData().remove(delPos);
+                        adapter.notifyDataSetChanged();
+                    }else{
+                        PAGE = 1;
+                        mPresenter.getOrderList(PreferencesUtils.getString(getActivity(), Constants.SHOP_ID), PAGE+"", "10", "TYPE".equals(type)?"4":type, "TYPE".equals(type)?"1":("4".equals(type)?"2":""));
+                    }
                 }
             }
         }catch (Exception e){
@@ -318,8 +350,13 @@ public class NormalOrderFragment extends BaseFragment<NormalOrderPresenter, Norm
                     showShortToast(baseBeanResult.getMsg());
                 }
                 if("1".equals(baseBeanResult.getCode())){
-                    adapter.getData().remove(completePos);
-                    adapter.notifyDataSetChanged();
+                    if(!"".equals(type)) {
+                        adapter.getData().remove(completePos);
+                        adapter.notifyDataSetChanged();
+                    }else{
+                        PAGE = 1;
+                        mPresenter.getOrderList(PreferencesUtils.getString(getActivity(), Constants.SHOP_ID), PAGE+"", "10", "TYPE".equals(type)?"4":type, "TYPE".equals(type)?"1":("4".equals(type)?"2":""));
+                    }
                 }
             }
         }catch (Exception e){

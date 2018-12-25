@@ -184,11 +184,12 @@ public class NormalOrderAdapter extends BaseQuickAdapter {
         StringBuilder sb = new StringBuilder();
         if(null!=bean.getGoodsVos()&&bean.getGoodsVos().size()>0){
             if(null!=bean.getGoodsVos().get(0).getNum())
-            ((TextView) helper.getView(R.id.tvNum)).setText("x"+bean.getGoodsVos().get(0).getNum());
-            Glide.with(mContext).load(bean.getGoodsVos().get(0).getImagePath().contains("http")?bean.getGoodsVos().get(0).getImagePath(): Url.IP+bean.getGoodsVos().get(0).getImagePath())
+                ((TextView) helper.getView(R.id.tvNum)).setText("x"+bean.getGoodsVos().get(0).getNum());
+            if(null!=bean.getGoodsVos().get(0).getImagePath())
+                Glide.with(mContext).load(bean.getGoodsVos().get(0).getImagePath().contains("http")?bean.getGoodsVos().get(0).getImagePath(): Url.IP+bean.getGoodsVos().get(0).getImagePath())
                     .centerCrop().into(ivImg);
-            ((TextView) helper.getView(R.id.tvName)).setText(bean.getGoodsVos().get(0).getName());
-
+            if(null!=bean.getGoodsVos().get(0).getName())
+                ((TextView) helper.getView(R.id.tvName)).setText(bean.getGoodsVos().get(0).getName());
             if(null!=bean.getGoodsVos().get(0).getPrice()){
                 TvUtils.setLine(tvPrice);
                 tvPrice.setText("￥"+bean.getGoodsVos().get(0).getPrice());

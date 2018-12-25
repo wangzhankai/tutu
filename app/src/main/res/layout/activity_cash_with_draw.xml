@@ -110,7 +110,7 @@
             android:layout_weight="1"
             android:drawableRight="@mipmap/iv_arrow"
             android:drawablePadding="@dimen/dp_10"
-            android:gravity="right" />
+            android:gravity="right|center_vertical" />
 
     </LinearLayout>
 

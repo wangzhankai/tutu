@@ -181,6 +181,7 @@ public class DriverMainActivity extends BaseActivity<DriverMainPresenter, Driver
     @Override
     public void initView() {
         setHeadTitle("兔兔跑腿");
+        mIvLeft.setVisibility(View.GONE);
         setToolBarViewStubText("我的").setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

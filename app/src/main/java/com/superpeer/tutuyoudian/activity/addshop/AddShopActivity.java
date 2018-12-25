@@ -37,18 +37,19 @@ import com.superpeer.tutuyoudian.utils.DownLoadImgUtils;
 import com.superpeer.tutuyoudian.utils.TvUtils;
 import com.wx.wheelview.adapter.ArrayWheelAdapter;
 import com.wx.wheelview.widget.WheelView;
+import com.yzq.zxinglibrary.android.CaptureActivity;
+import com.yzq.zxinglibrary.common.Constant;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bertsir.zbar.QrConfig;
-import cn.bertsir.zbar.QrManager;
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 
 public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel> implements AddShopContract.View {
 
+    private static final int REQUEST_CODE_SCAN = 888;
     private int maxNum = 1;
     private ArrayList<String> mSelectPath = new ArrayList<>();
     //启动Activity的请求码
@@ -89,6 +90,7 @@ public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel
     private String flag = "";
     private String publicType = "";
     private TextView tvSave;
+    private String categoryName = "";
 
     @Override
     protected void doBeforeSetcontentView() {
@@ -165,14 +167,14 @@ public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel
         }
         if(null!=shopManager.getBankId()){
             bankId = shopManager.getBankId();
-            etShopType.setFocusable(false);
+            /*etShopType.setFocusable(false);
             etShopType.setFocusableInTouchMode(false);
             etShopName.setFocusable(false);
-            etShopName.setFocusableInTouchMode(false);
+            etShopName.setFocusableInTouchMode(false);*/
             etCode.setFocusable(false);
-            etCode.setFocusableInTouchMode(false);
+            /*etCode.setFocusableInTouchMode(false);
             etRule.setFocusable(false);
-            etRule.setFocusableInTouchMode(false);
+            etRule.setFocusableInTouchMode(false);*/
         }
         if(null!=shopManager.getManufacturer()){
             manufacturer = shopManager.getManufacturer();
@@ -196,6 +198,7 @@ public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel
             Glide.with(mContext).load(Url.IP+shopManager.getImagePath()).centerCrop().into(ivPhoto);
         }
         if(null!=shopManager.getTypeName()){
+            categoryName = shopManager.getTypeName();
             tvCategory.setText(shopManager.getTypeName());
         }
         if(null!=shopManager.getBrand()){
@@ -225,14 +228,14 @@ public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel
         }
         if(null!=bean.getBankId()){
             bankId = bean.getBankId();
-            etShopType.setFocusable(false);
+            /*etShopType.setFocusable(false);
             etShopType.setFocusableInTouchMode(false);
             etShopName.setFocusable(false);
-            etShopName.setFocusableInTouchMode(false);
+            etShopName.setFocusableInTouchMode(false);*/
             etCode.setFocusable(false);
             etCode.setFocusableInTouchMode(false);
-            etRule.setFocusable(false);
-            etRule.setFocusableInTouchMode(false);
+            /*etRule.setFocusable(false);
+            etRule.setFocusableInTouchMode(false);*/
         }
         if(null!=bean.getManufacturer()){
             manufacturer = bean.getManufacturer();
@@ -256,6 +259,7 @@ public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel
             Glide.with(mContext).load(Url.IP+bean.getImagePath()).centerCrop().into(ivPhoto);
         }
         if(null!=bean.getTypeName()){
+            categoryName = bean.getTypeName();
             tvCategory.setText(bean.getTypeName());
         }
         if(null!=bean.getBrand()){
@@ -368,9 +372,9 @@ public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel
         ivPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!TextUtils.isEmpty(bankId)){
+                /*if(!TextUtils.isEmpty(bankId)){
                     return;
-                }
+                }*/
                 MPermissionUtils.requestPermissionsResult((Activity) mContext, 1, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, new MPermissionUtils.OnPermissionListener() {
                     @Override
                     public void onPermissionGranted() {
@@ -456,10 +460,10 @@ public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel
                     showShortToast("请输入商品品牌");
                     return;
                 }*/
-                if(TextUtils.isEmpty(specifications)){
+                /*if(TextUtils.isEmpty(specifications)){
                     showShortToast("请输入商品规格");
                     return;
-                }
+                }*/
                 if(TextUtils.isEmpty(price)){
                     showShortToast("请输入价格");
                     return;
@@ -480,7 +484,7 @@ public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel
 
     private void initQrCode() {
         try {
-            QrConfig qrConfig = new QrConfig.Builder()
+            /*QrConfig qrConfig = new QrConfig.Builder()
                     .setDesText("(识别二维码或条形码)")//扫描框下文字
                     .setShowDes(false)//是否显示扫描框下面文字
                     .setShowLight(true)//显示手电筒按钮
@@ -503,6 +507,18 @@ public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel
                 @Override
                 public void onScanSuccess(String result) {
                     etCode.setText(result);
+                }
+            });*/
+            MPermissionUtils.requestPermissionsResult((Activity) mContext, 1, new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, new MPermissionUtils.OnPermissionListener() {
+                @Override
+                public void onPermissionGranted() {
+                    Intent intent = new Intent(mContext, CaptureActivity.class);
+                    startActivityForResult(intent, REQUEST_CODE_SCAN);
+                }
+
+                @Override
+                public void onPermissionDenied() {
+                    MPermissionUtils.showTipsDialog(mContext);
                 }
             });
         }catch (Exception e){
@@ -561,6 +577,7 @@ public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel
         tvSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                categoryName = categoryList.get(wheelView.getCurrentPosition()).getGoodsName();
                 categoryId = categoryList.get(wheelView.getCurrentPosition()).getGoodsTypeId();
                 tvCategory.setText(categoryList.get(wheelView.getCurrentPosition()).getName());
                 popWindow.dismiss();
@@ -607,7 +624,13 @@ public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK){
+        // 扫描二维码/条码回传
+        if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
+            if (data != null) {
+                String content = data.getStringExtra(Constant.CODED_CONTENT);
+                etCode.setText(content);
+            }
+        }else if(resultCode == RESULT_OK){
             if(requestCode == REQUEST_IMAGE){
                 mSelectPath = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
                 File newFile = CompressHelper.getDefault(mContext).compressToFile(new File(mSelectPath.get(0)));
@@ -679,6 +702,7 @@ public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel
                         if ("0".equals(publicType)) {
                             Intent intent = new Intent(mContext, ShopManagerActivity.class);
                             intent.putExtra("type", categoryId);
+                            intent.putExtra("typeName", categoryName);
                             startActivity(intent);
                             finish();
                         }else{
@@ -688,6 +712,7 @@ public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel
                         if ("0".equals(publicType)) {
                             Intent intent = new Intent(mContext, ShopManagerActivity.class);
                             intent.putExtra("type", categoryId);
+                            intent.putExtra("typeName", categoryName);
                             startActivity(intent);
                             finish();
                         }else{
@@ -728,4 +753,5 @@ public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel
         etShopName.setFocusable(true);
         etShopName.setFocusableInTouchMode(true);
     }
+
 }

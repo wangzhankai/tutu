@@ -11,6 +11,7 @@ import android.view.View;
 import com.superpeer.base_libs.base.BaseFragment;
 import com.superpeer.base_libs.base.baseadapter.BaseQuickAdapter;
 import com.superpeer.base_libs.base.baseadapter.OnItemClickListener;
+import com.superpeer.base_libs.utils.DialogUtil;
 import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.base_libs.view.refresh.NormalRefreshViewHolder;
 import com.superpeer.base_libs.view.refresh.RefreshLayout;
@@ -27,7 +28,9 @@ import com.superpeer.tutuyoudian.listener.OnCancelListener;
 import com.superpeer.tutuyoudian.listener.OnDeleteListener;
 import com.superpeer.tutuyoudian.listener.OnGetListener;
 import com.superpeer.tutuyoudian.listener.OnItemListener;
+import com.superpeer.tutuyoudian.listener.OnSureListener;
 import com.superpeer.tutuyoudian.listener.OnVerifyListener;
+import com.superpeer.tutuyoudian.utils.DialogUtils;
 
 import rx.functions.Action1;
 
@@ -128,9 +131,14 @@ public class CollageOrderFragment extends BaseFragment<CollageOrderPresenter, Co
         //取消订单
         adapter.setOnCancelListener(new OnCancelListener() {
             @Override
-            public void onCancel(int position) {
-                cancelPos = position;
-                mPresenter.cancelOrder(((BaseList)adapter.getItem(position)).getOrderId());
+            public void onCancel(final int position) {
+                DialogUtils.showDialog(getActivity(), "是否取消订单", new OnSureListener() {
+                    @Override
+                    public void onSure() {
+                        cancelPos = position;
+                        mPresenter.cancelOrder(((BaseList)adapter.getItem(position)).getOrderId());
+                    }
+                });
             }
         });
 
@@ -145,9 +153,14 @@ public class CollageOrderFragment extends BaseFragment<CollageOrderPresenter, Co
         //删除订单
         adapter.setOnDeleteListener(new OnDeleteListener() {
             @Override
-            public void onDeleteListener(int position) {
-                delPos = position;
-                mPresenter.delOrder(((BaseList)adapter.getItem(position)).getOrderId());
+            public void onDeleteListener(final int position) {
+                DialogUtils.showDialog(getActivity(), "是否删除订单", new OnSureListener() {
+                    @Override
+                    public void onSure() {
+                        delPos = position;
+                        mPresenter.delOrder(((BaseList)adapter.getItem(position)).getOrderId());
+                    }
+                });
             }
         });
 

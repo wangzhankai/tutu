@@ -35,7 +35,7 @@ public class OrderShopAdapter extends BaseQuickAdapter {
             tvName.setText(bean.getName());
         }
         if(null!=bean.getPrice()){
-            tvPrice.setText(bean.getPrice());
+            tvPrice.setText("￥"+bean.getPrice());
             tvPrice.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG);
         }
         if(null!=bean.getNum()){

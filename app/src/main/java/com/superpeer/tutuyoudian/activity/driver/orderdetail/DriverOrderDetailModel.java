@@ -20,7 +20,7 @@ public class DriverOrderDetailModel implements DriverOrderDetailContract.Model {
 
     @Override
     public Observable<BaseBeanResult> cancelOrder(String orderId) {
-        return Api.getInstance().service.cancelOrder(orderId).map(new Func1<BaseBeanResult, BaseBeanResult>() {
+        return Api.getInstance().service.giveUpOrder(orderId).map(new Func1<BaseBeanResult, BaseBeanResult>() {
             @Override
             public BaseBeanResult call(BaseBeanResult baseBeanResult) {
                 return baseBeanResult;

@@ -1,5 +1,7 @@
 package com.superpeer.tutuyoudian.activity.verify;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.superpeer.base_libs.utils.MPermissionUtils;
 import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.tutuyoudian.R;
 import com.superpeer.tutuyoudian.activity.verify.successorfail.VerifySuccessOrFailActivity;
@@ -22,18 +25,19 @@ import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 import com.superpeer.tutuyoudian.constant.Constants;
 import com.superpeer.tutuyoudian.widget.PasswordView;
+import com.yzq.zxinglibrary.android.CaptureActivity;
+import com.yzq.zxinglibrary.common.Constant;
 
 import java.io.Serializable;
 
 import cloudist.cc.library.view.PasswordInputView;
-import cn.bertsir.zbar.QrConfig;
-import cn.bertsir.zbar.QrManager;
 
 public class VerifyActivity extends BaseActivity<VerifyPresenter, VerifyModel> implements VerifyContract.View{
 
     private TextView tvVerify;
     private PasswordView password_inputview;
     private ImageView ivScan;
+    private static final int REQUEST_CODE_SCAN = 888;
 
     @Override
     public int getLayoutId() {
@@ -88,7 +92,7 @@ public class VerifyActivity extends BaseActivity<VerifyPresenter, VerifyModel> i
 
     private void initQRCode() {
         try {
-            QrConfig qrConfig = new QrConfig.Builder()
+            /*QrConfig qrConfig = new QrConfig.Builder()
                     .setDesText("(识别二维码或条形码)")//扫描框下文字
                     .setShowDes(false)//是否显示扫描框下面文字
                     .setShowLight(true)//显示手电筒按钮
@@ -111,6 +115,18 @@ public class VerifyActivity extends BaseActivity<VerifyPresenter, VerifyModel> i
                 @Override
                 public void onScanSuccess(String result) {
                     mPresenter.checkPickGoods(result, PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+                }
+            });*/
+            MPermissionUtils.requestPermissionsResult((Activity) mContext, 1, new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, new MPermissionUtils.OnPermissionListener() {
+                @Override
+                public void onPermissionGranted() {
+                    Intent intent = new Intent(mContext, CaptureActivity.class);
+                    startActivityForResult(intent, REQUEST_CODE_SCAN);
+                }
+
+                @Override
+                public void onPermissionDenied() {
+                    MPermissionUtils.showTipsDialog(mContext);
                 }
             });
         }catch (Exception e){
@@ -149,6 +165,22 @@ public class VerifyActivity extends BaseActivity<VerifyPresenter, VerifyModel> i
                     Intent intent = new Intent(mContext, VerifySuccessOrFailActivity.class);
                     intent.putExtra("type", "0");
                     startActivity(intent);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try{
+            // 扫描二维码/条码回传
+            if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
+                if (data != null) {
+                    String content = data.getStringExtra(Constant.CODED_CONTENT);
+                    mPresenter.checkPickGoods(content, PreferencesUtils.getString(mContext, Constants.SHOP_ID));
                 }
             }
         }catch (Exception e){

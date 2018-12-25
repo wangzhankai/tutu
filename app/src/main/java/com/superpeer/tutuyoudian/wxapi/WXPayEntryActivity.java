@@ -1,6 +1,7 @@
 package com.superpeer.tutuyoudian.wxapi;
 
 import com.google.gson.Gson;
+import com.superpeer.base_libs.base.AppManager;
 import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.tutuyoudian.R;
 import com.superpeer.tutuyoudian.activity.driver.main.DriverMainActivity;
@@ -25,6 +26,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -39,6 +41,7 @@ public class WXPayEntryActivity extends BaseActivity<PayPresenter, PayModel> imp
 	private TextView tvPaySuccess;
 	private ImageView ivLeft;
 	private TextView tvTitle;
+	private int code;
 
 	@Override
 	public int getLayoutId() {
@@ -67,7 +70,12 @@ public class WXPayEntryActivity extends BaseActivity<PayPresenter, PayModel> imp
 		ivLeft.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(MainActivity.class);
+				AppManager.getAppManager().finishAllActivity();
+				if(code == 0){
+					startActivity(MainActivity.class);
+				}else{
+					finish();
+				}
 			}
 		});
 	}
@@ -87,11 +95,18 @@ public class WXPayEntryActivity extends BaseActivity<PayPresenter, PayModel> imp
 	@SuppressLint("LongLogTag")
 	@Override
 	public void onResp(BaseResp resp) {
+		code = resp.errCode;
+		Log.i("base", "111111111111111");
 		Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
 		if("0".equals(resp.errCode+"")){
 			ivPayStatus.setImageResource(R.mipmap.iv_verify_success);
 			tvPaySuccess.setText("支付成功");
-			mPresenter.payResult(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+			new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					mPresenter.payResult(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+				}
+			}, 3000);
 		}else if("-2".equals(resp.errCode+"")){
 			ivPayStatus.setImageResource(R.mipmap.iv_verify_fail);
 			tvPaySuccess.setText("支付取消");
@@ -126,14 +141,16 @@ public class WXPayEntryActivity extends BaseActivity<PayPresenter, PayModel> imp
 								}else if("3".equals(baseBeanResult.getData().getObject().getState())){
 									startActivity(StoreUseActivity.class);
 								}else{
+									AppManager.getAppManager().finishAllActivity();
 									startActivity(MainActivity.class);
 								}
 							}
 							PreferencesUtils.putString(mContext, Constants.SHOP_ID, baseBeanResult.getData().getObject().getShopId());
 							PreferencesUtils.putString(mContext, Constants.SHOP_STATE, baseBeanResult.getData().getObject().getState());
 						}else{
-							startActivity(DriverMainActivity.class);
 							PreferencesUtils.putString(mContext, Constants.SHOP_ID, baseBeanResult.getData().getObject().getId());
+							AppManager.getAppManager().finishAllActivity();
+							startActivity(DriverMainActivity.class);
 						}
 						mRxManager.post("notice", "");
 						finish();

@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View;
@@ -32,6 +33,7 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
+import com.yzq.zxinglibrary.encode.CodeCreator;
 
 import org.w3c.dom.Text;
 
@@ -39,8 +41,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import cn.bertsir.zbar.utils.QRUtils;
 
 public class ShopCodeActivity extends BaseActivity<ShopCodePresenter, ShopCodeModel> implements ShopCodeContract.View{
 
@@ -79,10 +79,10 @@ public class ShopCodeActivity extends BaseActivity<ShopCodePresenter, ShopCodeMo
         }
     };
 
-    private LinearLayout linearItem;
+    private RelativeLayout linearItem;
     private File file;
     private ImageView ivQrCode;
-    private TextView tvStoreName;
+//    private TextView tvStoreName;
 
     @Override
     public int getLayoutId() {
@@ -100,17 +100,25 @@ public class ShopCodeActivity extends BaseActivity<ShopCodePresenter, ShopCodeMo
         //3、获取屏幕的默认分辨率
         DisplayMetrics dm = getResources().getDisplayMetrics();
 
-        linearItem = (LinearLayout) findViewById(R.id.linearItem);
+        linearItem = (RelativeLayout) findViewById(R.id.linearItem);
 
-        tvStoreName = (TextView) findViewById(R.id.tvStoreName);
+//        tvStoreName = (TextView) findViewById(R.id.tvStoreName);
         ivQrCode = (ImageView) findViewById(R.id.ivQrCode);
 
-        Bitmap qrCode = QRUtils.getInstance().createQRCodeAddLogo(PreferencesUtils.getString(mContext, Constants.SHOP_ID),
-                dm.widthPixels/2,
-                dm.heightPixels/2,
-                BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+        try {
+            /*
+             * contentEtString：字符串内容
+             * w：图片的宽
+             * h：图片的高
+             * logo：不需要logo的话直接传null
+             * */
 
-        ivQrCode.setImageBitmap(qrCode);
+            Bitmap logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+            Bitmap qrCode = CodeCreator.createQRCode(PreferencesUtils.getString(mContext, Constants.SHOP_ID), dm.widthPixels/2, dm.widthPixels/2, logo);
+            ivQrCode.setImageBitmap(qrCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         setToolBarViewStubImageRes(R.mipmap.iv_share).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,13 +126,6 @@ public class ShopCodeActivity extends BaseActivity<ShopCodePresenter, ShopCodeMo
                 savePhoto();
             }
         });
-
-        BaseObject bean = getUserInfo();
-        if(null!=bean){
-            if(null!=bean.getName()){
-                tvStoreName.setText(bean.getName());
-            }
-        }
 
     }
 

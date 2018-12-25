@@ -16,8 +16,7 @@ import com.superpeer.tutuyoudian.R;
 import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseObject;
 import com.superpeer.tutuyoudian.constant.Constants;
-
-import cn.bertsir.zbar.utils.QRUtils;
+import com.yzq.zxinglibrary.encode.CodeCreator;
 
 public class QrCodeActivity extends BaseActivity {
 
@@ -43,12 +42,21 @@ public class QrCodeActivity extends BaseActivity {
         DisplayMetrics dm = getResources().getDisplayMetrics();
 
         ivQrCode = (ImageView) findViewById(R.id.ivQrCode);
-        Bitmap qrCode = QRUtils.getInstance().createQRCodeAddLogo(PreferencesUtils.getString(mContext, Constants.SHOP_ID),
-                dm.widthPixels/2,
-                dm.heightPixels/2,
-                BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+        try {
+            /*
+             * contentEtString：字符串内容
+             * w：图片的宽
+             * h：图片的高
+             * logo：不需要logo的话直接传null
+             * */
 
-        ivQrCode.setImageBitmap(qrCode);
+            Bitmap logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+            Bitmap qrCode = CodeCreator.createQRCode(PreferencesUtils.getString(mContext, Constants.SHOP_ID), dm.widthPixels/2, dm.widthPixels/2, logo);
+            ivQrCode.setImageBitmap(qrCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         tvUserName = (TextView) findViewById(R.id.tvUserName);
         tvPhone = (TextView) findViewById(R.id.tvPhone);

@@ -75,7 +75,10 @@ public class ShopLibraryActivity extends BaseActivity<ShopLibraryPresenter, Shop
         tvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(ShopManagerActivity.class);
+//                startActivity(ShopManagerActivity.class);
+                Intent intent = new Intent(mContext, ShopManagerActivity.class);
+                intent.putExtra("typeName", "typeName");
+                startActivity(intent);
                 finish();
             }
         });
@@ -268,6 +271,7 @@ public class ShopLibraryActivity extends BaseActivity<ShopLibraryPresenter, Shop
                         bean.setGoodsId(baseBeanResult.getData().getObject().getGoodsId());
                         bean.setPrice(baseBeanResult.getData().getObject().getPrice());
                         bean.setStock(baseBeanResult.getData().getObject().getStock());
+                        bean.setType(baseBeanResult.getData().getObject().getType());
                         if(null!=baseBeanResult.getData().getObject().getVipPrice()){
                             bean.setVipPrice(baseBeanResult.getData().getObject().getVipPrice());
                         }else{

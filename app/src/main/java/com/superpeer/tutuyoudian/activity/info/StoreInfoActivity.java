@@ -2,6 +2,8 @@ package com.superpeer.tutuyoudian.activity.info;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Environment;
@@ -79,18 +81,22 @@ public class StoreInfoActivity extends BaseActivity<StoreInfoPresenter, StoreInf
             @Override
             public void onClick(View v) {
                 List<String> list = new ArrayList<>();
-                if(TextUtils.isEmpty(image1)){
+                if (TextUtils.isEmpty(image1)) {
                     showShortToast("请上传身份证");
                     return;
                 }
-                if(TextUtils.isEmpty(image1)){
+                if (TextUtils.isEmpty(image2)) {
                     showShortToast("请上传营业执照");
                     return;
                 }
-                list.add(image1);
-                list.add(image2);
-                list.add(image3);
-                mPresenter.upload(PreferencesUtils.getString(mContext, Constants.SHOP_ID), list);
+                if (TextUtils.isEmpty(image3)) {
+                    showNormalDialog();
+                } else {
+                    list.add(image1);
+                    list.add(image2);
+                    list.add(image3);
+                    mPresenter.upload(PreferencesUtils.getString(mContext, Constants.SHOP_ID), list);
+                }
             }
         });
 
@@ -101,6 +107,40 @@ public class StoreInfoActivity extends BaseActivity<StoreInfoPresenter, StoreInf
         }
 
         initListener();
+    }
+
+    private void showNormalDialog(){
+        //创建dialog构造器
+        AlertDialog.Builder normalDialog = new AlertDialog.Builder(this);
+        //设置title
+        normalDialog.setTitle("提示");
+        //设置icon
+        normalDialog.setIcon(R.mipmap.ic_launcher);
+        //设置内容
+        normalDialog.setMessage("您还未上传食品许可证");
+        //设置按钮
+        normalDialog.setPositiveButton("继续上传"
+                , new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        List<String> list = new ArrayList<>();
+                        list.add(image1);
+                        list.add(image2);
+
+//                        list.add(image3);
+                        mPresenter.upload(PreferencesUtils.getString(mContext, Constants.SHOP_ID), list);
+                        dialog.dismiss();
+                    }
+                });
+        normalDialog.setNegativeButton("暂不上传"
+                , new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+        });
+        //创建并显示
+        normalDialog.create().show();
     }
 
     /**

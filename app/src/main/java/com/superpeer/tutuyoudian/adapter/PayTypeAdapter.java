@@ -36,10 +36,17 @@ public class PayTypeAdapter extends BaseQuickAdapter {
 
         ImageView ivSelect = ((ImageView) helper.getView(R.id.ivSelect));
 
-        ((TextView) helper.getView(R.id.tvName)).setText(bean.getBankName());
+        if(null!=bean.getAccountType()){
+            if("0".equals(bean.getAccountType())){
+                ((TextView) helper.getView(R.id.tvName)).setText("微信");
 
-        ((TextView) helper.getView(R.id.tvCard)).setText(bean.getBankCard());
+                ((TextView) helper.getView(R.id.tvCard)).setText(bean.getBankName());
+            }else{
+                ((TextView) helper.getView(R.id.tvName)).setText(bean.getBankName());
 
+                ((TextView) helper.getView(R.id.tvCard)).setText(bean.getBankCard());
+            }
+        }
         if(position == selectPos){
             ivSelect.setImageResource(R.mipmap.iv_select);
         }else{

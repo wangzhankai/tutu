@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.nanchen.compresshelper.CompressHelper;
+import com.superpeer.base_libs.utils.ConstantsUtils;
 import com.superpeer.base_libs.utils.MPermissionUtils;
 import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.tutuyoudian.R;
@@ -163,6 +164,10 @@ public class DriverIdentifyActivity extends BaseActivity<DriverIdentifyPresenter
                 }
                 if(TextUtils.isEmpty(identifyNum)){
                     showShortToast("请输入您的身份证号");
+                    return;
+                }
+                if(!ConstantsUtils.isIdentifyNum(identifyNum)){
+                    showShortToast("请输入正确的身份证号");
                     return;
                 }
                 if(TextUtils.isEmpty(image1)){

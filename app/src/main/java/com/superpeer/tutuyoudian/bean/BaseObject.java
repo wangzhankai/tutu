@@ -17,6 +17,7 @@ public class BaseObject implements Serializable {
     private String roleType;
     private String payStatus;
     private String orderType;
+    private String remainingTime;
 
     private String shopId;
     private String state;
@@ -52,6 +53,32 @@ public class BaseObject implements Serializable {
     private String automaticStatus;
     private String foodBusinessLicense;
     private String accountId;
+    private String sendStatus;
+    private String runnerType;
+
+    public String getRunnerType() {
+        return runnerType;
+    }
+
+    public void setRunnerType(String runnerType) {
+        this.runnerType = runnerType;
+    }
+
+    public String getRemainingTime() {
+        return remainingTime;
+    }
+
+    public void setRemainingTime(String remainingTime) {
+        this.remainingTime = remainingTime;
+    }
+
+    public String getSendStatus() {
+        return sendStatus;
+    }
+
+    public void setSendStatus(String sendStatus) {
+        this.sendStatus = sendStatus;
+    }
 
     //骑手
     private String loginName;
@@ -63,6 +90,7 @@ public class BaseObject implements Serializable {
     private String balanceMoney;
     private String freezeMoney;
     private String runnerStatus;
+    private String runnerShopRelation;
 
     //支付订单信息
     private String appid;
@@ -73,6 +101,14 @@ public class BaseObject implements Serializable {
     private String noncestr;
     private String timestamp;
     private String vipPrice;
+
+    public String getRunnerShopRelation() {
+        return runnerShopRelation;
+    }
+
+    public void setRunnerShopRelation(String runnerShopRelation) {
+        this.runnerShopRelation = runnerShopRelation;
+    }
 
     public String getVipPrice() {
         return vipPrice;

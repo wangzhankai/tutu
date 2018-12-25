@@ -182,8 +182,23 @@ public class ShopManagerAdapter extends BaseQuickAdapter {
         if(null!=bean.getImagePath())
         Glide.with(mContext).load(bean.getImagePath().contains("http")?bean.getImagePath(): Url.IP+bean.getImagePath()).centerCrop().into(ivImg);
 
-        ((TextView) helper.getView(R.id.tvTitle)).setText(bean.getName());
-        ((TextView) helper.getView(R.id.tvRest)).setText("库存"+bean.getStock());
+        StringBuilder sb = new StringBuilder();
+        if(null!=bean.getName()){
+            sb.append(bean.getName());
+        }
+        if(null!=bean.getSpecifications()){
+            sb.append("-"+bean.getSpecifications());
+        }
+        ((TextView) helper.getView(R.id.tvTitle)).setText(sb.toString());
+        if(null!=bean.getStock()){
+            if(bean.getStock().contains("-")){
+                ((TextView) helper.getView(R.id.tvRest)).setText("库存0");
+            }else{
+                ((TextView) helper.getView(R.id.tvRest)).setText("库存"+bean.getStock());
+            }
+        }else{
+            ((TextView) helper.getView(R.id.tvRest)).setText("库存0");
+        }
         if(null!=bean.getPrice()){
             ((TextView) helper.getView(R.id.tvPrice)).setText("￥"+numberFormat.format(new BigDecimal(bean.getPrice())));
         }else{

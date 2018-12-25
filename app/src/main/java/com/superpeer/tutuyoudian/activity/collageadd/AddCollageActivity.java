@@ -98,7 +98,6 @@ public class AddCollageActivity extends BaseActivity<AddCollagePresenter, AddCol
 
         if(!TextUtils.isEmpty(groupId)){
             mPresenter.getDetail(groupId);
-            tvPublishAgain.setVisibility(View.VISIBLE);
         }
 
         initRxBus();
@@ -152,6 +151,13 @@ public class AddCollageActivity extends BaseActivity<AddCollagePresenter, AddCol
             }
             if(null!=bean.getGoodsId()){
                 goodsId = bean.getGoodsId();
+            }
+            if(null!=bean.getRemainingTime()){
+                if("0".equals(bean.getRemainingTime())){
+                    tvPublishAgain.setVisibility(View.GONE);
+                }else{
+                    tvPublishAgain.setVisibility(View.VISIBLE);
+                }
             }
         }catch (Exception e){
             e.printStackTrace();

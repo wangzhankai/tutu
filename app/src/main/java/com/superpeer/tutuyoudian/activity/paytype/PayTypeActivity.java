@@ -96,56 +96,6 @@ public class PayTypeActivity extends BaseActivity<PayTypePresenter, PayTypeModel
         });
     }
 
-    /**
-     * 选择收款方式
-     */
-    /*private void showTypeWindow() {
-        try{
-            List<String> list = new ArrayList<>();
-            list.add("微信");
-            list.add("银行卡");
-            View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_category, null);
-
-            NoScrollRecyclerView recyclerCategory = (NoScrollRecyclerView) view.findViewById(R.id.recyclerCategory);
-            recyclerCategory.setLayoutManager(new LinearLayoutManager(mContext));
-            final PayAdapter payTypeAdapter = new PayAdapter(R.layout.dialog_category_item, list);
-            recyclerCategory.setAdapter(payTypeAdapter);
-            recyclerCategory.addOnItemTouchListener(new OnItemClickListener() {
-                @Override
-                public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
-                    payTypeAdapter.setSelectPos(position);
-                    payTypeAdapter.notifyDataSetChanged();
-                }
-            });
-            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if("0".equals(payTypeAdapter.getSelectPos())){
-
-                    }else {
-                        Intent intent = new Intent(mContext, AddAccountActivity.class);
-                        startActivity(intent);
-                    }
-                    dialog.dismiss();
-                }
-            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.setTitle("选择收款方式");
-            dialog.setView(view);
-            dialog.show();
-            Window window = dialog.getWindow();
-            window.setGravity(Gravity.BOTTOM);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }*/
-
     public void backgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
@@ -194,9 +144,8 @@ public class PayTypeActivity extends BaseActivity<PayTypePresenter, PayTypeModel
         tvWx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                WXLogin();
                 //微信登录
-                mShareAPI.doOauthVerify(PayTypeActivity.this, SHARE_MEDIA.WEIXIN, authListener);
+                WXLogin();
                 popWindow.dismiss();
             }
         });
@@ -235,7 +184,7 @@ public class PayTypeActivity extends BaseActivity<PayTypePresenter, PayTypeModel
         wxapi.registerApp(Constants.APP_ID);
         SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
-        req.state = "wechat_sdk_demo";
+        req.state = "lazystore";
         wxapi.sendReq(req);
     }
 
@@ -327,66 +276,4 @@ public class PayTypeActivity extends BaseActivity<PayTypePresenter, PayTypeModel
         }
     }
 
-    UMAuthListener authListener = new UMAuthListener() {
-        /**
-         * @param platform 平台名称
-         * @desc 授权开始的回调
-         */
-        @Override
-        public void onStart(SHARE_MEDIA platform) {
-            Log.i("base", "start");
-        }
-
-        /**
-         * @param platform 平台名称
-         * @param action   行为序号，开发者用不上
-         * @param data     用户资料返回
-         * @desc 授权成功的回调
-         */
-        @Override
-        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
-            //获取平台信息
-            mShareAPI.getPlatformInfo((Activity) mContext, platform, new UMAuthListener() {
-                @Override
-                public void onStart(SHARE_MEDIA share_media) {
-
-                }
-
-                @Override
-                public void onComplete(SHARE_MEDIA share_media, int status, Map<String, String> map) {
-                    //status为登录状态,info为登录信息
-                    if (status == 2 && map != null) {
-                        if("0".equals(PreferencesUtils.getString(mContext, Constants.USER_TYPE))) {
-                            mPresenter.saveAccount("0", PreferencesUtils.getString(mContext, Constants.SHOP_ID), map.get("openid"), map.get("unionid"), map.get("name"));
-                        }else{
-                            mPresenter.saveAccountRunner(PreferencesUtils.getString(mContext, Constants.SHOP_ID), "1", map.get("openid"), map.get("unionid"), map.get("name"));
-                        }
-
-                    } else {
-                        Log.d("base", "发生错误：" + status);
-                    }
-                }
-
-                @Override
-                public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
-                    Toast.makeText(mContext, "授权失败", Toast.LENGTH_LONG).show();
-                }
-
-                @Override
-                public void onCancel(SHARE_MEDIA share_media, int i) {
-                    Toast.makeText(mContext, "授权取消", Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-
-        @Override
-        public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
-            Log.i("base", "error");
-        }
-
-        @Override
-        public void onCancel(SHARE_MEDIA share_media, int i) {
-            Log.i("base", "cancel");
-        }
-    };
 }

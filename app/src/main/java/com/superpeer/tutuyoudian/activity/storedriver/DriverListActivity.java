@@ -1,5 +1,7 @@
 package com.superpeer.tutuyoudian.activity.storedriver;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
@@ -11,6 +13,7 @@ import android.view.View;
 
 import com.superpeer.base_libs.base.baseadapter.BaseQuickAdapter;
 import com.superpeer.base_libs.base.baseadapter.OnItemClickListener;
+import com.superpeer.base_libs.utils.MPermissionUtils;
 import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.base_libs.view.refresh.RefreshLayout;
 import com.superpeer.tutuyoudian.R;
@@ -22,9 +25,9 @@ import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 import com.superpeer.tutuyoudian.bean.BaseList;
 import com.superpeer.tutuyoudian.constant.Constants;
+import com.yzq.zxinglibrary.android.CaptureActivity;
+import com.yzq.zxinglibrary.common.Constant;
 
-import cn.bertsir.zbar.QrConfig;
-import cn.bertsir.zbar.QrManager;
 import rx.functions.Action1;
 
 public class DriverListActivity extends BaseActivity<DriverListPresenter, DriverListModel> implements DriverListContract.View{
@@ -32,6 +35,7 @@ public class DriverListActivity extends BaseActivity<DriverListPresenter, Driver
     private RecyclerView rvContent;
     private RefreshLayout refresh;
     private DriverListAdapter adapter;
+    private static final int REQUEST_CODE_SCAN = 888;
 
     @Override
     public int getLayoutId() {
@@ -85,6 +89,7 @@ public class DriverListActivity extends BaseActivity<DriverListPresenter, Driver
                 Intent intent = new Intent(mContext, AddDriverActivity.class);
                 intent.putExtra("result", ((BaseList)adapter.getItem(position)).getId());
                 intent.putExtra("type", "1");
+                intent.putExtra("runnerType", ((BaseList)adapter.getItem(position)).getRunnerType());
                 startActivity(intent);
             }
         });
@@ -93,7 +98,7 @@ public class DriverListActivity extends BaseActivity<DriverListPresenter, Driver
 
     private void initQRCode() {
         try {
-            QrConfig qrConfig = new QrConfig.Builder()
+            /*QrConfig qrConfig = new QrConfig.Builder()
                     .setDesText("(识别二维码或条形码)")//扫描框下文字
                     .setShowDes(false)//是否显示扫描框下面文字
                     .setShowLight(true)//显示手电筒按钮
@@ -119,6 +124,18 @@ public class DriverListActivity extends BaseActivity<DriverListPresenter, Driver
                     intent.putExtra("result", result);
                     intent.putExtra("type", "0");
                     startActivity(intent);
+                }
+            });*/
+            MPermissionUtils.requestPermissionsResult((Activity) mContext, 1, new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, new MPermissionUtils.OnPermissionListener() {
+                @Override
+                public void onPermissionGranted() {
+                    Intent intent = new Intent(mContext, CaptureActivity.class);
+                    startActivityForResult(intent, REQUEST_CODE_SCAN);
+                }
+
+                @Override
+                public void onPermissionDenied() {
+                    MPermissionUtils.showTipsDialog(mContext);
                 }
             });
         }catch (Exception e){
@@ -153,6 +170,25 @@ public class DriverListActivity extends BaseActivity<DriverListPresenter, Driver
                     }
                 }
                 adapter.loadComplete();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try{
+            // 扫描二维码/条码回传
+            if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
+                if (data != null) {
+                    String content = data.getStringExtra(Constant.CODED_CONTENT);
+                    Intent intent = new Intent(mContext, AddDriverActivity.class);
+                    intent.putExtra("result", content);
+                    intent.putExtra("type", "0");
+                    startActivity(intent);
+                }
             }
         }catch (Exception e){
             e.printStackTrace();

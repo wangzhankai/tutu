@@ -64,7 +64,6 @@ public class VerifySuccessOrFailActivity extends BaseActivity<VerifySuccessOrFai
         }else{
             tvVerifyStatus.setText("验证失败");
             ivImg.setImageResource(R.mipmap.iv_verify_fail);
-            tvVerify.setVisibility(View.VISIBLE);
         }
 
         initRecyclerView();

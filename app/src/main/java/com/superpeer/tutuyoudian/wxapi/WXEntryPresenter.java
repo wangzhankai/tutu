@@ -7,6 +7,21 @@ import com.superpeer.tutuyoudian.bean.WxBean;
 public class WXEntryPresenter extends WXEntryContract.Presenter {
 
     @Override
+    public void appOauth(String shopId, String runnerId, String code) {
+        mRxManage.add(mModel.appOauth(shopId, runnerId, code).subscribe(new RxSubscriber<BaseBeanResult>(mContext, true) {
+            @Override
+            protected void _onNext(BaseBeanResult baseBeanResult) {
+                mView.showOauth(baseBeanResult);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                mView.showErrorTip(message);
+            }
+        }));
+    }
+
+    @Override
     public void getUserInfo(String token, String appid) {
         mRxManage.add(mModel.getUserInfo(token, appid).subscribe(new RxSubscriber<WxBean>(mContext, false) {
             @Override

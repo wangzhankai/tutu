@@ -11,6 +11,7 @@ import com.superpeer.tutuyoudian.activity.announce.publish.NoticePublishActivity
 import com.superpeer.tutuyoudian.activity.info.StoreInfoActivity;
 import com.superpeer.tutuyoudian.activity.login.LoginActivity;
 import com.superpeer.tutuyoudian.activity.safesetting.SafeSettingActivity;
+import com.superpeer.tutuyoudian.activity.shopcode.ShopCodeActivity;
 import com.superpeer.tutuyoudian.activity.store.StoreApplyActivity;
 import com.superpeer.tutuyoudian.activity.storedriver.DriverListActivity;
 import com.superpeer.tutuyoudian.activity.storeorder.StoreOrderActivity;
@@ -33,6 +34,7 @@ public class StoreSettingActivity extends BaseActivity<StoreSettingPresenter, St
     private LinearLayout linearStoreOrder;
     private LinearLayout linearSafeSetting;
     private TextView tvToUse;
+    private LinearLayout linearStoreInvite;
 
     @Override
     public int getLayoutId() {
@@ -55,6 +57,7 @@ public class StoreSettingActivity extends BaseActivity<StoreSettingPresenter, St
         linearStoreUse = (LinearLayout) findViewById(R.id.linearStoreUse);
         linearStoreSetting = (LinearLayout) findViewById(R.id.linearStoreSetting);
         linearSafeSetting = (LinearLayout) findViewById(R.id.linearSafeSetting);
+        linearStoreInvite = (LinearLayout) findViewById(R.id.linearStoreInvite);
         //店铺跑腿
         linearDriver = (LinearLayout) findViewById(R.id.linearDriver);
 
@@ -80,6 +83,13 @@ public class StoreSettingActivity extends BaseActivity<StoreSettingPresenter, St
     }
 
     private void initListener() {
+        //店铺邀请码
+        linearStoreInvite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(ShopCodeActivity.class);
+            }
+        });
         //店铺配送订单
         linearStoreOrder.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -22,6 +22,8 @@ import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 import com.superpeer.tutuyoudian.bean.BaseObject;
 import com.superpeer.tutuyoudian.constant.Constants;
+import com.superpeer.tutuyoudian.listener.OnSureListener;
+import com.superpeer.tutuyoudian.utils.DialogUtils;
 
 public class DriverOrderDetailActivity extends BaseActivity<DriverOrderDetailPresenter, DriverOrderDetailModel> implements DriverOrderDetailContract.View {
 
@@ -133,7 +135,12 @@ public class DriverOrderDetailActivity extends BaseActivity<DriverOrderDetailPre
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.cancelOrder(orderId);
+                DialogUtils.showDialog(mContext, "是否取消订单", new OnSureListener() {
+                    @Override
+                    public void onSure() {
+                        mPresenter.cancelOrder(orderId);
+                    }
+                });
             }
         });
         //接单
@@ -147,7 +154,12 @@ public class DriverOrderDetailActivity extends BaseActivity<DriverOrderDetailPre
         tvDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.delOrder(orderId);
+                DialogUtils.showDialog(mContext, "是否删除订单", new OnSureListener() {
+                    @Override
+                    public void onSure() {
+                        mPresenter.delOrder(orderId);
+                    }
+                });
             }
         });
 
@@ -155,7 +167,12 @@ public class DriverOrderDetailActivity extends BaseActivity<DriverOrderDetailPre
         tvComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.confirmOrder(orderId);
+                DialogUtils.showDialog(mContext, "订单送达", new OnSureListener() {
+                    @Override
+                    public void onSure() {
+                        mPresenter.confirmOrder(orderId);
+                    }
+                });
             }
         });
     }
@@ -390,7 +407,7 @@ public class DriverOrderDetailActivity extends BaseActivity<DriverOrderDetailPre
                 tvPackageFee.setText("￥"+bean.getPackingFee());
             }
             if(null!=bean.getTotalPrice()){
-                tvTotal.setText("共计："+bean.getTotalPrice());
+                tvTotal.setText("共计：￥"+bean.getTotalPrice());
             }
             if(null!=bean.getPrice()){
                 tvPayTrue.setText("￥"+bean.getPrice());

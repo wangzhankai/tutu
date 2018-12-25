@@ -17,4 +17,24 @@ public class DriverTypeModel implements DriverTypeContract.Model {
             }
         }).compose(RxSchedulers.<BaseBeanResult>io_main());
     }
+
+    @Override
+    public Observable<BaseBeanResult> saveAccount(String roleType, String shopId, String openId, String unionId, String nickName) {
+        return Api.getInstance().service.saveWxShopAccount(roleType, shopId, openId, unionId, nickName).map(new Func1<BaseBeanResult, BaseBeanResult>() {
+            @Override
+            public BaseBeanResult call(BaseBeanResult baseBeanResult) {
+                return baseBeanResult;
+            }
+        }).compose(RxSchedulers.<BaseBeanResult>io_main());
+    }
+
+    @Override
+    public Observable<BaseBeanResult> saveAccountRunner(String id, String roleType, String openId, String unionId, String nickName) {
+        return Api.getInstance().service.saveWxRunnerAccount(id, roleType, openId, unionId, nickName).map(new Func1<BaseBeanResult, BaseBeanResult>() {
+            @Override
+            public BaseBeanResult call(BaseBeanResult baseBeanResult) {
+                return baseBeanResult;
+            }
+        }).compose(RxSchedulers.<BaseBeanResult>io_main());
+    }
 }

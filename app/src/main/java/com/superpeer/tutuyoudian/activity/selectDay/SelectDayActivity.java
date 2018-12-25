@@ -2,6 +2,7 @@ package com.superpeer.tutuyoudian.activity.selectDay;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.superpeer.base_libs.base.baseadapter.BaseQuickAdapter;
@@ -9,6 +10,7 @@ import com.superpeer.base_libs.base.baseadapter.OnItemClickListener;
 import com.superpeer.tutuyoudian.R;
 import com.superpeer.tutuyoudian.adapter.DayAdapter;
 import com.superpeer.tutuyoudian.base.BaseActivity;
+import com.superpeer.tutuyoudian.bean.BaseObject;
 import com.superpeer.tutuyoudian.bean.DayList;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ public class SelectDayActivity extends BaseActivity<SelectDayPresenter, SelectDa
     private List<DayList> list = new ArrayList();
     private RecyclerView recyclerView;
     private DayAdapter adapter;
+    private BaseObject userBean;
 
     @Override
     public int getLayoutId() {
@@ -62,6 +65,11 @@ public class SelectDayActivity extends BaseActivity<SelectDayPresenter, SelectDa
 
         initRecyclerView();
 
+        userBean = getUserInfo();
+        if(null!=userBean){
+            initData(userBean);
+        }
+
         setToolBarViewStubText("完成").setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,32 +80,16 @@ public class SelectDayActivity extends BaseActivity<SelectDayPresenter, SelectDa
                         if("".equals(str)){
                             str+=list.get(i).getDayName();
                             if("".equals(days)){
-                                if(i==7){
-                                    days+=0+"";
-                                }else{
-                                    days+=i+"";
-                                }
+                                days+=i+"";
                             }else{
-                                if(i==7){
-                                    days+=","+0;
-                                }else{
-                                    days+=","+i;
-                                }
+                                days+=","+i;
                             }
                         }else{
                             str+=","+list.get(i).getDayName();
                             if("".equals(days)){
-                                if(i==7){
-                                    days+=0+"";
-                                }else{
-                                    days+=i+"";
-                                }
+                                days+=i+"";
                             }else{
-                                if(i==7){
-                                    days+=","+0;
-                                }else{
-                                    days+=","+i;
-                                }
+                                days+=","+i;
                             }
                         }
                     }
@@ -108,6 +100,21 @@ public class SelectDayActivity extends BaseActivity<SelectDayPresenter, SelectDa
             }
         });
 
+    }
+
+    private void initData(BaseObject userBean) {
+        if(null!=userBean.getShopDayOff()){
+            if(userBean.getShopDayOff().contains("1"))  ((DayList)adapter.getData().get(1)).setChecked(true);
+            if(userBean.getShopDayOff().contains("2"))  ((DayList)adapter.getData().get(2)).setChecked(true);
+            if(userBean.getShopDayOff().contains("3"))  ((DayList)adapter.getData().get(3)).setChecked(true);
+            if(userBean.getShopDayOff().contains("4"))  ((DayList)adapter.getData().get(4)).setChecked(true);
+            if(userBean.getShopDayOff().contains("5"))  ((DayList)adapter.getData().get(5)).setChecked(true);
+            if(userBean.getShopDayOff().contains("6"))  ((DayList)adapter.getData().get(6)).setChecked(true);
+            if(userBean.getShopDayOff().contains("7"))  ((DayList)adapter.getData().get(7)).setChecked(true);
+            if(userBean.getShopDayOff().contains("0"))  ((DayList)adapter.getData().get(0)).setChecked(true);
+        }else{
+            ((DayList)adapter.getData().get(0)).setChecked(true);
+        }
     }
 
     private void initRecyclerView() {

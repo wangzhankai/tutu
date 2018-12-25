@@ -244,8 +244,9 @@
         <activity android:name=".activity.collageset.CollageSetActivity" />
         <activity android:name=".activity.collageadd.AddCollageActivity" />
         <activity android:name=".activity.paytype.PayTypeActivity" />
-        <activity android:name=".activity.shopmanager.ShopManagerActivity"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name=".activity.shopmanager.ShopManagerActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".activity.selectshop.SelectShopActivity" />
         <activity android:name=".activity.selectDay.SelectDayActivity" />
         <activity android:name=".activity.addaccount.AddAccountActivity" />
@@ -293,7 +294,8 @@
         <activity android:name=".activity.search.SearchActivity" />
         <activity android:name=".activity.goodssearch.GoodsSearchActivity" />
         <activity android:name=".activity.selectshopsearch.SelectShopSearchActivity" />
-        <activity android:name=".activity.shopcode.ShopCodeActivity"></activity>
+        <activity android:name=".activity.shopcode.ShopCodeActivity" />
+        <activity android:name=".activity.stocksearch.StockSearchActivity"></activity>
     </application>
 
 </manifest>

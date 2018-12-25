@@ -133,6 +133,9 @@ public class CollageOrderAdapter extends BaseQuickAdapter {
             if(null!=bean.getJoinNum()){
                 tvCollageNum.setText("还差"+(Integer.parseInt(bean.getNeedNum())-Integer.parseInt(bean.getJoinNum()))+"人");
             }
+            if(bean.getNeedNum().equals(bean.getJoinNum())){
+                tvCollageNum.setVisibility(View.GONE);
+            }
         }
         if(null!=bean.getImagePath()){
             Glide.with(mContext).load(Url.IP+bean.getImagePath()).centerCrop().into(ivImg);

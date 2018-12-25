@@ -13,6 +13,8 @@ import com.superpeer.tutuyoudian.api.Url;
 import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 import com.superpeer.tutuyoudian.bean.BaseObject;
+import com.superpeer.tutuyoudian.listener.OnSureListener;
+import com.superpeer.tutuyoudian.utils.DialogUtils;
 import com.superpeer.tutuyoudian.utils.TvUtils;
 
 import java.net.URI;
@@ -152,7 +154,12 @@ public class CollageOrderDetailActivity extends BaseActivity<CollageOrderDetailP
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.cancelOrder(orderId);
+                DialogUtils.showDialog(mContext, "是否取消订单", new OnSureListener() {
+                    @Override
+                    public void onSure() {
+                        mPresenter.cancelOrder(orderId);
+                    }
+                });
             }
         });
 
@@ -172,7 +179,12 @@ public class CollageOrderDetailActivity extends BaseActivity<CollageOrderDetailP
         tvDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.delOrder(orderId);
+                DialogUtils.showDialog(mContext, "是否删除订单", new OnSureListener() {
+                    @Override
+                    public void onSure() {
+                        mPresenter.delOrder(orderId);
+                    }
+                });
             }
         });
 
@@ -275,7 +287,7 @@ public class CollageOrderDetailActivity extends BaseActivity<CollageOrderDetailP
                 }else{  //自提
                     tvSendType.setText("配送方式：自提");
                     if(null!=object.getShippingTime()){
-                        tvGetTime.setText(object.getShippingTime());
+                        tvGetTime.setText("提货时间："+object.getShippingTime());
                     }
                     tvWantTime.setVisibility(View.GONE);
                     linearInfo.setVisibility(View.GONE);
@@ -307,10 +319,10 @@ public class CollageOrderDetailActivity extends BaseActivity<CollageOrderDetailP
                 tvAddress.setText(object.getAddress());
             }
             if(null!=object.getPackingFee()){
-                tvPackageFee.setText(object.getPackingFee());
+                tvPackageFee.setText("￥"+object.getPackingFee());
             }
             if(null!=object.getFreight()){
-                tvSendFee.setText(object.getFreight());
+                tvSendFee.setText("￥"+object.getFreight());
             }
             if(null!=object.getDiscountDesc()){
                 tvCoupon.setText(object.getDiscountDesc());
@@ -338,7 +350,7 @@ public class CollageOrderDetailActivity extends BaseActivity<CollageOrderDetailP
             }
             if(null!=object.getOriginalPrice()){
                 TvUtils.setLine(tvOrignPrice);
-                tvOrignPrice.setText(object.getOriginalPrice());
+                tvOrignPrice.setText("￥"+object.getOriginalPrice());
             }
             if(null!=object.getGoodsNum()){
                 tvGoodsNum.setText("1份/"+object.getGoodsNum());
