@@ -56,6 +56,54 @@ public class BaseObject implements Serializable {
     private String sendStatus;
     private String runnerType;
 
+    private String remark;
+
+    //版本更新
+    private String versionNumber;
+    private String versionName;
+    private String versionSrc;
+    private String versionDescribe;
+
+    public String getVersionNumber() {
+        return versionNumber;
+    }
+
+    public void setVersionNumber(String versionNumber) {
+        this.versionNumber = versionNumber;
+    }
+
+    public String getVersionName() {
+        return versionName;
+    }
+
+    public void setVersionName(String versionName) {
+        this.versionName = versionName;
+    }
+
+    public String getVersionSrc() {
+        return versionSrc;
+    }
+
+    public void setVersionSrc(String versionSrc) {
+        this.versionSrc = versionSrc;
+    }
+
+    public String getVersionDescribe() {
+        return versionDescribe;
+    }
+
+    public void setVersionDescribe(String versionDescribe) {
+        this.versionDescribe = versionDescribe;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public String getRunnerType() {
         return runnerType;
     }

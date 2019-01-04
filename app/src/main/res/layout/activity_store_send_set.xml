@@ -109,7 +109,7 @@
             style="@style/textGrey3Style14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="满免配送费金额" />
+            android:text="满多少配送费金额" />
 
         <EditText
             android:id="@+id/etStartMoney"

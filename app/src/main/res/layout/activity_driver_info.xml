@@ -22,6 +22,40 @@
         android:layout_height="@dimen/dp_45"
         android:layout_marginTop="@dimen/dp_10"/>
 
+    <LinearLayout
+        android:id="@+id/linearIdentify"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_1">
+
+        <TextView
+            android:text="认证状态"
+            android:gravity="center_vertical"
+            style="@style/textGrey3Style14"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_45"/>
+
+        <TextView
+            android:id="@+id/tvIdentifyStatus"
+            style="@style/textGrey9Style14"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|right"
+            android:text="去认证" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:src="@mipmap/iv_arrow"/>
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/tvPersonInfo"
         android:text="个人信息"
@@ -30,6 +64,7 @@
         android:paddingRight="@dimen/dp_10"
         android:gravity="center_vertical"
         android:drawableRight="@mipmap/iv_arrow"
+        android:layout_marginTop="@dimen/dp_1"
         style="@style/textGrey3Style14"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_45"/>
@@ -83,40 +118,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearIdentify"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_45"
-        android:gravity="center_vertical"
-        android:background="@color/white"
-        android:paddingLeft="@dimen/dp_10"
-        android:paddingRight="@dimen/dp_10"
-        android:layout_marginTop="@dimen/dp_10">
-
-        <TextView
-            android:text="认证状态"
-            android:gravity="center_vertical"
-            style="@style/textGrey3Style14"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_45"/>
-
-        <TextView
-            android:id="@+id/tvIdentifyStatus"
-            style="@style/textGrey9Style14"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical|right"
-            android:text="去认证" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:src="@mipmap/iv_arrow"/>
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/linearSetting"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_45"
@@ -150,6 +151,13 @@
             android:src="@mipmap/iv_arrow" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivQrCode"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_80"/>
 
     <TextView
         android:id="@+id/tvExit"

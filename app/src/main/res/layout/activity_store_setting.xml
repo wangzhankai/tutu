@@ -265,6 +265,7 @@
     <LinearLayout
         android:id="@+id/linearStoreInvite"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="@dimen/dp_45"
         android:layout_marginTop="@dimen/dp_10"
         android:gravity="center_vertical"

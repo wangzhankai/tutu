@@ -16,6 +16,7 @@ import com.superpeer.tutuyoudian.listener.OnCancelListener;
 import com.superpeer.tutuyoudian.listener.OnDeleteListener;
 import com.superpeer.tutuyoudian.listener.OnItemListener;
 import com.superpeer.tutuyoudian.listener.OnVerifyListener;
+import com.superpeer.tutuyoudian.utils.TvUtils;
 
 import java.util.List;
 
@@ -150,6 +151,7 @@ public class CollageOrderAdapter extends BaseQuickAdapter {
             tvGoodsNum.setText("1份/"+bean.getGoodsNum());
         }
         if(null!=bean.getOriginalPrice()){
+            TvUtils.setLine(tvNum);
             tvNum.setText("￥"+bean.getOriginalPrice());
         }
         if(null!=bean.getShippingType()){
@@ -163,6 +165,9 @@ public class CollageOrderAdapter extends BaseQuickAdapter {
             switch (bean.getOrderStatus()){
                 case "1":
                     tvCancel.setVisibility(View.VISIBLE);
+                    tvGet.setVisibility(View.GONE);
+                    tvDelete.setVisibility(View.GONE);
+                    tvVerify.setVisibility(View.GONE);
                     ivStatus.setImageResource(R.mipmap.iv_no_pay);
                     tvStatus.setText("待付款");
                     break;
@@ -170,12 +175,17 @@ public class CollageOrderAdapter extends BaseQuickAdapter {
                     ivStatus.setImageResource(R.mipmap.iv_no_pay);
                     tvStatus.setText("付款中");
                     tvCancel.setVisibility(View.VISIBLE);
+                    tvGet.setVisibility(View.GONE);
+                    tvDelete.setVisibility(View.GONE);
+                    tvVerify.setVisibility(View.GONE);
                     break;
                 case "3":
                     ivStatus.setImageResource(R.mipmap.iv_order_readytaking);
                     tvStatus.setText("待成团");
                     tvCancel.setVisibility(View.VISIBLE);
                     tvGet.setVisibility(View.GONE);
+                    tvDelete.setVisibility(View.GONE);
+                    tvVerify.setVisibility(View.GONE);
                     linearCount.setVisibility(View.VISIBLE);
                     if(null!=bean.getCancelTime()){
                         countView.start(Long.parseLong(bean.getCancelTime()));
@@ -187,20 +197,32 @@ public class CollageOrderAdapter extends BaseQuickAdapter {
                         if("1".equals(bean.getShippingType())){ //送货上门
                             tvStatus.setText("送货中");
                             tvCancel.setVisibility(View.VISIBLE);
+                            tvGet.setVisibility(View.VISIBLE);
+                            tvDelete.setVisibility(View.GONE);
+                            tvVerify.setVisibility(View.GONE);
                         }else{      //自提
                             tvStatus.setText("待提货");
                             tvCancel.setVisibility(View.VISIBLE);
                             tvVerify.setVisibility(View.VISIBLE);
+                            tvGet.setVisibility(View.GONE);
+                            tvDelete.setVisibility(View.GONE);
                         }
                     }
                     break;
                 case "5":
                     tvCancel.setVisibility(View.GONE);
+                    tvGet.setVisibility(View.GONE);
+                    tvDelete.setVisibility(View.GONE);
+                    tvVerify.setVisibility(View.GONE);
                     ivStatus.setImageResource(R.mipmap.iv_order_complete);
                     tvStatus.setText("已完成");
                     break;
                 case "6":
+                case "7":
                     tvCancel.setVisibility(View.GONE);
+                    tvGet.setVisibility(View.GONE);
+                    tvVerify.setVisibility(View.GONE);
+                    tvDelete.setVisibility(View.VISIBLE);
                     ivStatus.setImageResource(R.mipmap.iv_order_complete);
                     tvStatus.setText("已取消");
                     tvDelete.setVisibility(View.VISIBLE);

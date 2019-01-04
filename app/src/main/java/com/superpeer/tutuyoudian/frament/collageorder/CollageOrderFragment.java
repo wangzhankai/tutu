@@ -251,8 +251,13 @@ public class CollageOrderFragment extends BaseFragment<CollageOrderPresenter, Co
                     showShortToast(baseBeanResult.getMsg());
                 }
                 if("1".equals(baseBeanResult.getCode())){
-                    adapter.getData().remove(cancelPos);
-                    adapter.notifyDataSetChanged();
+                    if(!"".equals(type)) {
+                        adapter.getData().remove(cancelPos);
+                        adapter.notifyDataSetChanged();
+                    }else{
+                        PAGE = 1;
+                        mPresenter.getOrderList(PreferencesUtils.getString(getActivity(), Constants.SHOP_ID), PAGE+"", "10", "TYPE".equals(type)?"4":type, "TYPE".equals(type)?"1":("4".equals(type)?"2":""));
+                    }
                 }
             }
         }catch (Exception e){

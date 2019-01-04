@@ -24,9 +24,14 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.allenliu.versionchecklib.v2.AllenVersionChecker;
+import com.allenliu.versionchecklib.v2.builder.DownloadBuilder;
+import com.allenliu.versionchecklib.v2.builder.UIData;
+import com.allenliu.versionchecklib.v2.callback.ForceUpdateListener;
 import com.superpeer.base_libs.base.AppManager;
 import com.superpeer.base_libs.base.baseadapter.BaseQuickAdapter;
 import com.superpeer.base_libs.base.baseadapter.OnItemClickListener;
+import com.superpeer.base_libs.utils.AppUtils;
 import com.superpeer.base_libs.utils.MPermissionUtils;
 import com.superpeer.base_libs.utils.MediaManager;
 import com.superpeer.base_libs.utils.PreferencesUtils;
@@ -373,7 +378,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                 WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
                 req.userName = Constants.WEIXIN_XIAOCHENGXU_ID; // 填小程序原始id
                 req.path = "/pages/index/index?shopId="+PreferencesUtils.getString(mContext, Constants.SHOP_ID);                  //拉起小程序页面的可带参路径，不填默认拉起小程序首页
-                req.miniprogramType = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW;// 可选打开 开发版，体验版和正式版
+                req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
 //                req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
                 api.sendReq(req);
             }
@@ -709,6 +714,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     @Override
     public void showNoticeResult(BaseBeanResult baseBeanResult) {
         try{
+            mPresenter.update("0");
             if(null!=baseBeanResult){
                 if("1".equals(baseBeanResult.getCode())){
                     if(null!=baseBeanResult.getData()){
@@ -904,6 +910,19 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         }
     }
 
+    @Override
+    public void showUpdate(BaseBeanResult baseBeanResult) {
+        try{
+            if(null!=baseBeanResult){
+                if("1".equals(baseBeanResult.getCode())){
+                    toUpdate(baseBeanResult);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     private void initMainData(BaseObject object) {
         try{
             if(null!=object.getTodayMoney()){
@@ -1030,19 +1049,31 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         }
     }
 
-    public void playVoice(){
-        final MediaPlayer mp = MediaPlayer.create(mContext, R.raw.money);//重新设置要播放的音频
+    private void toUpdate(final BaseBeanResult baseBeanResult) {
+        try {
+            BaseObject object = baseBeanResult.getData().getObject();
+            //判断版本号
+            if (AppUtils.getLocalVersion(mContext) < Integer.parseInt(object.getVersionName())) {
+//                AllenVersionChecker.getInstance().downloadOnly(
+//                        UIData.create().setTitle(object.getVersionNumber()).setContent("版本更新")
+//                                .setDownloadUrl(object.getVersionSrc())).excuteMission(this);
+//                                        .setDownloadUrl("https://imtt.dd.qq.com/16891/D21910E083EA4C497C5BD59A76C5577B.apk?fsname=com.tencent.mm_6.7.3_1360.apk&csr=1bbd")).excuteMission(this);
+                DownloadBuilder builder = AllenVersionChecker.getInstance().downloadOnly(
+                        UIData.create().setTitle(object.getVersionNumber()).setContent("版本更新")
+                                .setDownloadUrl(object.getVersionSrc()));
+                builder.excuteMission(this);
+                builder.setForceUpdateListener(new ForceUpdateListener() {
+                    @Override
+                    public void onShouldForceUpdate() {
 
-        mp.start();//开始播放
-
-        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer arg0) {
-                if(null!=mp){
-                    mp.stop();
-                    mp.release();
-                }
-            }
-        });
+                    }
+                });
+            } /*else {
+                showShortToast("当前版本为最新版本");
+            }*/
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
+
 }

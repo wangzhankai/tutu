@@ -181,9 +181,12 @@ public class CollageSetActivity extends BaseActivity<CollageSetPresenter, Collag
                 if(null!=baseBeanResult.getMsg()){
                     showShortToast(baseBeanResult.getMsg());
                 }
-                if("1".equals(baseBeanResult.getCode())){
+                /*if("1".equals(baseBeanResult.getCode())){
                     adapter.getData().remove(delPos);
                     adapter.notifyDataSetChanged();
+                }*/
+                if("1".equals(baseBeanResult.getCode())){
+                    mPresenter.getList(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
                 }
             }
         }catch (Exception e){

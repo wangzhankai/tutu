@@ -6,6 +6,15 @@ public class PushBean {
     private String num;
     private String totalPrice;
     private String orderType;
+    private String sound;
+
+    public String getSound() {
+        return sound;
+    }
+
+    public void setSound(String sound) {
+        this.sound = sound;
+    }
 
     public String getOrderType() {
         return orderType;

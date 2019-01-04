@@ -1,8 +1,12 @@
 package com.superpeer.tutuyoudian.activity.driver.info;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,6 +24,7 @@ import com.superpeer.tutuyoudian.activity.safesetting.SafeSettingActivity;
 import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseObject;
 import com.superpeer.tutuyoudian.constant.Constants;
+import com.yzq.zxinglibrary.encode.CodeCreator;
 
 import java.math.BigDecimal;
 
@@ -35,6 +40,7 @@ public class DriverInfoActivity extends BaseActivity<DriverInfoPresenter, Driver
     private TextView tvSafeSetting;
     private TextView tvExit;
     private TextView tvWithDrawCash;
+    private ImageView ivQrCode;
 
     @Override
     public int getLayoutId() {
@@ -67,6 +73,25 @@ public class DriverInfoActivity extends BaseActivity<DriverInfoPresenter, Driver
         }
 
         initListener();
+
+        //3、获取屏幕的默认分辨率
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+
+        ivQrCode = (ImageView) findViewById(R.id.ivQrCode);
+        try {
+            /*
+             * contentEtString：字符串内容
+             * w：图片的宽
+             * h：图片的高
+             * logo：不需要logo的话直接传null
+             * */
+
+            Bitmap logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+            Bitmap qrCode = CodeCreator.createQRCode(PreferencesUtils.getString(mContext, Constants.SHOP_ID), dm.widthPixels/2, dm.widthPixels/2, logo);
+            ivQrCode.setImageBitmap(qrCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initData(BaseObject bean) {

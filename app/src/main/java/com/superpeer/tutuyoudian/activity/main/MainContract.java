@@ -26,6 +26,9 @@ public interface MainContract {
         Observable<BaseBeanResult> receiptOrder(String orderId);
         //召唤跑腿
         Observable<BaseBeanResult> callRunner(String shopId, String sendStatus);
+
+        //版本更新
+        Observable<BaseBeanResult> update(String type);
     }
 
     interface View extends BaseView {
@@ -45,6 +48,8 @@ public interface MainContract {
         void showGradResult(BaseBeanResult baseBeanResult);
 
         void showCallResult(BaseBeanResult baseBeanResult);
+
+        void showUpdate(BaseBeanResult baseBeanResult);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
@@ -64,6 +69,8 @@ public interface MainContract {
         public abstract void receiptOrder(String orderId);
 
         public abstract void callRunner(String shopId, String sendStatus);
+
+        public abstract void update(String type);
 
     }
 

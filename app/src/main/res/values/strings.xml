@@ -82,7 +82,7 @@
     <!-- 数据统计 -->
     <string name="view_people">访客</string>
     <string name="order">订单</string>
-    <string name="income">营收</string>
+    <string name="income">收益</string>
     <string name="pay_order">付款订单</string>
     <string name="send_order">发货订单</string>
 

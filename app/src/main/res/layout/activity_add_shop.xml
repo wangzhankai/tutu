@@ -142,12 +142,12 @@
                 <EditText
                     android:id="@+id/etCode"
                     style="@style/textGrey3Style14"
-                    android:textColorHint="@color/grey9"
-                    android:hint="非必填"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:background="@null"/>
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="请输入商品的国际码(非必填)"
+                    android:textColorHint="@color/grey9" />
 
                 <ImageView
                     android:id="@+id/ivQrCode"
@@ -182,6 +182,8 @@
                     android:id="@+id/tvCategory"
                     style="@style/textGrey3Style14"
                     android:textColorHint="@color/grey9"
+                    android:hint="请选择商品分类"
+                    android:drawableRight="@mipmap/iv_arrow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"/>
@@ -212,6 +214,7 @@
                     android:id="@+id/etShopType"
                     style="@style/textGrey3Style14"
                     android:textColorHint="@color/grey9"
+                    android:hint="请输入商品品牌"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"/>
@@ -236,10 +239,11 @@
                 <EditText
                     android:id="@+id/etRule"
                     style="@style/textGrey3Style14"
-                    android:textColorHint="@color/grey9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"/>
+                    android:background="@null"
+                    android:hint="请输入商品规格（如20支/盒）"
+                    android:textColorHint="@color/grey9" />
 
             </LinearLayout>
 
@@ -266,10 +270,11 @@
                 <EditText
                     android:id="@+id/etPrice"
                     style="@style/textGrey3Style14"
-                    android:textColorHint="@color/grey9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"/>
+                    android:background="@null"
+                    android:hint="请输入商品价格（单位：元）"
+                    android:textColorHint="@color/grey9" />
 
             </LinearLayout>
 
@@ -296,10 +301,11 @@
                 <EditText
                     android:id="@+id/etRest"
                     style="@style/textGrey3Style14"
-                    android:textColorHint="@color/grey9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"/>
+                    android:background="@null"
+                    android:hint="请输入商品库存"
+                    android:textColorHint="@color/grey9" />
 
             </LinearLayout>
 
@@ -326,10 +332,11 @@
                 <EditText
                     android:id="@+id/etCoupon"
                     style="@style/textGrey3Style14"
-                    android:textColorHint="@color/grey9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"/>
+                    android:background="@null"
+                    android:hint="请输入商品优惠价(可不填)"
+                    android:textColorHint="@color/grey9" />
 
             </LinearLayout>
 

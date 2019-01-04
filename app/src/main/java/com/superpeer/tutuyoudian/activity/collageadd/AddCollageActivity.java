@@ -154,9 +154,9 @@ public class AddCollageActivity extends BaseActivity<AddCollagePresenter, AddCol
             }
             if(null!=bean.getRemainingTime()){
                 if("0".equals(bean.getRemainingTime())){
-                    tvPublishAgain.setVisibility(View.GONE);
-                }else{
                     tvPublishAgain.setVisibility(View.VISIBLE);
+                }else{
+                    tvPublishAgain.setVisibility(View.GONE);
                 }
             }
         }catch (Exception e){

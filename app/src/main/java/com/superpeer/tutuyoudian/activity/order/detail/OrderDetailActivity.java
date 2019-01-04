@@ -58,6 +58,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     private TextView tvWantTime;
     private RecyclerView recyclerView;
     private OrderShopAdapter adapter;
+    private TextView tvRemark;
 
     @Override
     protected void doBeforeSetcontentView() {
@@ -79,6 +80,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     public void initView() {
         setHeadTitle("订单详情");
 
+        tvRemark = (TextView) findViewById(R.id.tvRemark);
         ivStatus = (ImageView) findViewById(R.id.ivStatus);
         ivAvatar = (ImageView) findViewById(R.id.ivAvatar);
         tvStatus = (TextView) findViewById(R.id.tvStatus);
@@ -343,12 +345,13 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                     tvComplete.setVisibility(View.VISIBLE);
                 }else{      //自提
                     tvStatus.setText("待提货");
+                    tvGetTime.setVisibility(View.VISIBLE);
                     linearSend.setVisibility(View.GONE);
                     tvWantTime.setVisibility(View.GONE);
                     tvCancel.setVisibility(View.VISIBLE);
                     tvVerify.setVisibility(View.VISIBLE);
                     tvComplete.setVisibility(View.GONE);
-                    tvAddress.setVisibility(View.GONE);
+                    tvAddress.setVisibility(View.VISIBLE);
                 }
             }
             if(null!=bean.getShippingTime()){
@@ -359,9 +362,11 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 case "1":
                     ivStatus.setImageResource(R.mipmap.iv_no_pay);
                     tvStatus.setText("待付款");
-                    tvCancel.setVisibility(View.VISIBLE);
                     tvVerify.setVisibility(View.GONE);
+                    tvCancel.setVisibility(View.VISIBLE);
+                    tvGet.setVisibility(View.GONE);
                     tvDelete.setVisibility(View.GONE);
+                    tvComplete.setVisibility(View.GONE);
                     break;
                 case "2":
                     ivStatus.setImageResource(R.mipmap.iv_no_pay);
@@ -369,6 +374,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                     tvCancel.setVisibility(View.VISIBLE);
                     tvVerify.setVisibility(View.GONE);
                     tvDelete.setVisibility(View.GONE);
+                    tvComplete.setVisibility(View.GONE);
+                    tvGet.setVisibility(View.GONE);
                     break;
                 case "3":
                     ivStatus.setImageResource(R.mipmap.iv_order_readytaking);
@@ -377,10 +384,12 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                     tvGet.setVisibility(View.VISIBLE);
                     tvVerify.setVisibility(View.GONE);
                     tvDelete.setVisibility(View.GONE);
+                    tvComplete.setVisibility(View.GONE);
                     break;
                 case "4":
                     ivStatus.setImageResource(R.mipmap.iv_order_readyget);
                     tvDelete.setVisibility(View.GONE);
+                    tvGet.setVisibility(View.GONE);
                     if(null!=bean.getShippingType()){
                     if("1".equals(bean.getShippingType())){ //送货上门
                         tvStatus.setText("送货中");
@@ -402,6 +411,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                     tvCancel.setVisibility(View.GONE);
                     tvVerify.setVisibility(View.GONE);
                     tvDelete.setVisibility(View.GONE);
+                    tvGet.setVisibility(View.GONE);
                     break;
                 case "6":
                     ivStatus.setImageResource(R.mipmap.iv_order_complete);
@@ -410,6 +420,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                     tvComplete.setVisibility(View.GONE);
                     tvCancel.setVisibility(View.GONE);
                     tvVerify.setVisibility(View.GONE);
+                    tvGet.setVisibility(View.GONE);
                     break;
             }
             if(null!=bean.getShopName()){
@@ -435,7 +446,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 tvPayTrue.setText("￥"+bean.getPrice());
             }
             if(null!=bean.getAddress()){
-                tvAddress.setText("送货地址："+bean.getAddress());
+                tvAddress.setText("店铺地址："+bean.getAddress());
                 tvSendAddress.setText(bean.getAddress());
             }
             if(null!=bean.getPhone()){
@@ -457,6 +468,14 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
             }
             if(null!=bean.getConsignee()){
                 tvName.setText(bean.getConsignee());
+            }
+            if(null!=bean.getRemark()){
+                if(!"".equals(bean.getRemark())){
+                    tvRemark.setVisibility(View.VISIBLE);
+                    tvRemark.setText("备注："+bean.getRemark());
+                }else{
+                    tvRemark.setVisibility(View.GONE);
+                }
             }
             if(null!=bean.getGoodsVos()&&bean.getGoodsVos().size()>0){
                 adapter.setNewData(bean.getGoodsVos());

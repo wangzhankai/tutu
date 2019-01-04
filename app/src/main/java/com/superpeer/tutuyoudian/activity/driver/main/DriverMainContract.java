@@ -17,6 +17,8 @@ public interface DriverMainContract {
 
         Observable<BaseBeanResult> grabOrder(String orderId, String runnerId);
 
+        Observable<BaseBeanResult> update(String type);
+
 //        Observable<BaseBeanResult> giveUpOrder(String orderId);
     }
 
@@ -29,6 +31,8 @@ public interface DriverMainContract {
         void showGradResult(BaseBeanResult baseBeanResult);
 
 //        void showGiveUpResult(BaseBeanResult baseBeanResult);
+
+        void showUpdate(BaseBeanResult baseBeanResult);
     }
 
     abstract class Presenter extends BasePresenter<View, Model>{
@@ -40,6 +44,8 @@ public interface DriverMainContract {
         public abstract void grabOrder(String orderId, String runnerId);
 
 //        public abstract void giveUpOrder(String orderId);
+
+        public abstract void update(String type);
 
     }
 

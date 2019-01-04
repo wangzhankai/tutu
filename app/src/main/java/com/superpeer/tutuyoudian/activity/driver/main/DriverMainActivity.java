@@ -24,11 +24,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.allenliu.versionchecklib.v2.AllenVersionChecker;
+import com.allenliu.versionchecklib.v2.builder.DownloadBuilder;
+import com.allenliu.versionchecklib.v2.builder.UIData;
+import com.allenliu.versionchecklib.v2.callback.ForceUpdateListener;
 import com.androidkun.xtablayout.XTabLayout;
 import com.google.gson.Gson;
 import com.superpeer.base_libs.base.AppManager;
 import com.superpeer.base_libs.base.baseadapter.BaseQuickAdapter;
 import com.superpeer.base_libs.base.baseadapter.OnItemClickListener;
+import com.superpeer.base_libs.utils.AppUtils;
 import com.superpeer.base_libs.utils.ConstantsUtils;
 import com.superpeer.base_libs.utils.MPermissionUtils;
 import com.superpeer.base_libs.utils.PreferencesUtils;
@@ -220,6 +225,8 @@ public class DriverMainActivity extends BaseActivity<DriverMainPresenter, Driver
         userInfo = getUserInfo();
         initData();
 
+        mPresenter.update("0");
+
 //        mPresenter.getOrderList(PreferencesUtils.getString(mContext, Constants.SHOP_ID), PAGE+"", "10");
 
     }
@@ -390,6 +397,19 @@ public class DriverMainActivity extends BaseActivity<DriverMainPresenter, Driver
         }
     }
 
+    @Override
+    public void showUpdate(BaseBeanResult baseBeanResult) {
+        try{
+            if(null!=baseBeanResult){
+                if("1".equals(baseBeanResult.getCode())){
+                    toUpdate(baseBeanResult);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     /*@Override
     public void showGiveUpResult(BaseBeanResult baseBeanResult) {
         try{
@@ -439,4 +459,31 @@ public class DriverMainActivity extends BaseActivity<DriverMainPresenter, Driver
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         super.onDestroy();
     }*/
+
+    private void toUpdate(final BaseBeanResult baseBeanResult) {
+        try {
+            BaseObject object = baseBeanResult.getData().getObject();
+            //判断版本号
+            if (AppUtils.getLocalVersion(mContext) < Integer.parseInt(object.getVersionName())) {
+//                AllenVersionChecker.getInstance().downloadOnly(
+//                        UIData.create().setTitle(object.getVersionNumber()).setContent("版本更新")
+//                                .setDownloadUrl(object.getVersionSrc())).excuteMission(this);
+//                                        .setDownloadUrl("https://imtt.dd.qq.com/16891/D21910E083EA4C497C5BD59A76C5577B.apk?fsname=com.tencent.mm_6.7.3_1360.apk&csr=1bbd")).excuteMission(this);
+                DownloadBuilder builder = AllenVersionChecker.getInstance().downloadOnly(
+                        UIData.create().setTitle(object.getVersionNumber()).setContent("版本更新")
+                                .setDownloadUrl(object.getVersionSrc()));
+                builder.excuteMission(this);
+                builder.setForceUpdateListener(new ForceUpdateListener() {
+                    @Override
+                    public void onShouldForceUpdate() {
+
+                    }
+                });
+            } /*else {
+                showShortToast("当前版本为最新版本");
+            }*/
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

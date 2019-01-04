@@ -149,8 +149,8 @@ public class StoreSettingActivity extends BaseActivity<StoreSettingPresenter, St
             public void onClick(View v) {
                 PreferencesUtils.putString(mContext, Constants.SHOP_ID, "");
                 PreferencesUtils.putString(mContext, Constants.USER_TYPE, "");
-                AppManager.getAppManager().finishAllActivity();
                 startActivity(LoginActivity.class);
+                AppManager.getAppManager().finishAllActivity();
             }
         });
         //安全设置

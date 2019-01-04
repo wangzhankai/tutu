@@ -104,7 +104,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
@@ -139,10 +139,10 @@
                     android:orientation="vertical">
 
                     <TextView
-                        style="@style/textWhiteStyle14"
+                        style="@style/textWhiteStyle13"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="跑腿送货" />
+                        android:text="店家送货/跑腿送货" />
 
                     <ImageView
                         android:id="@+id/ivSummon"
@@ -161,10 +161,10 @@
                     android:orientation="vertical">
 
                     <TextView
-                        style="@style/textWhiteStyle14"
+                        style="@style/textWhiteStyle13"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="营业状态" />
+                        android:text="休息中/营业中" />
 
                     <ImageView
                         android:id="@+id/ivAuto"

@@ -26,4 +26,19 @@ public class LoginPresenter extends LoginContract.Presenter {
             }
         }));
     }
+
+    @Override
+    public void update(String type) {
+        mRxManage.add(mModel.update(type).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
+            @Override
+            protected void _onNext(BaseBeanResult baseBeanResult) {
+                mView.showUpdate(baseBeanResult);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                mView.showErrorTip(message);
+            }
+        }));
+    }
 }

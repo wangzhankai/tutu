@@ -40,16 +40,18 @@ public class WelcomeActivity extends BaseActivity<WelcomePresenter, WelcomeModel
                         if("0".equals(PreferencesUtils.getString(mContext, Constants.USER_TYPE))){
                             if(null!=PreferencesUtils.getString(mContext, Constants.SHOP_STATE)&&!"".equals(PreferencesUtils.getString(mContext, Constants.SHOP_STATE))){
                                 if("4".equals(PreferencesUtils.getString(mContext, Constants.SHOP_STATE))){
-                                    AppManager.getAppManager().finishAllActivity();
                                     startActivity(MainActivity.class);
+                                    AppManager.getAppManager().finishAllActivity();
                                 }else{
                                     startActivity(LoginActivity.class);
                                 }
                             }
                         }else{
-                            AppManager.getAppManager().finishAllActivity();
                             startActivity(DriverMainActivity.class);
+                            AppManager.getAppManager().finishAllActivity();
                         }
+                    }else{
+                        startActivity(LoginActivity.class);
                     }
                 }else{
                     startActivity(LoginActivity.class);

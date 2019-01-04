@@ -153,6 +153,7 @@ public class NormalOrderAdapter extends BaseQuickAdapter {
                 tvStatus.setText("已完成");
                 break;
             case "6":
+            case "7":
                 tvGet.setVisibility(View.GONE);
                 tvCancel.setVisibility(View.GONE);
                 ivStatus.setImageResource(R.mipmap.iv_order_complete);
@@ -191,7 +192,6 @@ public class NormalOrderAdapter extends BaseQuickAdapter {
             if(null!=bean.getGoodsVos().get(0).getName())
                 ((TextView) helper.getView(R.id.tvName)).setText(bean.getGoodsVos().get(0).getName());
             if(null!=bean.getGoodsVos().get(0).getPrice()){
-                TvUtils.setLine(tvPrice);
                 tvPrice.setText("￥"+bean.getGoodsVos().get(0).getPrice());
             }
 

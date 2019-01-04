@@ -65,15 +65,15 @@
 
                 <EditText
                     android:id="@+id/etTitle"
-                    android:textColorHint="@color/grey9"
-                    android:hint="请输入拼团标题"
-                    android:background="@null"
                     style="@style/textGrey9Style14"
-                    android:layout_marginLeft="@dimen/dp_1"
-                    android:gravity="center_vertical"
-                    android:layout_height="@dimen/dp_35"
                     android:layout_width="0dp"
-                    android:layout_weight="1" />
+                    android:layout_height="@dimen/dp_35"
+                    android:layout_marginLeft="@dimen/dp_1"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="请输入拼团标题（如大促销）"
+                    android:textColorHint="@color/grey9" />
 
             </LinearLayout>
 
@@ -102,8 +102,47 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:gravity="center_vertical"
-                    android:hint="如：配送时间、自提点等"
+                    android:hint="如：自提点等"
                     android:textColorHint="@color/grey9" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:background="@color/greyD8"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:gravity="center_vertical">
+
+                <TextView
+                    style="@style/textGrey3Style14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="拼团商品单份数量" />
+
+                <EditText
+                    android:id="@+id/etGoodsNum"
+                    style="@style/textGrey9Style14"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp_35"
+                    android:layout_marginLeft="@dimen/dp_1"
+                    android:inputType="number"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:hint="请输入拼团中的商品数量"
+                    android:textColorHint="@color/grey9" />
+
+                <TextView
+                    style="@style/textGrey3Style14"
+                    android:text="/份"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
@@ -121,19 +160,26 @@
                     style="@style/textGrey3Style14"
                     android:layout_width="@dimen/dp_80"
                     android:layout_height="wrap_content"
-                    android:text="总价" />
+                    android:text="每份原价" />
 
                 <EditText
                     android:id="@+id/etOrignPrice"
-                    android:textColorHint="@color/grey9"
-                    android:hint="单位（元）"
-                    android:background="@null"
                     style="@style/textGrey9Style14"
-                    android:layout_marginLeft="@dimen/dp_1"
-                    android:gravity="right|center_vertical"
                     android:layout_width="0dp"
+                    android:layout_height="@dimen/dp_35"
+                    android:layout_marginLeft="@dimen/dp_1"
                     android:layout_weight="1"
-                    android:layout_height="@dimen/dp_35" />
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:textColorHint="@color/grey9" />
+
+                <TextView
+                    style="@style/textGrey3Style14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:text="(元)" />
 
             </LinearLayout>
 
@@ -158,12 +204,20 @@
                     style="@style/textGrey9Style14"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/dp_35"
-                    android:gravity="right|center_vertical"
                     android:layout_marginLeft="@dimen/dp_1"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:hint="单位（元）"
+                    android:gravity="right|center_vertical"
+                    android:hint="请输入拼团价格"
                     android:textColorHint="@color/grey9" />
+
+                <TextView
+                    style="@style/textGrey3Style14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:text="(元)" />
 
             </LinearLayout>
 
@@ -181,44 +235,27 @@
                     style="@style/textGrey3Style14"
                     android:layout_width="@dimen/dp_80"
                     android:layout_height="wrap_content"
-                    android:text="可开团数" />
+                    android:text="可成团次数" />
 
                 <EditText
                     android:id="@+id/etCollageNum"
-                    android:textColorHint="@color/grey9"
-                    android:hint="请输入参与拼团的商品数量"
-                    android:layout_height="@dimen/dp_35"
-                    android:gravity="right|center_vertical"
-                    android:background="@null"
                     style="@style/textGrey9Style14"
-                    android:layout_marginLeft="@dimen/dp_1"
                     android:layout_width="0dp"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_45"
-                android:gravity="center_vertical">
+                    android:layout_height="@dimen/dp_35"
+                    android:layout_marginLeft="@dimen/dp_1"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:hint="请输入可成团的次数"
+                    android:textColorHint="@color/grey9" />
 
                 <TextView
                     style="@style/textGrey3Style14"
-                    android:text="每单商品数"
-                    android:layout_width="@dimen/dp_80"
-                    android:layout_height="wrap_content" />
-
-                <EditText
-                    android:id="@+id/etGoodsNum"
-                    android:textColorHint="@color/grey9"
-                    android:hint="请输入每单的商品数量"
-                    android:background="@null"
-                    style="@style/textGrey9Style14"
-                    android:layout_marginLeft="@dimen/dp_1"
-                    android:layout_height="@dimen/dp_35"
-                    android:gravity="right|center_vertical"
-                    android:layout_width="0dp"
-                    android:layout_weight="1" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:text="(次)" />
 
             </LinearLayout>
 
@@ -240,15 +277,23 @@
 
                 <EditText
                     android:id="@+id/etPeopleNum"
-                    android:textColorHint="@color/grey9"
-                    android:hint="单位（人）"
-                    android:background="@null"
                     style="@style/textGrey9Style14"
-                    android:layout_marginLeft="@dimen/dp_1"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="@dimen/dp_35"
-                    android:gravity="right|center_vertical"/>
+                    android:layout_marginLeft="@dimen/dp_1"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:hint="请输入可成团的人数"
+                    android:textColorHint="@color/grey9" />
+
+                <TextView
+                    style="@style/textGrey3Style14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:text="(人)" />
 
             </LinearLayout>
 
@@ -341,6 +386,14 @@
                     android:layout_width="0dp"
                     android:layout_weight="1" />
 
+                <TextView
+                    style="@style/textGrey3Style14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:text="(小时)" />
+
             </LinearLayout>
 
             <View
@@ -356,8 +409,7 @@
                 <TextView
                     style="@style/textGrey3Style14"
                     android:text="未成团自动取消订单时间"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <EditText
@@ -372,6 +424,14 @@
                     android:layout_weight="1"
                     android:layout_height="@dimen/dp_35"
                     android:gravity="right|center_vertical" />
+
+                <TextView
+                    style="@style/textGrey3Style14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:text="(小时)" />
 
             </LinearLayout>
 
@@ -388,8 +448,7 @@
                 <TextView
                     style="@style/textGrey3Style14"
                     android:text="未提货自动取消订单时间"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <EditText
@@ -404,6 +463,14 @@
                     android:background="@null"
                     android:hint="单位（小时）"
                     android:textColorHint="@color/grey9" />
+
+                <TextView
+                    style="@style/textGrey3Style14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:text="(小时)" />
 
             </LinearLayout>
 
@@ -423,8 +490,7 @@
                 <TextView
                     style="@style/textGrey3Style14"
                     android:text="未送货自动取消订单时间"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <EditText
@@ -438,6 +504,14 @@
                     android:gravity="right"
                     android:hint="单位（小时）"
                     android:textColorHint="@color/grey9" />
+
+                <TextView
+                    style="@style/textGrey3Style14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:text="(小时)" />
 
             </LinearLayout>
 

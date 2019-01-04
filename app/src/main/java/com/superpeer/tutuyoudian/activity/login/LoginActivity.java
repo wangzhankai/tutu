@@ -4,12 +4,18 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.allenliu.versionchecklib.v2.AllenVersionChecker;
+import com.allenliu.versionchecklib.v2.builder.DownloadBuilder;
+import com.allenliu.versionchecklib.v2.builder.UIData;
+import com.allenliu.versionchecklib.v2.callback.ForceUpdateListener;
 import com.google.gson.Gson;
 import com.superpeer.base_libs.base.AppManager;
+import com.superpeer.base_libs.utils.AppUtils;
 import com.superpeer.base_libs.utils.MD5Util;
 import com.superpeer.base_libs.utils.MPermissionUtils;
 import com.superpeer.base_libs.utils.PreferencesUtils;
@@ -26,6 +32,7 @@ import com.superpeer.tutuyoudian.activity.storesendset.StoreSendSetActivity;
 import com.superpeer.tutuyoudian.activity.storeuse.StoreUseActivity;
 import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
+import com.superpeer.tutuyoudian.bean.BaseObject;
 import com.superpeer.tutuyoudian.constant.Constants;
 
 import rx.functions.Action1;
@@ -80,6 +87,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         initRxBus();
 
         initPermission();
+
+        mPresenter.update("0");
 
     }
 
@@ -208,19 +217,59 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                                         intent.putExtra("type", "1");
                                         startActivity(intent);
                                     }else{
-                                        AppManager.getAppManager().finishAllActivity();
                                         startActivity(MainActivity.class);
+                                        AppManager.getAppManager().finishAllActivity();
                                     }
                                 }
                             }else{
                                 PreferencesUtils.putString(mContext, Constants.SHOP_ID, baseBeanResult.getData().getObject().getId());
-                                AppManager.getAppManager().finishAllActivity();
                                 startActivity(DriverMainActivity.class);
+                                AppManager.getAppManager().finishAllActivity();
                             }
                         }
                     }
                 }
             }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void showUpdate(BaseBeanResult baseBeanResult) {
+        try{
+            if(null!=baseBeanResult){
+                if("1".equals(baseBeanResult.getCode())){
+                    toUpdate(baseBeanResult);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void toUpdate(final BaseBeanResult baseBeanResult) {
+        try {
+            BaseObject object = baseBeanResult.getData().getObject();
+                    //判断版本号
+                    if (AppUtils.getLocalVersion(mContext) < Integer.parseInt(object.getVersionName())) {
+//                        AllenVersionChecker.getInstance().downloadOnly(
+//                                UIData.create().setTitle(object.getVersionNumber()).setContent("版本更新")
+//                                        .setDownloadUrl(object.getVersionSrc())).excuteMission(this);
+//                                        .setDownloadUrl("https://imtt.dd.qq.com/16891/D21910E083EA4C497C5BD59A76C5577B.apk?fsname=com.tencent.mm_6.7.3_1360.apk&csr=1bbd")).excuteMission(this);
+                        DownloadBuilder builder = AllenVersionChecker.getInstance().downloadOnly(
+                                UIData.create().setTitle(object.getVersionNumber()).setContent("版本更新")
+                                        .setDownloadUrl(object.getVersionSrc()));
+                                builder.excuteMission(this);
+                                builder.setForceUpdateListener(new ForceUpdateListener() {
+                                    @Override
+                                    public void onShouldForceUpdate() {
+
+                                    }
+                                });
+                    } /*else {
+                        showShortToast("当前版本为最新版本");
+                    }*/
         }catch (Exception e){
             e.printStackTrace();
         }

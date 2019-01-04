@@ -1,6 +1,7 @@
 package com.superpeer.tutuyoudian.adapter;
 
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -80,7 +81,7 @@ public class CollageSetAdapter extends BaseQuickAdapter {
         ImageView ivImg = ((ImageView) helper.getView(R.id.ivImg));
 
         if(null!=bean.getImgPath())
-        Glide.with(mContext).load(Url.IP+bean.getImgPath()).into(ivImg);
+            Glide.with(mContext).load(Url.IP+bean.getImgPath()).into(ivImg);
 
         ((TextView) helper.getView(R.id.tvNum)).setText(bean.getNeedNum());
         ((TextView) helper.getView(R.id.tvTitle)).setText(bean.getTitle());
@@ -106,7 +107,7 @@ public class CollageSetAdapter extends BaseQuickAdapter {
         dynamicConfigBuilder.setBackgroundInfo(backgroundInfo);
         countView.dynamicShow(dynamicConfigBuilder.build());
 
-        try {
+        /*try {
             countView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
                 @Override
                 public void onViewAttachedToWindow(View v) {
@@ -122,7 +123,7 @@ public class CollageSetAdapter extends BaseQuickAdapter {
             });
         }catch (Exception e){
             e.printStackTrace();
-        }
+        }*/
 
         //删除
         ((TextView) helper.getView(R.id.tvDelete)).setOnClickListener(new View.OnClickListener() {
@@ -147,20 +148,19 @@ public class CollageSetAdapter extends BaseQuickAdapter {
             }
         });
         if(null!=bean.getRemainingTime()){
+            countView.setVisibility(View.VISIBLE);
             if("0".equals(bean.getRemainingTime())){
                 tvPublish.setVisibility(View.VISIBLE);
+                Log.i("base", bean.getRemainingTime());
+                countView.start(1);
             }else{
                 tvPublish.setVisibility(View.GONE);
+                countView.start(Long.parseLong(bean.getRemainingTime()));
+                Log.i("base1", bean.getRemainingTime());
             }
-            countView.setVisibility(View.VISIBLE);
-            countView.start(Long.parseLong(bean.getRemainingTime()));
+        }else{
+            countView.start(1);
         }
 
-        countView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
-            @Override
-            public void onEnd(CountdownView cv) {
-                onEditListener.OnEditListener(position);
-            }
-        });
     }
 }

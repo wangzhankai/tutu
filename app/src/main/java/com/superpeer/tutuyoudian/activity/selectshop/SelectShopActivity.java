@@ -74,7 +74,7 @@ public class SelectShopActivity extends BaseActivity<SelectShopPresenter, Select
 
         rvContent = (RecyclerView) findViewById(R.id.rv_content);
         refresh = (RefreshLayout) findViewById(R.id.refresh);
-        adapter = new ShopAdapter(R.layout.item_shop_select, null);
+        adapter = new ShopAdapter(R.layout.item_collage_shop_select, null);
         rvContent.setLayoutManager(new LinearLayoutManager(mContext));
         //设置适配器加载动画
         adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);

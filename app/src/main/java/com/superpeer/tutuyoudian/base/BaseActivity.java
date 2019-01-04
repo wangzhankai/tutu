@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
@@ -92,11 +93,17 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                         PushBean bean = new Gson().fromJson(extras, PushBean.class);
 
                         if(null!=bean&&null!=bean.getOrderType()&&"1".equals(bean.getOrderType())){
-//                        mRxManager.post("jpush", bean);
-                            showOrderDialog(bean);
+                            if(dialog==null){
+                                if(null!=bean.getSound()){
+                                    playVoice(bean.getSound());
+                                }
+                                showOrderDialog(bean);
+                            }
                         }
                     }else{
-                        showOrderDialog(extras, message);
+                        if(dialog==null){
+                            showOrderDialog(extras, message);
+                        }
                         mRxManager.post("drivermain", "");
                     }
                 }
@@ -136,10 +143,12 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
 
         try {
             final PushBean bean = new Gson().fromJson(extra, PushBean.class);
+            if(null!=bean.getSound()) {
+                playVoice(bean.getSound());
+            }
             if (null != bean) {
                 if (null != bean.getShopName()) {
                     tvDesc.setText(bean.getShopName()+"有新订单了，兔兔跑腿，快抢单吧");
-//                    tvDesc.setText(msg);
                 }
             }
             //接单
@@ -532,5 +541,26 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
             mPresenter.onDestroy();
         mRxManager.clear();
         AppManager.getAppManager().finishActivity(this);
+    }
+
+    public void playVoice(String voiceName){
+        try {
+            int rawId = getResources().getIdentifier(voiceName, "raw", "com.superpeer.tutuyoudian");
+            final MediaPlayer mp = MediaPlayer.create(mContext, rawId);//重新设置要播放的音频
+
+            mp.start();//开始播放
+
+            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer arg0) {
+                    if (null != mp) {
+                        mp.stop();
+                        mp.release();
+                    }
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

@@ -33,7 +33,7 @@ public class IncomeAdapter extends BaseQuickAdapter {
             tvOrder.setText(bean.getOrderNum());
         }
         if(null!=bean.getTransactionMoney()){
-            tvMoney.setText("+"+bean.getTransactionMoney());
+            tvMoney.setText(bean.getTransactionMoney());
         }
     }
 }

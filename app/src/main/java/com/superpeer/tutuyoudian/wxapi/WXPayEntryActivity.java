@@ -67,12 +67,13 @@ public class WXPayEntryActivity extends BaseActivity<PayPresenter, PayModel> imp
 		api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
 		api.handleIntent(getIntent(), this);
 
+
 		ivLeft.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				AppManager.getAppManager().finishAllActivity();
 				if(code == 0){
 					startActivity(MainActivity.class);
+//					AppManager.getAppManager().finishAllActivity();
 				}else{
 					finish();
 				}
@@ -141,8 +142,8 @@ public class WXPayEntryActivity extends BaseActivity<PayPresenter, PayModel> imp
 								}else if("3".equals(baseBeanResult.getData().getObject().getState())){
 									startActivity(StoreUseActivity.class);
 								}else{
-									AppManager.getAppManager().finishAllActivity();
 									startActivity(MainActivity.class);
+									AppManager.getAppManager().finishAllActivity();
 								}
 							}
 							PreferencesUtils.putString(mContext, Constants.SHOP_ID, baseBeanResult.getData().getObject().getShopId());

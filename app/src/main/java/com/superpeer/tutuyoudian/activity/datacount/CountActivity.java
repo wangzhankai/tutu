@@ -20,6 +20,7 @@ import com.superpeer.base_libs.base.baseadapter.BaseQuickAdapter;
 import com.superpeer.base_libs.base.baseadapter.OnItemClickListener;
 import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.tutuyoudian.R;
+import com.superpeer.tutuyoudian.activity.cash.withdraw.CashWithDrawActivity;
 import com.superpeer.tutuyoudian.activity.income.IncomeDetailActivity;
 import com.superpeer.tutuyoudian.adapter.CountAdapter;
 import com.superpeer.tutuyoudian.adapter.FeeAdapter;
@@ -70,6 +71,8 @@ public class CountActivity extends BaseActivity<CountPresenter, CountModel> impl
     private TextView tvStartTime;
     private TextView tvEndTime;
     private CountAdapter countAdapter;
+    List<String> keys = new ArrayList<>();
+    private NoScrollRecyclerView recycler;
 
     @Override
     protected boolean hasHeadTitle() {
@@ -127,7 +130,7 @@ public class CountActivity extends BaseActivity<CountPresenter, CountModel> impl
     }
 
     private void initRecyclerView() {
-        NoScrollRecyclerView recycler = (NoScrollRecyclerView) findViewById(R.id.recycler);
+        recycler = (NoScrollRecyclerView) findViewById(R.id.recycler);
         recycler.setLayoutManager(new LinearLayoutManager(mContext));
         countAdapter = new CountAdapter(R.layout.item_count, null);
         recycler.setAdapter(countAdapter);
@@ -140,6 +143,13 @@ public class CountActivity extends BaseActivity<CountPresenter, CountModel> impl
                 finish();
             }
         });
+        //
+        linearWithDraw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(CashWithDrawActivity.class);
+            }
+        });
         //访客
         tvView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,6 +158,7 @@ public class CountActivity extends BaseActivity<CountPresenter, CountModel> impl
                 reset();
                 tvDataFirst.setText("访客人数");
                 tvDataSecond.setText("浏览次数");
+                recycler.setVisibility(View.GONE);
                 lineaOrderOrVisit.setVisibility(View.VISIBLE);
                 linearTotalIncome.setVisibility(View.GONE);
                 linearRank.setVisibility(View.GONE);
@@ -169,6 +180,7 @@ public class CountActivity extends BaseActivity<CountPresenter, CountModel> impl
                 reset();
                 lineaOrderOrVisit.setVisibility(View.VISIBLE);
                 linearTotalIncome.setVisibility(View.GONE);
+                recycler.setVisibility(View.VISIBLE);
                 linearRank.setVisibility(View.VISIBLE);
                 linearWithDraw.setVisibility(View.GONE);
                 linearDetail.setVisibility(View.GONE);
@@ -184,6 +196,7 @@ public class CountActivity extends BaseActivity<CountPresenter, CountModel> impl
             public void onClick(View v) {
                 type = 2;
                 reset();
+                recycler.setVisibility(View.GONE);
                 lineaOrderOrVisit.setVisibility(View.GONE);
                 linearTotalIncome.setVisibility(View.VISIBLE);
                 linearRank.setVisibility(View.GONE);
@@ -431,11 +444,13 @@ public class CountActivity extends BaseActivity<CountPresenter, CountModel> impl
      * 曲线名称 * @param color
      * 曲线颜色
      * */
-    public void showLineChart(List<BaseCountList> object, String firstName, String secondName, int dard_orange, int blue, String type) {
+    public void showLineChart(final List<BaseCountList> object, String firstName, String secondName, int dard_orange, int blue, String type) {
         initChart(lineChart);
         List<Entry> entriesFirst = new ArrayList<>();
         List<Entry> entriesSecond = new ArrayList<>();
+        keys.clear();
         for(int i=0; i<object.size(); i++){
+            keys.add(object.get(i).getDate());
             if("0".equals(type)) {
                 Entry entry1 = new Entry(i, Float.parseFloat(object.get(i).getVisitorNum()));
                 entriesFirst.add(entry1);
@@ -453,7 +468,8 @@ public class CountActivity extends BaseActivity<CountPresenter, CountModel> impl
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                return "";
+                String tradeDate = keys.get((int) value % object.size());
+                return tradeDate.substring(5);
             }
         });
         // 每一个LineDataSet代表一条线
@@ -473,16 +489,19 @@ public class CountActivity extends BaseActivity<CountPresenter, CountModel> impl
      * */
     public void showLineChart(final List<BaseCountList> object, String firstName, int blue) {
         initChart(lineChart);
-        List<Entry> entriesFirst = new ArrayList<>();
+        final List<Entry> entriesFirst = new ArrayList<>();
+        keys.clear();
         for(int i=0; i<object.size(); i++){
             Entry entry = new Entry(i, Float.parseFloat(object.get(i).getMoney()));
             entriesFirst.add(entry);
+            keys.add(object.get(i).getDate());
         }
         /*tvTotalIncome.setText(firstNum+"");*/
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                return "";
+                String tradeDate = keys.get((int) value % object.size());
+                return tradeDate.substring(5);
             }
         });
         // 每一个LineDataSet代表一条线

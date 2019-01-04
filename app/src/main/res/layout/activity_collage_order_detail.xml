@@ -114,6 +114,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:orientation="vertical">
 
                 <TextView
@@ -162,24 +163,46 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tvUserName"
+                        android:text="提货人："
+                        style="@style/textGrey9Style13"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="@dimen/dp_40"
+                        android:layout_marginTop="@dimen/dp_1"
+                        android:paddingLeft="@dimen/dp_15"
+                        android:paddingRight="@dimen/dp_15"
+                        android:background="@color/white"
+                        android:gravity="center_vertical" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_40"
+                    android:gravity="center_vertical"
                     android:background="@color/white">
 
                     <TextView
+                        style="@style/textGrey9Style13"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="店铺地址："
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
                         android:paddingLeft="@dimen/dp_15"
-                        style="@style/textGrey9Style13" />
+                        android:text="店铺地址：" />
 
                     <TextView
                         android:id="@+id/tvStoreAddress"
                         style="@style/textGrey9Style13"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_40"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
                         android:layout_marginTop="@dimen/dp_1"
-                        android:paddingRight="@dimen/dp_15"
-                        android:background="@color/white" />
+                        android:background="@color/white"
+                        android:paddingRight="@dimen/dp_15" />
 
                 </LinearLayout>
 
@@ -257,6 +280,18 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvRemark"
+                style="@style/textGrey9Style13"
+                android:background="@color/white"
+                android:paddingLeft="@dimen/dp_15"
+                android:paddingRight="@dimen/dp_15"
+                android:paddingTop="@dimen/dp_5"
+                android:paddingBottom="@dimen/dp_5"
+                android:text="备注"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:layout_width="match_parent"

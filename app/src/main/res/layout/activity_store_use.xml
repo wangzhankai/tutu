@@ -90,6 +90,7 @@
             android:id="@+id/linearZfb"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_45"
+            android:visibility="gone"
             android:layout_marginTop="@dimen/dp_1"
             android:background="@color/white"
             android:gravity="center_vertical"

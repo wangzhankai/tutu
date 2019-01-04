@@ -536,4 +536,14 @@ public interface ApiService {
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @GET("sns/userinfo")
     Observable<WxBean> getUserInfo(@Query("access_token") String token, @Query("openid") String openId);
+
+    //版本更新
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @GET("/app/version/queryNewVersion")
+    Observable<BaseBeanResult> update(@Query("terminalType") String terminalType);
+
+    /*@FormUrlEncoded
+    @POST("/app/version/queryNewVersion")
+    Observable<BaseBeanResult> appOauth2(@Field("terminalType") String terminalType);*/
+
 }

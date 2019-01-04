@@ -11,6 +11,7 @@
         android:id="@+id/tvCategory"
         style="@style/textGrey3Style14"
         android:layout_marginLeft="@dimen/dp_15"
+        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

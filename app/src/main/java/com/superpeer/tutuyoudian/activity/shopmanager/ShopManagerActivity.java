@@ -243,12 +243,15 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
             @Override
             public void onClick(View v) {
                 tvRight.setVisibility(View.GONE);
+                tvSearch.setHint("搜索在售商品");
                 type = "1";
                 stock = "";
                 tvUp.setSelected(true);
                 tvRest.setSelected(false);
                 tvDown.setSelected(false);
-                mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+//                mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+                PAGE = 1;
+                mPresenter.getGoods(PreferencesUtils.getString(mContext, Constants.SHOP_ID), typeId, type, stock, PAGE+"", "10", "");
             }
         });
 
@@ -256,12 +259,15 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
             @Override
             public void onClick(View v) {
                 tvRight.setVisibility(View.GONE);
+                tvSearch.setHint("搜索待补库存");
                 type = "";
                 stock = "1";
                 tvUp.setSelected(false);
                 tvRest.setSelected(true);
                 tvDown.setSelected(false);
-                mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+//                mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+                PAGE = 1;
+                mPresenter.getGoods(PreferencesUtils.getString(mContext, Constants.SHOP_ID), typeId, type, stock, PAGE+"", "10", "");
             }
         });
 
@@ -269,12 +275,15 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
             @Override
             public void onClick(View v) {
                 tvRight.setVisibility(View.GONE);
+                tvSearch.setHint("搜索待上架商品");
                 type = "0";
                 stock = "";
                 tvUp.setSelected(false);
                 tvRest.setSelected(false);
                 tvDown.setSelected(true);
-                mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+//                mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+                PAGE = 1;
+                mPresenter.getGoods(PreferencesUtils.getString(mContext, Constants.SHOP_ID), typeId, type, stock, PAGE+"", "10", "");
             }
         });
     }
@@ -385,7 +394,7 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
             @Override
             public void OnEditListener(int position) {
                 Intent intent = new Intent(mContext, AddShopActivity.class);
-                intent.putExtra("shopManager", ((BaseList)adapter.getItem(adapterPosition)));
+                intent.putExtra("shopManager", ((BaseList)adapter.getItem(position)));
                 intent.putExtra("barCode", ((BaseList) adapter.getItem(position)).getBarCode());
                 startActivity(intent);
             }

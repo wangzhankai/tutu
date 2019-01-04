@@ -63,6 +63,8 @@ public class CollageOrderDetailActivity extends BaseActivity<CollageOrderDetailP
     private String phone = "";
     private BaseObject object;
     private CountdownView countView;
+    private TextView tvRemark;
+    private TextView tvUserName;
 
     @Override
     protected void doBeforeSetcontentView() {
@@ -83,6 +85,8 @@ public class CollageOrderDetailActivity extends BaseActivity<CollageOrderDetailP
     @Override
     public void initView() {
         setHeadTitle("订单详情");
+        tvUserName = (TextView) findViewById(R.id.tvUserName);
+        tvRemark = (TextView) findViewById(R.id.tvRemark);
         ivStatus = (ImageView) findViewById(R.id.ivStatus);
         tvStatus = (TextView) findViewById(R.id.tvStatus);
         tvCancel = (TextView) findViewById(R.id.tvCancel);
@@ -296,6 +300,9 @@ public class CollageOrderDetailActivity extends BaseActivity<CollageOrderDetailP
             if(null!=userInfo.getAddress()){
                 tvStoreAddress.setText(userInfo.getAddress());
             }
+            if(null!=userInfo.getConsignee()){
+                tvUserName.setText("提货人："+userInfo.getConsignee());
+            }
             if(null!=userInfo.getImagePath()){
                 Glide.with(mContext).load(Url.IP+userInfo.getImagePath()).centerCrop().into(ivAvatar);
             }
@@ -353,7 +360,15 @@ public class CollageOrderDetailActivity extends BaseActivity<CollageOrderDetailP
                 tvOrignPrice.setText("￥"+object.getOriginalPrice());
             }
             if(null!=object.getGoodsNum()){
-                tvGoodsNum.setText("1份/"+object.getGoodsNum());
+                tvGoodsNum.setText(object.getGoodsNum()+"/份");
+            }
+            if(null!=object.getRemark()){
+                if(!"".equals(object.getRemark())){
+                    tvRemark.setVisibility(View.VISIBLE);
+                    tvRemark.setText("备注："+object.getRemark());
+                }else{
+                    tvRemark.setVisibility(View.GONE);
+                }
             }
             if(null!=object.getOrderStatus()){
                 switch(object.getOrderStatus()){
