@@ -32,6 +32,7 @@ import com.superpeer.tutuyoudian.adapter.ShopManagerAdapter;
 import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 import com.superpeer.tutuyoudian.bean.BaseList;
+import com.superpeer.tutuyoudian.bean.BaseObject;
 import com.superpeer.tutuyoudian.constant.Constants;
 import com.superpeer.tutuyoudian.listener.OnAddListener;
 import com.superpeer.tutuyoudian.listener.OnDownListener;
@@ -174,6 +175,13 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
             public void call(String s) {
                 PAGE = 1;
                 mPresenter.getGoods(PreferencesUtils.getString(mContext, Constants.SHOP_ID), typeId, type, stock, PAGE+"", "10", "");
+            }
+        });
+        mRxManager.on("library", new Action1<BaseObject>() {
+            @Override
+            public void call(BaseObject s) {
+                PAGE = 1;
+                mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
             }
         });
     }

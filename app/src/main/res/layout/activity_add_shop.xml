@@ -67,7 +67,7 @@
                     android:id="@+id/etShopName"
                     style="@style/textGrey3Style14"
                     android:textColorHint="@color/grey9"
-                    android:hint="请输入商品标题"
+                    android:hint="请输入:品牌名称商品名称"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"/>
@@ -205,16 +205,18 @@
                 android:gravity="center_vertical">
 
                 <TextView
-                    android:text="商品品牌"
                     style="@style/textGrey3Style14"
-                    android:layout_width="@dimen/dp_80"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="@dimen/dp_90"
+                    android:layout_height="wrap_content"
+                    android:text="制造商或产地" />
 
                 <EditText
                     android:id="@+id/etShopType"
                     style="@style/textGrey3Style14"
                     android:textColorHint="@color/grey9"
-                    android:hint="请输入商品品牌"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:hint="请输入制造商简称(进口产品请输入产地)"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"/>
@@ -335,7 +337,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:hint="请输入商品优惠价(可不填)"
+                    android:hint="请填写优惠后的价格"
+                    android:inputType="textEmailAddress"
                     android:textColorHint="@color/grey9" />
 
             </LinearLayout>

@@ -79,6 +79,7 @@ public class StoreApplyActivity extends BaseActivity<StoreApplyPresenter, StoreA
     private String latitude = "";
     private String code = "";
     private String type = "";
+    private EditText etDetailAddress;
 
     @Override
     protected void doBeforeSetcontentView() {
@@ -113,6 +114,7 @@ public class StoreApplyActivity extends BaseActivity<StoreApplyPresenter, StoreA
         tvAddress = (TextView) findViewById(R.id.tvAddress);
         tvCity = (TextView) findViewById(R.id.tvCity);
 
+        etDetailAddress = (EditText) findViewById(R.id.etDetailAddress);
         etStoreName = (EditText) findViewById(R.id.etStoreName);
         etRange = (EditText) findViewById(R.id.etRange);
         etUserName = (EditText) findViewById(R.id.etUserName);
@@ -149,6 +151,7 @@ public class StoreApplyActivity extends BaseActivity<StoreApplyPresenter, StoreA
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            if(null!=bean.getImagePath())
             Glide.with(mContext).load(Url.IP+bean.getImagePath()).centerCrop().into(ivPhoto);
         }
         if(null!=bean.getTypeName()){
@@ -159,6 +162,9 @@ public class StoreApplyActivity extends BaseActivity<StoreApplyPresenter, StoreA
         }
         if(null!=bean.getAddress()){
             tvAddress.setText(bean.getAddress());
+        }
+        if(null!=bean.getDetailedAddress()){
+            etDetailAddress.setText(bean.getDetailedAddress());
         }
         if(null!=bean.getPhone()){
             etPhone.setText(bean.getPhone());
@@ -224,6 +230,7 @@ public class StoreApplyActivity extends BaseActivity<StoreApplyPresenter, StoreA
         String username = etUserName.getText().toString().trim();
         String phone = etPhone.getText().toString().trim();
         String address = tvAddress.getText().toString().trim();
+        String detail = etDetailAddress.getText().toString().trim();
         if(TextUtils.isEmpty(storeName)){
             showShortToast("请输入店铺名称");
             return;
@@ -256,9 +263,13 @@ public class StoreApplyActivity extends BaseActivity<StoreApplyPresenter, StoreA
             showShortToast("务必准确填写您的地址");
             return;
         }
+        if(TextUtils.isEmpty(detail)){
+            showShortToast("请输入店铺详细地址");
+            return;
+        }
 
         mPresenter.saveInfo(PreferencesUtils.getString(mContext, Constants.SHOP_ID), PreferencesUtils.getString(mContext, Constants.ACCOUNT_ID), storeName, mSelectPath.get(0), typeCode,
-                category, range, code, longitude, latitude, address, username, phone);
+                category, range, code, longitude, latitude, address, username, phone, detail);
     }
 
     private void initListener() {

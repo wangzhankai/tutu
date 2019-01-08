@@ -35,8 +35,8 @@ public class StoreApplyPresenter extends StoreApplyContract.Presenter {
     }
 
     @Override
-    public void saveInfo(String shopId, String accountId, String name, String image, String type, String typeName, String businessScope, String areaCode, String longitude, String latitude, String address, String bossName, String phone) {
-        mRxManage.add(mModel.saveInfo(shopId, accountId, name, image, type, typeName, businessScope, areaCode, longitude, latitude, address, bossName, phone).subscribe(new RxSubscriber<BaseBeanResult>(mContext, true) {
+    public void saveInfo(String shopId, String accountId, String name, String image, String type, String typeName, String businessScope, String areaCode, String longitude, String latitude, String address, String bossName, String phone, String detail) {
+        mRxManage.add(mModel.saveInfo(shopId, accountId, name, image, type, typeName, businessScope, areaCode, longitude, latitude, address, bossName, phone, detail).subscribe(new RxSubscriber<BaseBeanResult>(mContext, true) {
             @Override
             protected void _onNext(BaseBeanResult baseBeanResult) {
                 mView.showSaveResult(baseBeanResult);

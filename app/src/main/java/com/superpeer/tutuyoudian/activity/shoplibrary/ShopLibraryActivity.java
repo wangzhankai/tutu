@@ -135,6 +135,13 @@ public class ShopLibraryActivity extends BaseActivity<ShopLibraryPresenter, Shop
                         bean.setGoodsId(s.getGoodsId());
                         bean.setPrice(s.getPrice());
                         bean.setStock(s.getStock());
+                        bean.setBrand(s.getBrand());
+                        bean.setType(s.getType());
+                        bean.setName(s.getName());
+                        bean.setImagePath(s.getImagePath());
+                        bean.setTypeName(s.getTypeName());
+                        bean.setSpecifications(s.getSpecifications());
+                        bean.setPreferentialPrice(s.getPreferentialPrice());
                         adapter.notifyDataSetChanged();
                     }
                 }catch (Exception e){

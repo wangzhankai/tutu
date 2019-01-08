@@ -14,7 +14,7 @@ public interface StoreApplyContract {
 
         Observable<BaseBeanResult> getArea();
 
-        Observable<BaseBeanResult> saveInfo(String shopId, String accountId, String name, String image, String type, String typeName, String businessScope, String areaCode, String longitude, String latitude, String address, String bossName, String phone);
+        Observable<BaseBeanResult> saveInfo(String shopId, String accountId, String name, String image, String type, String typeName, String businessScope, String areaCode, String longitude, String latitude, String address, String bossName, String phone, String detailed);
     }
 
     interface View extends BaseView {
@@ -30,7 +30,7 @@ public interface StoreApplyContract {
 
         public abstract void getArea();
 
-        public abstract void saveInfo(String shopId, String accountId, String name, String image, String type, String typeName, String businessScope, String areaCode, String longitude, String latitude, String address, String bossName, String phone);
+        public abstract void saveInfo(String shopId, String accountId, String name, String image, String type, String typeName, String businessScope, String areaCode, String longitude, String latitude, String address, String bossName, String phone, String detailed);
     }
 
 }

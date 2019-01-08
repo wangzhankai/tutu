@@ -31,6 +31,7 @@ public class VerifyAdapter extends BaseQuickAdapter {
         ((TextView) helper.getView(R.id.tvTitle)).setText(bean.getName());
         ((TextView) helper.getView(R.id.tvNum)).setText("X"+bean.getNum());
 
-        Glide.with(mContext).load(bean.getImagePath().contains("http")?bean.getImagePath(): Url.IP+bean.getImagePath()).centerCrop().into(ivImg);
+        if(null!=bean.getImagePath())
+            Glide.with(mContext).load(bean.getImagePath().contains("http")?bean.getImagePath(): Url.IP+bean.getImagePath()).centerCrop().into(ivImg);
     }
 }

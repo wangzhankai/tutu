@@ -173,7 +173,9 @@ public class AddCollageActivity extends BaseActivity<AddCollagePresenter, AddCol
                 String num = etGoodsNum.getText().toString().trim();
                 if(TextUtils.isEmpty(num)){
                     etGoodsNum.setText("1");
-                    etOrignPrice.setText(baseList.getPrice());
+                    if(null!=baseList.getPrice()){
+                        etOrignPrice.setText(baseList.getPrice());
+                    }
                 }else{
                     etOrignPrice.setText(new BigDecimal(baseList.getPrice()).multiply(new BigDecimal(num))+"");
                     TvUtils.setTwoDecimal(etOrignPrice);

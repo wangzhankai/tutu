@@ -55,7 +55,8 @@ public class ShopLibraryAdapter extends BaseQuickAdapter {
         TextView tvModify = (TextView) helper.getView(R.id.tvModify);
         TextView tvAddOrRemove = (TextView) helper.getView(R.id.tvAddOrRemove);
 
-        Glide.with(mContext).load(bean.getImagePath().contains("http")?bean.getImagePath(): Url.IP+bean.getImagePath()).centerCrop().into(ivImg);
+        if(null!=bean.getImagePath())
+            Glide.with(mContext).load(bean.getImagePath().contains("http")?bean.getImagePath(): Url.IP+bean.getImagePath()).centerCrop().into(ivImg);
         StringBuilder sb = new StringBuilder();
         if(null!=bean.getName()){
             sb.append(bean.getName());

@@ -33,6 +33,7 @@ public class BaseObject implements Serializable {
     private String longitude;
     private String latitude;
     private String address;
+    private String detailedAddress;
     private String bossName;
     private String phone;
     private String operatingStatus;
@@ -63,6 +64,14 @@ public class BaseObject implements Serializable {
     private String versionName;
     private String versionSrc;
     private String versionDescribe;
+
+    public String getDetailedAddress() {
+        return detailedAddress;
+    }
+
+    public void setDetailedAddress(String detailedAddress) {
+        this.detailedAddress = detailedAddress;
+    }
 
     public String getVersionNumber() {
         return versionNumber;

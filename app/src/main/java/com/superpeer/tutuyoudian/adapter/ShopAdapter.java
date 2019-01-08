@@ -38,8 +38,8 @@ public class ShopAdapter extends BaseQuickAdapter {
 
         ImageView ivImg = ((ImageView) helper.getView(R.id.ivImg));
         ImageView ivSelect = ((ImageView) helper.getView(R.id.ivSelect));
-
-        Glide.with(mContext).load(bean.getImagePath().contains("http")?bean.getImagePath(): Url.IP+bean.getImagePath()).centerCrop().into(ivImg);
+        if(null!=bean.getImagePath())
+            Glide.with(mContext).load(bean.getImagePath().contains("http")?bean.getImagePath(): Url.IP+bean.getImagePath()).centerCrop().into(ivImg);
         ((TextView) helper.getView(R.id.tvTitle)).setText(bean.getName());
         ((TextView) helper.getView(R.id.tvPrice)).setText(bean.getPrice());
 

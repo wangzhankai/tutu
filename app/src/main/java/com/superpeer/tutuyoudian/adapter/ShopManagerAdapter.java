@@ -180,7 +180,7 @@ public class ShopManagerAdapter extends BaseQuickAdapter {
         });
 
         if(null!=bean.getImagePath())
-        Glide.with(mContext).load(bean.getImagePath().contains("http")?bean.getImagePath(): Url.IP+bean.getImagePath()).centerCrop().into(ivImg);
+            Glide.with(mContext).load(bean.getImagePath().contains("http")?bean.getImagePath(): Url.IP+bean.getImagePath()).centerCrop().into(ivImg);
 
         StringBuilder sb = new StringBuilder();
         if(null!=bean.getName()){

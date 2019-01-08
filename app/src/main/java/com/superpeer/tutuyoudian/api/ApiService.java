@@ -326,7 +326,7 @@ public interface ApiService {
                                             @PartMap Map<String, RequestBody> imgs, @Part("type") RequestBody type, @Part("typeName") RequestBody typeName,
                                             @Part("businessScope") RequestBody businessScope,
                                             @Part("areaCode") RequestBody areaCode, @Part("longitude") RequestBody longitude, @Part("latitude") RequestBody latitude,
-                                            @Part("address") RequestBody address, @Part("bossName") RequestBody bossName, @Part("phone") RequestBody phone);
+                                            @Part("address") RequestBody address, @Part("bossName") RequestBody bossName, @Part("phone") RequestBody phone, @Part("detailedAddress") RequestBody detailed);
 
 
     //取消订单

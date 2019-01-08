@@ -36,7 +36,7 @@ public class StoreApplyModel implements StoreApplyContract.Model {
     }
 
     @Override
-    public Observable<BaseBeanResult> saveInfo(String shopId, String accountId, String name, String image, String type, String typeName, String businessScope, String areaCode, String longitude, String latitude, String address, String bossName, String phone) {
+    public Observable<BaseBeanResult> saveInfo(String shopId, String accountId, String name, String image, String type, String typeName, String businessScope, String areaCode, String longitude, String latitude, String address, String bossName, String phone, String detail) {
         Map<String, RequestBody> files = new HashMap<>();
         File file = new File(image);
         files.put("image\";filename=\"" + file.getName()+".jpg", RequestBody.create(MediaType.parse("image/png"), file));
@@ -57,8 +57,9 @@ public class StoreApplyModel implements StoreApplyContract.Model {
         RequestBody addressBody = RequestBody.create(MediaType.parse("multipart/form-data"), address);
         RequestBody bossNameBody = RequestBody.create(MediaType.parse("multipart/form-data"), bossName);
         RequestBody phoneBody = RequestBody.create(MediaType.parse("multipart/form-data"), phone);
+        RequestBody detailed = RequestBody.create(MediaType.parse("multipart/form-data"), detail);
 
-        return Api.getInstance().service.saveShopInfo(shopIdBody, accountIdBody, nameBody, files, typeBody, typeNameBody, businessScopeBody, areaBody, longitudeBody, latitudeBody, addressBody, bossNameBody, phoneBody).map(new Func1<BaseBeanResult, BaseBeanResult>() {
+        return Api.getInstance().service.saveShopInfo(shopIdBody, accountIdBody, nameBody, files, typeBody, typeNameBody, businessScopeBody, areaBody, longitudeBody, latitudeBody, addressBody, bossNameBody, phoneBody, detailed).map(new Func1<BaseBeanResult, BaseBeanResult>() {
             @Override
             public BaseBeanResult call(BaseBeanResult baseBeanResult) {
                 return baseBeanResult;

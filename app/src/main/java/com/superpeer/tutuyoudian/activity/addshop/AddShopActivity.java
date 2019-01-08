@@ -172,8 +172,10 @@ public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel
             etShopName.setFocusable(false);
             etShopName.setFocusableInTouchMode(false);*/
             etCode.setFocusable(false);
-            /*etCode.setFocusableInTouchMode(false);
-            etRule.setFocusable(false);
+            etCode.setFocusableInTouchMode(false);
+            ivQrCode.setFocusable(false);
+            ivQrCode.setFocusableInTouchMode(false);
+            /*etRule.setFocusable(false);
             etRule.setFocusableInTouchMode(false);*/
         }
         if(null!=shopManager.getManufacturer()){
@@ -234,6 +236,8 @@ public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel
             etShopName.setFocusableInTouchMode(false);*/
             etCode.setFocusable(false);
             etCode.setFocusableInTouchMode(false);
+            ivQrCode.setFocusable(false);
+            ivQrCode.setFocusableInTouchMode(false);
             /*etRule.setFocusable(false);
             etRule.setFocusableInTouchMode(false);*/
         }
@@ -256,6 +260,7 @@ public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            if(null!=bean.getImgePath())
             Glide.with(mContext).load(Url.IP+bean.getImagePath()).centerCrop().into(ivPhoto);
         }
         if(null!=bean.getTypeName()){
