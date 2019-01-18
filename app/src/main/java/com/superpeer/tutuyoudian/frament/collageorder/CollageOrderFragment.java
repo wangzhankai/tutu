@@ -251,6 +251,7 @@ public class CollageOrderFragment extends BaseFragment<CollageOrderPresenter, Co
                     showShortToast(baseBeanResult.getMsg());
                 }
                 if("1".equals(baseBeanResult.getCode())){
+                    mRxManager.post("collageChange", "");
                     if(!"".equals(type)) {
                         adapter.getData().remove(cancelPos);
                         adapter.notifyDataSetChanged();
@@ -273,6 +274,7 @@ public class CollageOrderFragment extends BaseFragment<CollageOrderPresenter, Co
                     showShortToast(baseBeanResult.getMsg());
                 }
                 if("1".equals(baseBeanResult.getCode())){
+                    mRxManager.post("collageChange", "");
                     adapter.getData().remove(delPos);
                     adapter.notifyDataSetChanged();
                 }

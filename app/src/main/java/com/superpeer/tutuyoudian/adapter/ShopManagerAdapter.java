@@ -1,5 +1,6 @@
 package com.superpeer.tutuyoudian.adapter;
 
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.superpeer.tutuyoudian.listener.OnStockListener;
 import com.superpeer.tutuyoudian.listener.OnSubListener;
 import com.superpeer.tutuyoudian.listener.OnUpListener;
 import com.superpeer.tutuyoudian.listener.OnUpOrDownListener;
+import com.superpeer.tutuyoudian.listener.OnUpdatePriceListener;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -42,6 +44,15 @@ public class ShopManagerAdapter extends BaseQuickAdapter {
     private OnStockListener onStockListener;
     private OnEditListener onEditListener;
     private OnUpOrDownListener onUpOrDownListener;
+    private OnUpdatePriceListener onUpdatePriceListener;
+
+    public OnUpdatePriceListener getOnUpdatePriceListener() {
+        return onUpdatePriceListener;
+    }
+
+    public void setOnUpdatePriceListener(OnUpdatePriceListener onUpdatePriceListener) {
+        this.onUpdatePriceListener = onUpdatePriceListener;
+    }
 
     public OnUpOrDownListener getOnUpOrDownListener() {
         return onUpOrDownListener;
@@ -136,11 +147,16 @@ public class ShopManagerAdapter extends BaseQuickAdapter {
 
         TextView tvModify = (TextView) helper.getView(R.id.tvModify);
         TextView tvAddOrRemove = (TextView) helper.getView(R.id.tvAddOrRemove);
+        final EditText tvPrice = ((EditText) helper.getView(R.id.tvPrice));
 
         if("0".equals(type)){
             tvAddOrRemove.setText("上架");
+            tvAddOrRemove.setTextColor(ContextCompat.getColor(mContext, R.color.white));
+            tvAddOrRemove.setBackgroundResource(R.drawable.bg_orange_circle);
         }else{
             tvAddOrRemove.setText("下架");
+            tvAddOrRemove.setTextColor(ContextCompat.getColor(mContext, R.color.orange));
+            tvAddOrRemove.setBackgroundResource(R.drawable.bg_orange_circle_stroke);
         }
 
         //设置库存和价格
@@ -199,11 +215,31 @@ public class ShopManagerAdapter extends BaseQuickAdapter {
         }else{
             ((TextView) helper.getView(R.id.tvRest)).setText("库存0");
         }
-        if(null!=bean.getPrice()){
-            ((TextView) helper.getView(R.id.tvPrice)).setText("￥"+numberFormat.format(new BigDecimal(bean.getPrice())));
-        }else{
-            ((TextView) helper.getView(R.id.tvPrice)).setText("￥"+numberFormat.format(new BigDecimal("0")));
+        if(null!=bean.getVipPrice()&&!"".equals(bean.getVipPrice())){
+            tvPrice.setText(numberFormat.format(new BigDecimal(bean.getVipPrice())));
+        }else {
+            if (null != bean.getPrice()&&!"".equals(bean.getPrice())) {
+                tvPrice.setText(numberFormat.format(new BigDecimal(bean.getPrice())));
+            } else {
+                tvPrice.setText(numberFormat.format(new BigDecimal("0")));
+            }
         }
+
+        tvPrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onUpdatePriceListener.onUpdatePrice(position, tvPrice.getText().toString().trim());
+            }
+        });
+
+        tvPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    onUpdatePriceListener.onUpdatePrice(position, tvPrice.getText().toString().trim());
+                }
+            }
+        });
 
         ivSub.setOnClickListener(new View.OnClickListener() {
             @Override

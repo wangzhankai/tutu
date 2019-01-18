@@ -83,6 +83,8 @@ public class DriverRegisterActivity extends BaseActivity<DriverRegisterPresenter
         tvAgree = (TextView) findViewById(R.id.tvAgree);
         tvNext = (TextView) findViewById(R.id.tvNext);
 
+        mPresenter.getAgree("3");
+
         initListener();
 
     }

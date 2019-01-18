@@ -26,4 +26,12 @@
 
     </com.superpeer.base_libs.view.refresh.RefreshLayout>
 
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:text="请点击右上角“+”号添加结算方式"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        style="@style/textGrey9Style14"/>
+
 </LinearLayout>

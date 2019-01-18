@@ -14,7 +14,7 @@ import rx.Observable;
 public interface ShopManagerContract {
 
     interface Model extends BaseModel{
-        Observable<BaseBeanResult> getCategory(String shopId);
+        Observable<BaseBeanResult> getCategory(String shopId, String saleState);
 
         Observable<BaseBeanResult> getGoods(String shopId, String goodsTypeId, String saleState, String stock, String defaultCurrent, String pageSize, String name);
 
@@ -37,6 +37,9 @@ public interface ShopManagerContract {
 
         //扫码上传
         Observable<BaseBeanResult> codeUpload(String code, String shopId);
+
+        //修改价格
+        Observable<BaseBeanResult> updatePrice(String shopId, String goodsBankId, String price, String goodsId);
     }
 
     interface View extends BaseView{
@@ -55,10 +58,12 @@ public interface ShopManagerContract {
         void showAddResult(BaseBeanResult baseBeanResult);
 
         void showUpload(BaseBeanResult baseBeanResult);
+
+        void showUpdate(BaseBeanResult baseBeanResult);
     }
 
     abstract class Presenter extends BasePresenter<View, Model>{
-        public abstract void getCategory(String shopId);
+        public abstract void getCategory(String shopId, String saleState);
 
         public abstract void getGoods(String shopId, String goodsTypeId, String saleState, String stock, String defaultCurrent, String pageSize, String name);
 
@@ -75,6 +80,8 @@ public interface ShopManagerContract {
         public abstract void addStock(String goodsId, String stock);
 
         public abstract void codeUpload(String code, String shopId);
+
+        public abstract void updatePrice(String shopId, String goodsBankId, String price, String goodsId);
     }
 
 }

@@ -16,7 +16,8 @@
         app:xTabTextSelectedBold="true"
         app:xTabTextSize="@dimen/sp_13"
         app:xTabSelectedTextSize="@dimen/sp_13"
-        app:xTabTextColor="@color/orange"
+        app:xTabTextColor="@color/grey3"
+        app:xTabSelectedTextColor="@color/orange"
         app:tabIndicatorHeight="1dp"
         android:id="@+id/tab"/>
 

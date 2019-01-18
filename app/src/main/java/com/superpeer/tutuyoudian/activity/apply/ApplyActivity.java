@@ -83,6 +83,8 @@ public class ApplyActivity extends BaseActivity<ApplyPresenter, ApplyModel> impl
         etRepeatPwd = (EditText) findViewById(R.id.etRepeatPwd);
         etInviteCode = (EditText) findViewById(R.id.etInviteCode);
 
+        mPresenter.getAgreement("0");
+
         initListener();
     }
 

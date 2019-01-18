@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -86,7 +87,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     private RelativeLayout linearNotice;
     private TextView tvNum;
     private String barCode = "";
-    private ImageView ivSummon;
+//    private ImageView ivSummon;
     private TextView tvTitle;
     private PushBean bean;
 //    private TextView tvCode;
@@ -125,6 +126,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     private LinearLayout linearOnline;
     private LinearLayout linearOffline;
 
+    private boolean isSend;
     private boolean isOnline;
     private TextView tvOnline;
     private TextView tvOffline;
@@ -148,10 +150,20 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     private TextView tvYesterdayScan;
     private TextView tvTodayScan;
     private TextView tvTips;
+    private TextView tvRedPoint;
+    private TextView tvCollageRedPoint;
+
+    private TextView tvStoreSend;
+    private TextView tvRunner;
+    private TextView tvSelf;
 
     private String status = "1";
     private String callStatus = "1";
+    private String sendStatus = "1";
     private List<BaseList> categoryList;
+
+    //设置自提/送货上门
+//    private ImageView ivSendType;
 
     private final static int RESULT_CODE = 100;
 
@@ -165,6 +177,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
             Manifest.permission.READ_PHONE_STATE,
 
     };
+    private String type = "";
 
     @Override
     protected boolean hasHeadTitle() {
@@ -253,6 +266,10 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         tvOffline = (TextView) findViewById(R.id.tvOffline);
         tvStatus = (TextView) findViewById(R.id.tvStatus);
 
+        tvStoreSend = (TextView) findViewById(R.id.tvStoreSend);
+        tvRunner = (TextView) findViewById(R.id.tvRunner);
+        tvSelf = (TextView) findViewById(R.id.tvSelf);
+
         tvCollageSet = (TextView) findViewById(R.id.tvCollageSet);
         tvDataCount = (TextView) findViewById(R.id.tvDataCount);
         tvCashWithDraw = (TextView) findViewById(R.id.tvCashWithDraw);
@@ -265,9 +282,12 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         tvTodayScan = (TextView) findViewById(R.id.tvTodayScan);
         tvYesterdayScan = (TextView) findViewById(R.id.tvYesterdayScan);
         tvTips = (TextView) findViewById(R.id.tvTips);
+        tvRedPoint = (TextView) findViewById(R.id.tvRedPoint);
+        tvCollageRedPoint = (TextView) findViewById(R.id.tvCollageRedPoint);
 
-        ivSummon = (ImageView) findViewById(R.id.ivSummon);
+//        ivSummon = (ImageView) findViewById(R.id.ivSummon);
         ivAuto = (ImageView) findViewById(R.id.ivAuto);
+//        ivSendType = (ImageView) findViewById(R.id.ivSendType);
         ivCode = (ImageView) findViewById(R.id.ivCode);
 
         initPermission();
@@ -343,12 +363,16 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                     tvTitle.setText(userInfo.getName());
                 }
                 if(null!=userInfo.getSendStatus()){
-                    if("1".equals(userInfo.getSendStatus())){
-                        callStatus = "0";
-                        ivSummon.setImageResource(R.mipmap.iv_switch_on);
+                    reset();
+                    if("0".equals(userInfo.getSendStatus())){
+                        tvStoreSend.setBackgroundResource(R.drawable.bg_white_solid);
+                        tvStoreSend.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
+                    }else if("1".equals(userInfo.getSendStatus())){
+                        tvRunner.setBackgroundResource(R.drawable.bg_white_solid);
+                        tvRunner.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
                     }else{
-                        callStatus = "1";
-                        ivSummon.setImageResource(R.mipmap.iv_switch_off);
+                        tvSelf.setBackgroundResource(R.drawable.bg_white_solid);
+                        tvSelf.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
                     }
                 }
                 if(null!=userInfo.getOperatingStatus()){
@@ -361,6 +385,16 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                         ivAuto.setImageResource(R.mipmap.iv_switch_off);
                     }
                 }
+                /*if(null!=userInfo.getDeliveryStatus()){
+                    if("1".equals(userInfo.getDeliveryStatus())){
+                        isSend = true;
+                        sendStatus = "0";
+                        ivSendType.setImageResource(R.mipmap.iv_switch_on);
+                    }else{
+                        sendStatus = "1";
+                        ivSendType.setImageResource(R.mipmap.iv_switch_off);
+                    }
+                }*/
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -489,12 +523,40 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
             }
         });
         //召唤跑腿
-        ivSummon.setOnClickListener(new View.OnClickListener() {
+        tvStoreSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type = "0";
+                mPresenter.callRunner(PreferencesUtils.getString(mContext, Constants.SHOP_ID), "0");
+            }
+        });
+        tvRunner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type = "1";
+                mPresenter.callRunner(PreferencesUtils.getString(mContext, Constants.SHOP_ID), "1");
+            }
+        });
+        tvSelf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type = "2";
+                mPresenter.callRunner(PreferencesUtils.getString(mContext, Constants.SHOP_ID), "2");
+            }
+        });
+        /*ivSummon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.callRunner(PreferencesUtils.getString(mContext, Constants.SHOP_ID), callStatus);
             }
-        });
+        });*/
+        /*//自提/配送
+        ivSendType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.modifySendStatus(PreferencesUtils.getString(mContext, Constants.SHOP_ID), sendStatus);
+            }
+        });*/
         //拼团设置
         tvCollageSet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -899,15 +961,40 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                 showShortToast(baseBeanResult.getMsg());
             }
             if("1".equals(baseBeanResult.getCode())){
-                if(callStatus.equals("1")){
-                    callStatus = "0";
-                    ivSummon.setImageResource(R.mipmap.iv_switch_on);
+                reset();
+                if("0".equals(type)){
+                    tvStoreSend.setBackgroundResource(R.drawable.bg_white_solid);
+                    tvStoreSend.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
+                }else if("1".equals(type)){
+                    tvRunner.setBackgroundResource(R.drawable.bg_white_solid);
+                    tvRunner.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
                 }else{
-                    callStatus = "1";
-                    ivSummon.setImageResource(R.mipmap.iv_switch_off);
+                    tvSelf.setBackgroundResource(R.drawable.bg_white_solid);
+                    tvSelf.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
                 }
             }
         }
+    }
+
+    @Override
+    public void showModifySendResult(BaseBeanResult baseBeanResult) {
+        /*try{
+            if(null!=baseBeanResult){
+                if(null!=baseBeanResult.getMsg()){
+                    showShortToast(baseBeanResult.getMsg());
+                }
+                if("1".equals(baseBeanResult.getCode())){
+                    isSend = !isSend;
+                    if(isSend){
+                        ivSendType.setImageResource(R.mipmap.iv_switch_on);
+                    }else{
+                        ivSendType.setImageResource(R.mipmap.iv_switch_off);
+                    }
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }*/
     }
 
     @Override
@@ -925,10 +1012,10 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
 
     private void initMainData(BaseObject object) {
         try{
-            if(null!=object.getTodayMoney()){
+            if(null!=object.getTodayMoney()&&!"".equals(object.getTodayMoney())){
                 tvTodayMoney.setText(numberFormat.format(new BigDecimal(object.getTodayMoney())));
             }
-            if(null!=object.getYesterdayMoney()){
+            if(null!=object.getYesterdayMoney()&&!"".equals(object.getYesterdayMoney())){
                 tvYesterdayMoney.setText("昨日"+numberFormat.format(new BigDecimal(object.getYesterdayMoney())));
             }
             if(null!=object.getTodayOrderNum()){
@@ -966,12 +1053,16 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                 tvTitle.setText(object.getName());
             }
             if(null!=object.getSendStatus()){
-                if("1".equals(object.getSendStatus())){
-                    callStatus = "0";
-                    ivSummon.setImageResource(R.mipmap.iv_switch_on);
+                reset();
+                if("0".equals(object.getSendStatus())){
+                    tvStoreSend.setBackgroundResource(R.drawable.bg_white_solid);
+                    tvStoreSend.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
+                }else if("1".equals(object.getSendStatus())){
+                    tvRunner.setBackgroundResource(R.drawable.bg_white_solid);
+                    tvRunner.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
                 }else{
-                    callStatus = "1";
-                    ivSummon.setImageResource(R.mipmap.iv_switch_off);
+                    tvSelf.setBackgroundResource(R.drawable.bg_white_solid);
+                    tvSelf.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
                 }
             }
             if(null!=object.getOperatingStatus()){
@@ -983,6 +1074,18 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                     status = "1";
                     ivAuto.setImageResource(R.mipmap.iv_switch_off);
                 }
+            }
+            if(null!=object.getWaitingOrderNum()&&!"0".equals(object.getWaitingOrderNum())&&!"".equals(object.getWaitingOrderNum())){
+                tvRedPoint.setVisibility(View.VISIBLE);
+                tvRedPoint.setText(object.getWaitingOrderNum());
+            }else{
+                tvRedPoint.setVisibility(View.GONE);
+            }
+            if(null!=object.getSelfGroupOrderNum()&&!"0".equals(object.getSelfGroupOrderNum())&&!"".equals(object.getSelfGroupOrderNum())){
+                tvCollageRedPoint.setVisibility(View.VISIBLE);
+                tvCollageRedPoint.setText(object.getSelfGroupOrderNum());
+            }else{
+                tvCollageRedPoint.setVisibility(View.GONE);
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -1074,6 +1177,15 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private void reset() {
+        tvStoreSend.setBackgroundResource(R.drawable.bg_white_stroke);
+        tvRunner.setBackgroundResource(R.drawable.bg_white_stroke);
+        tvSelf.setBackgroundResource(R.drawable.bg_white_stroke);
+        tvStoreSend.setTextColor(ContextCompat.getColor(mContext, R.color.white));
+        tvRunner.setTextColor(ContextCompat.getColor(mContext, R.color.white));
+        tvSelf.setTextColor(ContextCompat.getColor(mContext, R.color.white));
     }
 
 }

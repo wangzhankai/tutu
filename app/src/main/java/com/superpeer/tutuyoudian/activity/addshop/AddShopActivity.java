@@ -197,7 +197,9 @@ public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Glide.with(mContext).load(Url.IP+shopManager.getImagePath()).centerCrop().into(ivPhoto);
+            if(null!=shopManager.getImagePath()){
+                Glide.with(mContext).load(shopManager.getImagePath().contains("http")?shopManager.getImagePath():Url.IP+shopManager.getImagePath()).centerCrop().into(ivPhoto);
+            }
         }
         if(null!=shopManager.getTypeName()){
             categoryName = shopManager.getTypeName();
@@ -260,8 +262,8 @@ public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if(null!=bean.getImgePath())
-            Glide.with(mContext).load(Url.IP+bean.getImagePath()).centerCrop().into(ivPhoto);
+            if(null!=bean.getImagePath())
+                Glide.with(mContext).load(bean.getImagePath().contains("http")?bean.getImgePath():Url.IP+bean.getImagePath()).centerCrop().into(ivPhoto);
         }
         if(null!=bean.getTypeName()){
             categoryName = bean.getTypeName();
@@ -435,6 +437,12 @@ public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel
                     showShortToast("请选择图片");
                     return;
                 }
+                if(!TextUtils.isEmpty(vipPrice)){
+                    if(Integer.parseInt(vipPrice)<0||Integer.parseInt(vipPrice)>Integer.parseInt(price)){
+                        showShortToast("优惠价应大于0并小于价格");
+                        return;
+                    }
+                }
                 mPresenter.upload(PreferencesUtils.getString(mContext, Constants.SHOP_ID), goodsId, title, bankId, manufacturer, code,
                         mSelectPath.get(0), categoryId, brand, specifications, price, stock, vipPrice, type);
             }
@@ -582,7 +590,7 @@ public class AddShopActivity extends BaseActivity<AddShopPresenter, AddShopModel
         tvSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                categoryName = categoryList.get(wheelView.getCurrentPosition()).getGoodsName();
+                categoryName = categoryList.get(wheelView.getCurrentPosition()).getName();
                 categoryId = categoryList.get(wheelView.getCurrentPosition()).getGoodsTypeId();
                 tvCategory.setText(categoryList.get(wheelView.getCurrentPosition()).getName());
                 popWindow.dismiss();

@@ -251,7 +251,10 @@ public class PayTypeActivity extends BaseActivity<PayTypePresenter, PayTypeModel
         try{
             if(null!=baseBeanResult){
                 if(null!=baseBeanResult.getData().getList()&&baseBeanResult.getData().getList().size()>0){
+                    refresh.setVisibility(View.VISIBLE);
                     adapter.setNewData(baseBeanResult.getData().getList());
+                }else{
+                    refresh.setVisibility(View.GONE);
                 }
                 adapter.loadComplete();
             }

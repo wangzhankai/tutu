@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">兔兔优店</string>
+    <string name="app_name">兔兔优店助手</string>
 
     <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
     <!-- 登录 -->
@@ -61,7 +61,7 @@
     <string name="click_upload">点击上传</string>
 
     <!--首页-->
-    <string name="today_income">今日营业额（元）</string>
+    <string name="today_income">今日营业额(元)</string>
     <string name="auto_get_order">自动接单</string>
     <string name="today_order_num">今日付款单数</string>
     <string name="today_view_num">今日浏览量</string>

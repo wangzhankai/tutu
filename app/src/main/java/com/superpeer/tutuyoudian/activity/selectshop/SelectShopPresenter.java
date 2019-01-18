@@ -9,8 +9,8 @@ import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 
 public class SelectShopPresenter extends SelectShopContract.Presenter {
     @Override
-    public void getType(String shopId) {
-        mRxManage.add(mModel.getType(shopId).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
+    public void getType(String shopId, String saleState) {
+        mRxManage.add(mModel.getType(shopId, saleState).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
             @Override
             protected void _onNext(BaseBeanResult baseBeanResult) {
                 mView.showTypeResult(baseBeanResult);

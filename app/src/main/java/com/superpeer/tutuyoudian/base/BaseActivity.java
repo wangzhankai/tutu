@@ -93,7 +93,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                         PushBean bean = new Gson().fromJson(extras, PushBean.class);
 
                         if(null!=bean&&null!=bean.getOrderType()&&"1".equals(bean.getOrderType())){
-                            if(dialog==null){
+                            if(!dialog.isShowing()){
                                 if(null!=bean.getSound()){
                                     playVoice(bean.getSound());
                                 }
@@ -101,7 +101,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                             }
                         }
                     }else{
-                        if(dialog==null){
+                        if(!dialog.isShowing()){
                             showOrderDialog(extras, message);
                         }
                         mRxManager.post("drivermain", "");
@@ -545,7 +545,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
 
     public void playVoice(String voiceName){
         try {
-            int rawId = getResources().getIdentifier(voiceName, "raw", "com.superpeer.tutuyoudian");
+            int rawId = getResources().getIdentifier(voiceName.substring(0, voiceName.indexOf(".")), "raw", "com.superpeer.tutuyoudian");
             final MediaPlayer mp = MediaPlayer.create(mContext, rawId);//重新设置要播放的音频
 
             mp.start();//开始播放

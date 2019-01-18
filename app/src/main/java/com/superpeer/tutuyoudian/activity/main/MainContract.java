@@ -26,6 +26,8 @@ public interface MainContract {
         Observable<BaseBeanResult> receiptOrder(String orderId);
         //召唤跑腿
         Observable<BaseBeanResult> callRunner(String shopId, String sendStatus);
+        //自提/配送
+        Observable<BaseBeanResult> modifySendStatus(String shopId, String deliveryStatus);
 
         //版本更新
         Observable<BaseBeanResult> update(String type);
@@ -49,6 +51,8 @@ public interface MainContract {
 
         void showCallResult(BaseBeanResult baseBeanResult);
 
+        void showModifySendResult(BaseBeanResult baseBeanResult);
+
         void showUpdate(BaseBeanResult baseBeanResult);
     }
 
@@ -69,6 +73,8 @@ public interface MainContract {
         public abstract void receiptOrder(String orderId);
 
         public abstract void callRunner(String shopId, String sendStatus);
+
+        public abstract void modifySendStatus(String shopId, String deliveryStatus);
 
         public abstract void update(String type);
 

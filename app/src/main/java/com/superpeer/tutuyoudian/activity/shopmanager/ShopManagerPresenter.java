@@ -9,8 +9,8 @@ import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 
 public class ShopManagerPresenter extends ShopManagerContract.Presenter {
     @Override
-    public void getCategory(String shopId) {
-        mRxManage.add(mModel.getCategory(shopId).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
+    public void getCategory(String shopId, String saleState) {
+        mRxManage.add(mModel.getCategory(shopId, saleState).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
             @Override
             protected void _onNext(BaseBeanResult baseBeanResult) {
                 mView.showCategory(baseBeanResult);
@@ -134,6 +134,21 @@ public class ShopManagerPresenter extends ShopManagerContract.Presenter {
             @Override
             protected void _onNext(BaseBeanResult baseBeanResult) {
                 mView.showUpload(baseBeanResult);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                mView.showErrorTip(message);
+            }
+        }));
+    }
+
+    @Override
+    public void updatePrice(String shopId, String goodsBankId, String price, String goodsId) {
+        mRxManage.add(mModel.updatePrice(shopId, goodsBankId, price, goodsId).subscribe(new RxSubscriber<BaseBeanResult>(mContext, true) {
+            @Override
+            protected void _onNext(BaseBeanResult baseBeanResult) {
+                mView.showUpdate(baseBeanResult);
             }
 
             @Override

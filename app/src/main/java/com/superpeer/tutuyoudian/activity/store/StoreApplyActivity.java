@@ -196,20 +196,24 @@ public class StoreApplyActivity extends BaseActivity<StoreApplyPresenter, StoreA
     }
 
     private void initRxBus() {
-        mRxManager.on("selectPos", new Action1<TencentPoi>() {
+        /*mRxManager.on("selectPos", new Action1<TencentPoi>() {
             @Override
             public void call(TencentPoi pos) {
                 longitude = pos.getLongitude()+"";
                 latitude = pos.getLatitude()+"";
                 tvAddress.setText(pos.getAddress());
             }
-        });
+        });*/
         mRxManager.on("position", new Action1<BaseSearchResult.SearchData>() {
             @Override
             public void call(BaseSearchResult.SearchData searchData) {
-                longitude = searchData.getLocation().getLng();
-                latitude = searchData.getLocation().getLat();
-                tvAddress.setText(searchData.getAddress());
+                try {
+                    longitude = searchData.getLocation().getLng();
+                    latitude = searchData.getLocation().getLat();
+                    tvAddress.setText(searchData.getTitle());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
         mRxManager.on("posCode", new Action1<String>() {

@@ -45,7 +45,6 @@ import java.util.List;
 public class PositionActivity extends BaseActivity<PositionPresenter, PositionModel>  implements TencentLocationListener, PositionContract.View {
     private MapView mapview = null;
     private RecyclerView rvContent;
-    private PositionAdapter adapter;
     private EditText etSearch;
     private ImageView ivSearch;
     private String code = "";
@@ -58,6 +57,7 @@ public class PositionActivity extends BaseActivity<PositionPresenter, PositionMo
             Log.i("base", str);
         }
     };
+    private String content = "";
 
     @Override
     public int getLayoutId() {
@@ -109,9 +109,9 @@ public class PositionActivity extends BaseActivity<PositionPresenter, PositionMo
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if ((actionId == 0 || actionId == 3) && event != null) {
-                    String content = etSearch.getText().toString().trim();
+                    content = etSearch.getText().toString().trim();
                     if(TextUtils.isEmpty(content)){
-                        showShortToast("请输入搜索城市");
+                        showShortToast("请输入搜索位置");
                         return false;
                     }
                     mPresenter.getLocation(content, city, "T3NBZ-2ZD3J-XDTFR-FR7HI-UHC3O-KLBBQ", listener);
@@ -122,7 +122,7 @@ public class PositionActivity extends BaseActivity<PositionPresenter, PositionMo
         ivSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String content = etSearch.getText().toString().trim();
+                content = etSearch.getText().toString().trim();
                 if(TextUtils.isEmpty(content)){
                     showShortToast("请输入搜索城市");
                     return;
@@ -162,23 +162,28 @@ public class PositionActivity extends BaseActivity<PositionPresenter, PositionMo
                         .draggable(true));
                 marker.showInfoWindow();// 设置默认显示一个infoWindow
 
-                mPresenter.search("便利店", "nearby("+cameraPosition.target.latitude+","+cameraPosition.target.longitude+",1000)","T3NBZ-2ZD3J-XDTFR-FR7HI-UHC3O-KLBBQ", "5", "1");
+                mPresenter.getLocationBackResult(cameraPosition.target.latitude+","+cameraPosition.target.longitude, "T3NBZ-2ZD3J-XDTFR-FR7HI-UHC3O-KLBBQ");
+//                mPresenter.search(content, "nearby("+cameraPosition.target.latitude+","+cameraPosition.target.longitude+",1000)","T3NBZ-2ZD3J-XDTFR-FR7HI-UHC3O-KLBBQ", "100", "1");
             }
         });
     }
 
     private void initRecyclerView() {
         rvContent = (RecyclerView) findViewById(R.id.recyclerView);
-        adapter = new PositionAdapter(R.layout.item_position, null);
         rvContent.setLayoutManager(new LinearLayoutManager(mContext));
-        rvContent.setAdapter(adapter);
 
+        searchAdapter = new SearchAdapter(R.layout.item_position, null);
+        rvContent.setAdapter(searchAdapter);
         rvContent.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter myadapter, View view, int position) {
-                mRxManager.post("selectPos", ((TencentPoi)adapter.getItem(position)));
-                mRxManager.post("posCode", code);
-                finish();
+                try {
+                    mRxManager.post("position", ((BaseSearchResult.SearchData) searchAdapter.getItem(position)));
+                    mRxManager.post("posCode", ((BaseSearchResult.SearchData) searchAdapter.getItem(position)).getAd_info().getAdcode());
+                    finish();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -221,14 +226,16 @@ public class PositionActivity extends BaseActivity<PositionPresenter, PositionMo
     }
 
     private void initPosition(TencentLocation location) {
+        mPresenter.search(location.getAddress(), "nearby("+location.getLatitude()+","+location.getLongitude()+",1000)","T3NBZ-2ZD3J-XDTFR-FR7HI-UHC3O-KLBBQ", "100", "1");
         initCenter(location);
 
-        List<TencentPoi> list = location.getPoiList();
+        /*List<TencentPoi> list = location.getPoiList();
         adapter.setNewData(list);
-        adapter.loadComplete();
+        adapter.loadComplete();*/
     }
 
     private void initCenter(TencentLocation location) {
+        content = location.getAddress();
         //获取TencentMap实例
         TencentMap tencentMap = mapview.getMap();
         //设置实时路况开启
@@ -250,6 +257,7 @@ public class PositionActivity extends BaseActivity<PositionPresenter, PositionMo
                         .defaultMarker())
                 .draggable(true));
         marker.showInfoWindow();// 设置默认显示一个infoWindow
+        mPresenter.getLocationBackResult(location.getLatitude()+","+location.getLongitude(), "T3NBZ-2ZD3J-XDTFR-FR7HI-UHC3O-KLBBQ");
     }
 
     @Override
@@ -273,10 +281,46 @@ public class PositionActivity extends BaseActivity<PositionPresenter, PositionMo
     }
 
     @Override
+    public void showLocationBackResult(BaseLocationBean baseBeanResult) {
+        try{
+            if("0".equals(baseBeanResult.getStatus())){
+                mPresenter.search(baseBeanResult.getResult().getTitle(), "nearby("+baseBeanResult.getResult().getLocation().getLat()+","+baseBeanResult.getResult().getLocation().getLng()+",1000)","T3NBZ-2ZD3J-XDTFR-FR7HI-UHC3O-KLBBQ", "100", "1");
+
+                /*LocationData locationData = baseBeanResult.getResult().getLocation();
+                //获取TencentMap实例
+                TencentMap tencentMap = mapview.getMap();
+                //设置实时路况开启
+                tencentMap.setTrafficEnabled(true);
+                //设置地图中心点
+                CameraUpdate cameraSigma =
+                        CameraUpdateFactory.newCameraPosition(new CameraPosition(
+                                new LatLng(Float.parseFloat(locationData.getLat()+""),Float.parseFloat(locationData.getLng()+"")), //新的中心点坐标
+                                19,  //新的缩放级别
+                                0f, //俯仰角 0~45° (垂直地图时为0)
+                                0f)); //偏航角 0~360° (正北方为0)
+                //移动地图
+                tencentMap.moveCamera(cameraSigma);
+                Marker marker = tencentMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(Float.parseFloat(locationData.getLat()+""), Float.parseFloat(locationData.getLng()+"")))
+                        .title(baseBeanResult.getResult().getTitle())
+                        .anchor(0.5f, 0.5f)
+                        .icon(BitmapDescriptorFactory
+                                .defaultMarker())
+                        .draggable(true));
+                marker.showInfoWindow();// 设置默认显示一个infoWindow*/
+            }else{
+                showShortToast("未搜索到数据");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void showLocationResult(BaseLocationBean baseBeanResult) {
         try{
             if("0".equals(baseBeanResult.getStatus())){
-                mPresenter.search("便利店", "nearby("+baseBeanResult.getResult().getLocation().getLat()+","+baseBeanResult.getResult().getLocation().getLng()+",1000)","T3NBZ-2ZD3J-XDTFR-FR7HI-UHC3O-KLBBQ", "5", "1");
+//                mPresenter.search(content, "nearby("+baseBeanResult.getResult().getLocation().getLat()+","+baseBeanResult.getResult().getLocation().getLng()+",1000)","T3NBZ-2ZD3J-XDTFR-FR7HI-UHC3O-KLBBQ", "100", "1");
 
                 LocationData locationData = baseBeanResult.getResult().getLocation();
                 //获取TencentMap实例
@@ -311,16 +355,12 @@ public class PositionActivity extends BaseActivity<PositionPresenter, PositionMo
     @Override
     public void showSearchResult(BaseSearchResult baseBeanResult) {
         try{
-            searchAdapter = new SearchAdapter(R.layout.item_position, baseBeanResult.getData());
-            rvContent.setAdapter(searchAdapter);
-            rvContent.addOnItemTouchListener(new OnItemClickListener() {
-                @Override
-                public void SimpleOnItemClick(BaseQuickAdapter myadapter, View view, int position) {
-                    mRxManager.post("position", ((BaseSearchResult.SearchData)searchAdapter.getItem(position)));
-                    mRxManager.post("posCode", ((BaseSearchResult.SearchData)searchAdapter.getItem(position)).getAd_info().getAdcode());
-                    finish();
+            if(null!=baseBeanResult){
+                if(null!=baseBeanResult.getData()){
+                    searchAdapter.setNewData(baseBeanResult.getData());
+                    searchAdapter.loadComplete();
                 }
-            });
+            }
         }catch (Exception e){
             e.printStackTrace();
         }

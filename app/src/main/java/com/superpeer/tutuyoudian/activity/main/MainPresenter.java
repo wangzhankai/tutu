@@ -125,6 +125,21 @@ public class MainPresenter extends MainContract.Presenter {
     }
 
     @Override
+    public void modifySendStatus(String shopId, String deliveryStatus) {
+        mRxManage.add(mModel.modifySendStatus(shopId, deliveryStatus).subscribe(new RxSubscriber<BaseBeanResult>(mContext, true) {
+            @Override
+            protected void _onNext(BaseBeanResult baseBeanResult) {
+                mView.showModifySendResult(baseBeanResult);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                mView.showErrorTip(message);
+            }
+        }));
+    }
+
+    @Override
     public void update(String type) {
         mRxManage.add(mModel.update(type).subscribe(new RxSubscriber<BaseBeanResult>(mContext, false) {
             @Override

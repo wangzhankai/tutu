@@ -12,7 +12,6 @@ import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.base_libs.view.refresh.NormalRefreshViewHolder;
 import com.superpeer.base_libs.view.refresh.RefreshLayout;
 import com.superpeer.tutuyoudian.R;
-import com.superpeer.tutuyoudian.activity.search.SearchActivity;
 import com.superpeer.tutuyoudian.activity.selectshopsearch.SelectShopSearchActivity;
 import com.superpeer.tutuyoudian.adapter.CategoryAdapter;
 import com.superpeer.tutuyoudian.adapter.ShopAdapter;
@@ -56,7 +55,7 @@ public class SelectShopActivity extends BaseActivity<SelectShopPresenter, Select
 
         initRecyclerView();
 
-        mPresenter.getType(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+        mPresenter.getType(PreferencesUtils.getString(mContext, Constants.SHOP_ID), "1");
 
         tvSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +119,7 @@ public class SelectShopActivity extends BaseActivity<SelectShopPresenter, Select
                     if(null!=baseBeanResult.getData()){
                         if(null!=baseBeanResult.getData().getList()&&baseBeanResult.getData().getList().size()>0){
                             categoryList = baseBeanResult.getData().getList();
-                            categoryAdapter = new CategoryAdapter(R.layout.item_category, categoryList);
+                            categoryAdapter = new CategoryAdapter(R.layout.item_category, categoryList, "0");
                             recyclerCategory.setAdapter(categoryAdapter);
 
                             typeId = categoryList.get(0).getGoodsTypeId();

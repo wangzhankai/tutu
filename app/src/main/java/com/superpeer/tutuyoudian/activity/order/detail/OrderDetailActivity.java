@@ -231,6 +231,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                     showShortToast(baseBeanResult.getMsg());
                 }
                 if("1".equals(baseBeanResult.getCode())){
+                    mRxManager.post("change", "");
                     mRxManager.post("order", "");
                     tvCancel.setVisibility(View.GONE);
                     tvGet.setVisibility(View.GONE);
@@ -256,6 +257,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                     showShortToast(baseBeanResult.getMsg());
                 }
                 if("1".equals(baseBeanResult.getCode())){
+                    mRxManager.post("change", "");
                     ivStatus.setImageResource(R.mipmap.iv_order_readyget);
                     mRxManager.post("order", "");
                     tvGet.setVisibility(View.GONE);
@@ -276,8 +278,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                             linearSend.setVisibility(View.GONE);
                             tvWantTime.setVisibility(View.GONE);
                             tvPhone.setVisibility(View.VISIBLE);
-                            tvAddress.setVisibility(View.VISIBLE);
-                            tvGetTime.setVisibility(View.VISIBLE);
+                            tvAddress.setVisibility(View.GONE);
+                            tvGetTime.setVisibility(View.GONE);
                             tvVerify.setVisibility(View.VISIBLE);
                             tvComplete.setVisibility(View.GONE);
                         }
@@ -296,6 +298,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 showShortToast(baseBeanResult.getMsg());
             }
             if("1".equals(baseBeanResult.getCode())) {
+                mRxManager.post("change", "");
                 mRxManager.post("order", "");
                 finish();
             }
@@ -312,6 +315,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                     showShortToast(baseBeanResult.getMsg());
                 }
                 if("1".equals(baseBeanResult.getCode())){
+                    mRxManager.post("change", "");
                     mRxManager.post("order", "");
                     tvCancel.setVisibility(View.GONE);
                     tvGet.setVisibility(View.GONE);
@@ -345,13 +349,13 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                     tvComplete.setVisibility(View.VISIBLE);
                 }else{      //自提
                     tvStatus.setText("待提货");
-                    tvGetTime.setVisibility(View.VISIBLE);
+                    tvGetTime.setVisibility(View.GONE);
                     linearSend.setVisibility(View.GONE);
                     tvWantTime.setVisibility(View.GONE);
                     tvCancel.setVisibility(View.VISIBLE);
                     tvVerify.setVisibility(View.VISIBLE);
                     tvComplete.setVisibility(View.GONE);
-                    tvAddress.setVisibility(View.VISIBLE);
+                    tvAddress.setVisibility(View.GONE);
                 }
             }
             if(null!=bean.getShippingTime()){

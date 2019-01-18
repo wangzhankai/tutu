@@ -18,6 +18,7 @@ public class SearchAdapter extends BaseQuickAdapter {
     @Override
     protected void convert(BaseViewHolder helper, Object item, int position) {
         BaseSearchResult.SearchData bean = (BaseSearchResult.SearchData) item;
-        ((TextView) helper.getView(R.id.tvPos)).setText(bean.getAddress());
+        ((TextView) helper.getView(R.id.tvPos)).setText(bean.getTitle());
+        ((TextView) helper.getView(R.id.tvAddress)).setText(bean.getAddress());
     }
 }

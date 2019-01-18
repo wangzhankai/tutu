@@ -1,6 +1,8 @@
 package com.superpeer.tutuyoudian.adapter;
 
+import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +15,7 @@ import com.superpeer.tutuyoudian.bean.BaseList;
 import com.superpeer.tutuyoudian.listener.OnAddListener;
 import com.superpeer.tutuyoudian.listener.OnEditListener;
 import com.superpeer.tutuyoudian.listener.OnOperListener;
+import com.superpeer.tutuyoudian.listener.OnUpdatePriceListener;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -25,6 +28,15 @@ public class ShopLibraryAdapter extends BaseQuickAdapter {
 
     private OnEditListener onEditListener;
     private OnOperListener onOperListener;
+    private OnUpdatePriceListener onUpdatePriceListener;
+
+    public OnUpdatePriceListener getOnUpdatePriceListener() {
+        return onUpdatePriceListener;
+    }
+
+    public void setOnUpdatePriceListener(OnUpdatePriceListener onUpdatePriceListener) {
+        this.onUpdatePriceListener = onUpdatePriceListener;
+    }
 
     public OnOperListener getOnOperListener() {
         return onOperListener;
@@ -54,6 +66,7 @@ public class ShopLibraryAdapter extends BaseQuickAdapter {
         ImageView ivSelect = ((ImageView) helper.getView(R.id.ivSelect));
         TextView tvModify = (TextView) helper.getView(R.id.tvModify);
         TextView tvAddOrRemove = (TextView) helper.getView(R.id.tvAddOrRemove);
+        final EditText tvPrice = ((EditText) helper.getView(R.id.tvPrice));
 
         if(null!=bean.getImagePath())
             Glide.with(mContext).load(bean.getImagePath().contains("http")?bean.getImagePath(): Url.IP+bean.getImagePath()).centerCrop().into(ivImg);
@@ -65,11 +78,32 @@ public class ShopLibraryAdapter extends BaseQuickAdapter {
             sb.append("-"+bean.getSpecifications());
         }
         ((TextView) helper.getView(R.id.tvTitle)).setText(sb.toString());
-        if(null!=bean.getPrice()){
-            ((TextView) helper.getView(R.id.tvPrice)).setText("￥"+numberFormat.format(new BigDecimal(bean.getPrice())));
-        }else{
-            ((TextView) helper.getView(R.id.tvPrice)).setText("￥"+numberFormat.format(new BigDecimal("0")));
+
+        if(null!=bean.getVipPrice()&&!"".equals(bean.getVipPrice())){
+            tvPrice.setText(numberFormat.format(new BigDecimal(bean.getVipPrice())));
+        }else {
+            if (null != bean.getPrice()&&!"".equals(bean.getPrice())) {
+                tvPrice.setText(numberFormat.format(new BigDecimal(bean.getPrice())));
+            } else {
+                tvPrice.setText(numberFormat.format(new BigDecimal("0")));
+            }
         }
+
+        /*tvPrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onUpdatePriceListener.onUpdatePrice(position, tvPrice.getText().toString().trim());
+            }
+        });*/
+
+        tvPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    onUpdatePriceListener.onUpdatePrice(position, tvPrice.getText().toString().trim());
+                }
+            }
+        });
 
         //修改
         tvModify.setOnClickListener(new View.OnClickListener() {
@@ -87,11 +121,16 @@ public class ShopLibraryAdapter extends BaseQuickAdapter {
         });
 
         if(bean.isChecked()){
-            tvAddOrRemove.setText("删除");
+            tvAddOrRemove.setText("取消");
+            tvAddOrRemove.setTextColor(ContextCompat.getColor(mContext, R.color.orange));
+            tvAddOrRemove.setBackgroundResource(R.drawable.bg_orange_circle_stroke);
             ivSelect.setImageResource(R.mipmap.iv_agree);
         }else{
             tvAddOrRemove.setText("添加");
+            tvAddOrRemove.setTextColor(ContextCompat.getColor(mContext, R.color.white));
+            tvAddOrRemove.setBackgroundResource(R.drawable.bg_orange_circle);
             ivSelect.setImageResource(R.mipmap.iv_noagree);
         }
+
     }
 }

@@ -9,6 +9,8 @@ import java.util.List;
 
 public class BaseObject implements Serializable {
 
+    private String token;
+
     private String title;
     private String content;
     private String pubdate;
@@ -37,6 +39,7 @@ public class BaseObject implements Serializable {
     private String bossName;
     private String phone;
     private String operatingStatus;
+    private String deliveryStatus;
     private String openingTime;
     private String closingTime;
     private String shopStatus;
@@ -64,6 +67,107 @@ public class BaseObject implements Serializable {
     private String versionName;
     private String versionSrc;
     private String versionDescribe;
+    //订单小红点
+    private String waitingOrderNum;
+    //拼团订单小红点
+    private String selfGroupOrderNum;
+
+    //订单
+    private String totalNum;
+    private String oneNum;
+    private String threeNum;
+    private String fourSelfNum;
+    private String fourOtherNum;
+    private String fiveNum;
+    private String sixNum;
+
+    public String getDeliveryStatus() {
+        return deliveryStatus;
+    }
+
+    public void setDeliveryStatus(String deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
+    }
+
+    public String getSelfGroupOrderNum() {
+        return selfGroupOrderNum;
+    }
+
+    public void setSelfGroupOrderNum(String selfGroupOrderNum) {
+        this.selfGroupOrderNum = selfGroupOrderNum;
+    }
+
+    public String getTotalNum() {
+        return totalNum;
+    }
+
+    public void setTotalNum(String totalNum) {
+        this.totalNum = totalNum;
+    }
+
+    public String getOneNum() {
+        return oneNum;
+    }
+
+    public void setOneNum(String oneNum) {
+        this.oneNum = oneNum;
+    }
+
+    public String getThreeNum() {
+        return threeNum;
+    }
+
+    public void setThreeNum(String threeNum) {
+        this.threeNum = threeNum;
+    }
+
+    public String getFourSelfNum() {
+        return fourSelfNum;
+    }
+
+    public void setFourSelfNum(String fourSelfNum) {
+        this.fourSelfNum = fourSelfNum;
+    }
+
+    public String getFourOtherNum() {
+        return fourOtherNum;
+    }
+
+    public void setFourOtherNum(String fourOtherNum) {
+        this.fourOtherNum = fourOtherNum;
+    }
+
+    public String getFiveNum() {
+        return fiveNum;
+    }
+
+    public void setFiveNum(String fiveNum) {
+        this.fiveNum = fiveNum;
+    }
+
+    public String getSixNum() {
+        return sixNum;
+    }
+
+    public void setSixNum(String sixNum) {
+        this.sixNum = sixNum;
+    }
+
+    public String getWaitingOrderNum() {
+        return waitingOrderNum;
+    }
+
+    public void setWaitingOrderNum(String waitingOrderNum) {
+        this.waitingOrderNum = waitingOrderNum;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getDetailedAddress() {
         return detailedAddress;

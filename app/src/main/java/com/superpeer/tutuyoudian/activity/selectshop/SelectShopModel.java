@@ -13,8 +13,8 @@ import rx.functions.Func1;
 
 public class SelectShopModel implements SelectShopContract.Model {
     @Override
-    public Observable<BaseBeanResult> getType(String shopId) {
-        return Api.getInstance().service.getType(shopId).map(new Func1<BaseBeanResult, BaseBeanResult>() {
+    public Observable<BaseBeanResult> getType(String shopId, String saleState) {
+        return Api.getInstance().service.getType(shopId, saleState).map(new Func1<BaseBeanResult, BaseBeanResult>() {
             @Override
             public BaseBeanResult call(BaseBeanResult baseBeanResult) {
                 return baseBeanResult;

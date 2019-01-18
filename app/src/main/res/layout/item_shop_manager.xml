@@ -33,7 +33,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_5">
+                android:layout_marginTop="@dimen/dp_10">
 
                 <TextView
                     android:id="@+id/tvRest"
@@ -43,8 +43,19 @@
                     android:layout_weight="1" />
 
                 <TextView
+                    android:text="￥"
+                    style="@style/textRedStyle14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <EditText
                     android:id="@+id/tvPrice"
                     style="@style/textRedStyle14"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingRight="@dimen/dp_10"
+                    android:paddingTop="@dimen/dp_5"
+                    android:paddingBottom="@dimen/dp_5"
+                    android:background="@drawable/bg_greyd8_stroke"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -89,7 +100,7 @@
         <TextView
             android:id="@+id/tvModify"
             style="@style/textWhiteStyle14"
-            android:text="设置库存/价格"
+            android:text="设置库存/优惠"
             android:padding="@dimen/dp_5"
             android:background="@drawable/bg_orange_circle"
             android:layout_width="0dp"
@@ -107,7 +118,7 @@
             android:background="@drawable/bg_orange_circle"
             android:gravity="center"
             android:padding="@dimen/dp_5"
-            android:text="下架" />
+            android:text="取消" />
 
     </LinearLayout>
 

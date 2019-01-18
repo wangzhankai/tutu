@@ -18,6 +18,8 @@ public interface PositionContract {
 
     interface Model extends BaseModel{
 
+        Observable<BaseLocationBean> getLocationBack(String location, String key);
+
         Observable<BaseLocationBean> getLocation(String address, String region, String key, OnLocationListener callback);
 
         Observable<BaseSearchResult> search(String keyword, String referer, String key, String size, String index);
@@ -27,6 +29,8 @@ public interface PositionContract {
 
     interface View extends BaseView{
 
+        void showLocationBackResult(BaseLocationBean baseBeanResult);
+
         void showLocationResult(BaseLocationBean baseBeanResult);
 
         void showSearchResult(BaseSearchResult baseBeanResult);
@@ -35,6 +39,8 @@ public interface PositionContract {
     }
 
     abstract class Presenter extends BasePresenter<View, Model>{
+
+        public abstract void getLocationBackResult(String location, String key);
 
         public abstract void getLocation(String address, String region, String key, OnLocationListener callback);
 

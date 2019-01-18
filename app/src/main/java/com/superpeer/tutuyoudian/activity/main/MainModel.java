@@ -89,6 +89,16 @@ public class MainModel implements MainContract.Model {
     }
 
     @Override
+    public Observable<BaseBeanResult> modifySendStatus(String shopId, String deliveryStatus) {
+        return Api.getInstance().service.modifyDeliveryStatus(shopId, deliveryStatus).map(new Func1<BaseBeanResult, BaseBeanResult>() {
+            @Override
+            public BaseBeanResult call(BaseBeanResult baseBeanResult) {
+                return baseBeanResult;
+            }
+        }).compose(RxSchedulers.<BaseBeanResult>io_main());
+    }
+
+    @Override
     public Observable<BaseBeanResult> update(String type) {
         return Api.getInstance().service.update(type).map(new Func1<BaseBeanResult, BaseBeanResult>() {
             @Override

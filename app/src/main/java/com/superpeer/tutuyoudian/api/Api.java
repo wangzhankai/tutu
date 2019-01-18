@@ -5,7 +5,9 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.superpeer.base_libs.utils.NetWorkUtils;
+import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.tutuyoudian.BaseApplication;
+import com.superpeer.tutuyoudian.constant.Constants;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,6 +47,7 @@ public class Api {
         public Response intercept(Chain chain) throws IOException {
             Request build = chain.request().newBuilder()
                     .addHeader("Content-Type", "application/json")
+                    .addHeader("token", Constants.TOKEN)
                     .build();
             return chain.proceed(build);
         }

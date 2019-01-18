@@ -6,6 +6,8 @@ package com.superpeer.tutuyoudian.constant;
 
 public class Constants {
 
+    public static String TOKEN = "";
+
     public static final String PAY_APPID = "6fd5d771-eb69-4f9f-8473-be19b7539534";
     public static final String PAY_SECRET = "33b477de-a621-4dbf-ab49-950c7ee714ae";
     //微信小程序

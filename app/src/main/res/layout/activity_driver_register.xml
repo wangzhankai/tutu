@@ -34,7 +34,7 @@
                 style="@style/textPrimaryStyle18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_50"
+                android:layout_marginTop="@dimen/dp_20"
                 android:gravity="center"
                 android:text="兔兔优店专属跑腿\n店主招募中……" />
 
@@ -140,7 +140,7 @@
                 <TextView
                     android:id="@+id/tvAgree"
                     style="@style/textYellowStyle12"
-                    android:text="《兔兔优店用户服务协议》"
+                    android:text="《兔兔优店跑腿服务协议》"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 

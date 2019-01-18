@@ -1,10 +1,13 @@
 package com.superpeer.tutuyoudian.activity.shoplibrary;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.superpeer.base_libs.base.baseadapter.BaseQuickAdapter;
@@ -15,7 +18,6 @@ import com.superpeer.base_libs.view.refresh.RefreshLayout;
 import com.superpeer.tutuyoudian.R;
 import com.superpeer.tutuyoudian.activity.addshop.AddShopActivity;
 import com.superpeer.tutuyoudian.activity.goodssearch.GoodsSearchActivity;
-import com.superpeer.tutuyoudian.activity.search.SearchActivity;
 import com.superpeer.tutuyoudian.activity.shopmanager.ShopManagerActivity;
 import com.superpeer.tutuyoudian.adapter.CategoryAdapter;
 import com.superpeer.tutuyoudian.adapter.ShopLibraryAdapter;
@@ -26,6 +28,7 @@ import com.superpeer.tutuyoudian.bean.BaseObject;
 import com.superpeer.tutuyoudian.constant.Constants;
 import com.superpeer.tutuyoudian.listener.OnEditListener;
 import com.superpeer.tutuyoudian.listener.OnOperListener;
+import com.superpeer.tutuyoudian.listener.OnUpdatePriceListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +52,8 @@ public class ShopLibraryActivity extends BaseActivity<ShopLibraryPresenter, Shop
     private TextView tvSearch;
     private int editPos = -1;
     private TextView tvRight;
+    private String price = "";
+    private int updatePos;
 
     /*@Override
     protected void doBeforeSetcontentView() {
@@ -89,7 +94,7 @@ public class ShopLibraryActivity extends BaseActivity<ShopLibraryPresenter, Shop
 
         mPresenter.getGoodsType(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
 
-        categoryAdapter = new CategoryAdapter(R.layout.item_category, categoryList);
+        categoryAdapter = new CategoryAdapter(R.layout.item_category, categoryList, "0");
         recyclerCategory.setAdapter(categoryAdapter);
         if(categoryList.size()>0){
             typeId = categoryList.get(0).getGoodsTypeId();
@@ -188,6 +193,23 @@ public class ShopLibraryActivity extends BaseActivity<ShopLibraryPresenter, Shop
             }
         });
 
+        adapter.setOnUpdatePriceListener(new OnUpdatePriceListener() {
+            @Override
+            public void onUpdatePrice(int position, String oriPrice) {
+                updatePos = position;
+//                showUpdateDialog(position);
+                price = oriPrice;
+                if(TextUtils.isEmpty(oriPrice)){
+                    showShortToast("请输入价格");
+                    return;
+                }
+//                if(price.equals(((BaseList)adapter.getItem(position)).getPrice())){
+//                    return;
+//                }
+                mPresenter.updatePrice(PreferencesUtils.getString(mContext, Constants.SHOP_ID), ((BaseList)adapter.getItem(position)).getBankId(), oriPrice, "");
+            }
+        });
+
        /* rvContent.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -196,6 +218,43 @@ public class ShopLibraryActivity extends BaseActivity<ShopLibraryPresenter, Shop
             }
         });*/
 
+    }
+
+    private void showUpdateDialog(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        View view = View
+                .inflate(mContext, R.layout.dialog_update_price, null);
+        builder.setView(view);
+        builder.setCancelable(true);
+        final EditText etPrice= (EditText) view
+                .findViewById(R.id.etPrice);//输入内容
+        TextView tvCancel=(TextView) view
+                .findViewById(R.id.tvCancel);//取消按钮
+        TextView tvSure=(TextView)view.findViewById(R.id.tvSure);//确定按钮
+
+        //取消或确定按钮监听事件处理
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        tvSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                price = etPrice.getText().toString().trim();
+                if(TextUtils.isEmpty(price)){
+                    showShortToast("请输入价格");
+                    return;
+                }
+                mPresenter.updatePrice(PreferencesUtils.getString(mContext, Constants.SHOP_ID), ((BaseList)adapter.getItem(position)).getBankId(), price, "");
+                dialog.dismiss();
+            }
+        });
     }
 
     @Override
@@ -221,7 +280,7 @@ public class ShopLibraryActivity extends BaseActivity<ShopLibraryPresenter, Shop
                     if (null != baseBeanResult.getData()) {
                         if (null != baseBeanResult.getData().getList() && baseBeanResult.getData().getList().size() > 0) {
                             categoryList = baseBeanResult.getData().getList();
-                            categoryAdapter = new CategoryAdapter(R.layout.item_category, categoryList);
+                            categoryAdapter = new CategoryAdapter(R.layout.item_category, categoryList, "0");
                             recyclerCategory.setAdapter(categoryAdapter);
                             typeId = categoryList.get(0).getGoodsTypeId();
                             mPresenter.getGoods(typeId, PreferencesUtils.getString(mContext, Constants.SHOP_ID), PAGE + "", "10", "");
@@ -292,6 +351,23 @@ public class ShopLibraryActivity extends BaseActivity<ShopLibraryPresenter, Shop
                     }else{
                         bean.setGoodsId("");
                     }
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void showUpdate(BaseBeanResult baseBeanResult) {
+        try{
+            if(null!=baseBeanResult){
+                if(null!=baseBeanResult.getMsg()){
+                    showShortToast(baseBeanResult.getMsg());
+                }
+                if("1".equals(baseBeanResult.getCode())) {
+                    ((BaseList)adapter.getItem(updatePos)).setPrice(price);
                     adapter.notifyDataSetChanged();
                 }
             }

@@ -3,11 +3,20 @@ package com.superpeer.tutuyoudian.api;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 
+import com.google.gson.Gson;
+import com.superpeer.base_libs.base.AppManager;
 import com.superpeer.base_libs.baserx.ServerException;
+import com.superpeer.base_libs.utils.ConstantsUtils;
 import com.superpeer.base_libs.utils.NetWorkUtils;
+import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.base_libs.view.LoadingDialog;
 import com.superpeer.tutuyoudian.BaseApplication;
+import com.superpeer.tutuyoudian.activity.login.LoginActivity;
+import com.superpeer.tutuyoudian.activity.welcome.WelcomeActivity;
+import com.superpeer.tutuyoudian.bean.BaseBeanResult;
+import com.superpeer.tutuyoudian.constant.Constants;
 
 import rx.Subscriber;
 
@@ -93,6 +102,17 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
         //服务器
         else if (e instanceof ServerException) {
             _onError(e.getMessage());
+        }else if(e.getLocalizedMessage().contains("403")) {
+            try {
+                if(!ConstantsUtils.isActivityTop(mContext, WelcomeActivity.class)&&!ConstantsUtils.isActivityTop(mContext, LoginActivity.class)){
+                    mContext.startActivity(new Intent(mContext, LoginActivity.class));
+                    AppManager.getAppManager().finishAllActivity();
+                    PreferencesUtils.putString(mContext, Constants.SHOP_ID, "");
+                    PreferencesUtils.putString(mContext, Constants.USER_TYPE, "");
+                }
+            } catch (Exception ep) {
+                ep.printStackTrace();
+            }
         }
         //其它
         else {

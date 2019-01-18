@@ -72,3 +72,5 @@
 *;
 }
 -keep class cn.bertsir.zbar.Qr.** { *; }
+
+-keep class com.superpeer.tutuyoudian.bean.*{*;}

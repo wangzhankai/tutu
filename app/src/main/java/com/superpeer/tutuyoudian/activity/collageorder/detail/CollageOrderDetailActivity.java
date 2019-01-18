@@ -242,6 +242,7 @@ public class CollageOrderDetailActivity extends BaseActivity<CollageOrderDetailP
                     showShortToast(baseBeanResult.getMsg());
                 }
                 if("1".equals(baseBeanResult.getCode())){
+                    mRxManager.post("collageChange", "");
                     mRxManager.post("collage", "");
                     tvCancel.setVisibility(View.GONE);
                     tvVerify.setVisibility(View.GONE);
@@ -269,6 +270,7 @@ public class CollageOrderDetailActivity extends BaseActivity<CollageOrderDetailP
                 showShortToast(baseBeanResult.getMsg());
             }
             if("1".equals(baseBeanResult.getCode())) {
+                mRxManager.post("collageChange", "");
                 mRxManager.post("collage", "");
                 finish();
             }

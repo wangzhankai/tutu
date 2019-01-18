@@ -25,11 +25,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.superpeer.tutuyoudian.widget.NoScrollRecyclerView
+        <!--<com.superpeer.tutuyoudian.widget.NoScrollRecyclerView
             android:id="@+id/recyclerCategory"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"/>-->
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerCategory"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
 
         <com.superpeer.base_libs.view.refresh.RefreshLayout
             android:id="@+id/refresh"

@@ -154,6 +154,8 @@ public class VerifyActivity extends BaseActivity<VerifyPresenter, VerifyModel> i
         try{
             if(null!=baseBeanResult){
                 if("1".equals(baseBeanResult.getCode())){
+                    mRxManager.post("collageChange", "");
+                    mRxManager.post("change", "");
                     Intent intent = new Intent(mContext, VerifySuccessOrFailActivity.class);
                     intent.putExtra("list", (Serializable) baseBeanResult.getData().getList());
                     intent.putExtra("orderType", baseBeanResult.getData().getObject().getOrderType());

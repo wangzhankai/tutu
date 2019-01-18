@@ -11,6 +11,22 @@ import com.superpeer.tutuyoudian.listener.OnLocationListener;
  */
 
 public class PositionPresenter extends PositionContract.Presenter {
+
+    @Override
+    public void getLocationBackResult(String location, String key) {
+        mRxManage.add(mModel.getLocationBack(location, key).subscribe(new RxSubscriber<BaseLocationBean>(mContext, false) {
+            @Override
+            protected void _onNext(BaseLocationBean baseBeanResult) {
+                mView.showLocationBackResult(baseBeanResult);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                mView.showErrorTip(message);
+            }
+        }));
+    }
+
     @Override
     public void getLocation(String address, String region, String key, OnLocationListener callback) {
         mRxManage.add(mModel.getLocation(address, region, key, callback).subscribe(new RxSubscriber<BaseLocationBean>(mContext, false) {

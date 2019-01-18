@@ -284,6 +284,7 @@ public class NormalOrderFragment extends BaseFragment<NormalOrderPresenter, Norm
                     showShortToast(baseBeanResult.getMsg());
                 }
                 if("1".equals(baseBeanResult.getCode())){
+                    mRxManager.post("change", type);
                     if(!"".equals(type)) {
                         adapter.getData().remove(cancelPos);
                         adapter.notifyDataSetChanged();
@@ -306,6 +307,7 @@ public class NormalOrderFragment extends BaseFragment<NormalOrderPresenter, Norm
                     showShortToast(baseBeanResult.getMsg());
                 }
                 if("1".equals(baseBeanResult.getCode())){
+                    mRxManager.post("change", type);
                     if(!"".equals(type)) {
                         adapter.getData().remove(getPos);
                         adapter.notifyDataSetChanged();
@@ -328,6 +330,7 @@ public class NormalOrderFragment extends BaseFragment<NormalOrderPresenter, Norm
                     showShortToast(baseBeanResult.getMsg());
                 }
                 if("1".equals(baseBeanResult.getCode())){
+                    mRxManager.post("change", type);
                     if(!"".equals(type)) {
                         adapter.getData().remove(delPos);
                         adapter.notifyDataSetChanged();
@@ -350,6 +353,7 @@ public class NormalOrderFragment extends BaseFragment<NormalOrderPresenter, Norm
                     showShortToast(baseBeanResult.getMsg());
                 }
                 if("1".equals(baseBeanResult.getCode())){
+                    mRxManager.post("change", type);
                     if(!"".equals(type)) {
                         adapter.getData().remove(completePos);
                         adapter.notifyDataSetChanged();

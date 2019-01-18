@@ -183,6 +183,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
+                    android:visibility="gone"
                     android:gravity="center_vertical"
                     android:background="@color/white">
 
@@ -223,6 +224,7 @@
                     android:id="@+id/tvWantTime"
                     android:text="期望时间：立即送出"
                     style="@style/textGrey9Style13"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_40"
                     android:layout_marginTop="@dimen/dp_1"

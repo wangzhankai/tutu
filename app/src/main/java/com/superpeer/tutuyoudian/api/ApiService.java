@@ -240,7 +240,7 @@ public interface ApiService {
     //获取店铺的分类
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @GET("app/shop/getGoodsTypeByShopType")
-    Observable<BaseBeanResult> getType(@Query("shopId") String shopId);
+    Observable<BaseBeanResult> getType(@Query("shopId") String shopId, @Query("saleState") String saleState);
 
     //获取店铺分类的商品
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
@@ -286,6 +286,11 @@ public interface ApiService {
     @POST("app/shop/changeAutomaticStatus")
     Observable<BaseBeanResult> autoChange(@Field("shopId") String shopId, @Field("automaticStatus") String operatingStatus);
 
+    //设置自动接单
+    @FormUrlEncoded
+    @POST("/app/shop/modifyDeliveryStatus")
+    Observable<BaseBeanResult> modifyDeliveryStatus(@Field("shopId") String shopId, @Field("deliveryStatus") String deliveryStatus);
+
     //保存或修改拼团设置
     @FormUrlEncoded
     @POST("app/shop/settingGroupGoods")
@@ -303,6 +308,11 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("app/shop/saveGoodsFromBank")
     Observable<BaseBeanResult> saveGoods(@Field("shopId") String shopId, @Field("goodsBankId") String goodsBankId);
+
+    //修改价格/上传商品并修改价格
+    @FormUrlEncoded
+    @POST("app/shop/updateGoodsPrice")
+    Observable<BaseBeanResult> updatePrice(@Field("shopId") String shopId, @Field("goodsBankId") String goodsBankId, @Field("price") String price, @Field("goodsId") String goodsId);
 
     //扫码验证
     @FormUrlEncoded
@@ -355,6 +365,11 @@ public interface ApiService {
     Observable<BaseBeanResult> getNoticeDetail(@Query("noticeId") String noticeId, @Query("shopId") String shopId);
 
     //逆地理编码
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @GET("geocoder/v1")
+    Observable<BaseLocationBean> getLocationBack(@Query("location") String location, @Query("key") String key);
+
+    //地理编码
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @GET("geocoder/v1")
     Observable<BaseLocationBean> getLocation(@Query("address") String address, @Query("region") String region, @Query("key") String key, @Query("callback") OnLocationListener callback);

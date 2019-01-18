@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/etPrice"
+        style="@style/textGrey3Style14"
+        android:layout_margin="@dimen/dp_10"
+        android:background="@drawable/bg_greyd8_stroke"
+        android:padding="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_35"
+        android:background="@drawable/bg_greyd8_stroke">
+
+        <TextView
+            android:id="@+id/tvCancel"
+            style="@style/textGrey3Style14"
+            android:text="取消"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+
+        <View
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="match_parent"
+            android:background="@color/greyD8"/>
+
+        <TextView
+            android:id="@+id/tvSure"
+            style="@style/textGrey3Style14"
+            android:text="确定"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</LinearLayout>

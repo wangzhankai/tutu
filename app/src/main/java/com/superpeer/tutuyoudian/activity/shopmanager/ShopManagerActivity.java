@@ -2,16 +2,19 @@ package com.superpeer.tutuyoudian.activity.shopmanager;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,6 +45,7 @@ import com.superpeer.tutuyoudian.listener.OnStockListener;
 import com.superpeer.tutuyoudian.listener.OnSubListener;
 import com.superpeer.tutuyoudian.listener.OnUpListener;
 import com.superpeer.tutuyoudian.listener.OnUpOrDownListener;
+import com.superpeer.tutuyoudian.listener.OnUpdatePriceListener;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
@@ -86,6 +90,9 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
     private String barCode = "";
     private static final int REQUEST_CODE_SCAN = 888;
     private String typeName = "";
+    private int updatePos;
+    private String price = "";
+    private int selectTypePos;
 
     @Override
     protected void doBeforeSetcontentView() {
@@ -115,7 +122,7 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
                 //排序
                 PAGE = 1;
                 isSort = !isSort;
-                mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+                mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID), type);
             }
         });
 
@@ -159,7 +166,7 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
 
         initRxBus();
 
-        mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+        mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID), type);
     }
 
     private void initRxBus() {
@@ -181,7 +188,7 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
             @Override
             public void call(BaseObject s) {
                 PAGE = 1;
-                mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+                mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID), type);
             }
         });
     }
@@ -257,9 +264,12 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
                 tvUp.setSelected(true);
                 tvRest.setSelected(false);
                 tvDown.setSelected(false);
-//                mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+
                 PAGE = 1;
-                mPresenter.getGoods(PreferencesUtils.getString(mContext, Constants.SHOP_ID), typeId, type, stock, PAGE+"", "10", "");
+                mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID), type);
+//                mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+//                PAGE = 1;
+//                mPresenter.getGoods(PreferencesUtils.getString(mContext, Constants.SHOP_ID), typeId, type, stock, PAGE+"", "10", "");
             }
         });
 
@@ -273,9 +283,12 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
                 tvUp.setSelected(false);
                 tvRest.setSelected(true);
                 tvDown.setSelected(false);
-//                mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+
                 PAGE = 1;
-                mPresenter.getGoods(PreferencesUtils.getString(mContext, Constants.SHOP_ID), typeId, type, stock, PAGE+"", "10", "");
+                mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID), type);
+//                mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+//                PAGE = 1;
+//                mPresenter.getGoods(PreferencesUtils.getString(mContext, Constants.SHOP_ID), typeId, type, stock, PAGE+"", "10", "");
             }
         });
 
@@ -289,9 +302,12 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
                 tvUp.setSelected(false);
                 tvRest.setSelected(false);
                 tvDown.setSelected(true);
-//                mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+
                 PAGE = 1;
-                mPresenter.getGoods(PreferencesUtils.getString(mContext, Constants.SHOP_ID), typeId, type, stock, PAGE+"", "10", "");
+                mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID), type);
+//                mPresenter.getCategory(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
+//                PAGE = 1;
+//                mPresenter.getGoods(PreferencesUtils.getString(mContext, Constants.SHOP_ID), typeId, type, stock, PAGE+"", "10", "");
             }
         });
     }
@@ -318,6 +334,7 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
         recyclerCategory.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
+                selectTypePos = position;
                 PAGE = 1;
                 typeId = categoryList.get(position).getGoodsTypeId();
                 categoryAdapter.setSelectPos(position);
@@ -414,6 +431,60 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
                 mPresenter.modifySaleState(((BaseList)adapter.getItem(adapterPosition)).getGoodsId(), ("1".equals(type)||"".equals(type))?"0":"1");
             }
         });
+        //更新价格
+        adapter.setOnUpdatePriceListener(new OnUpdatePriceListener() {
+            @Override
+            public void onUpdatePrice(int position, String oriPrice) {
+                updatePos = position;
+//                showUpdateDialog(position);
+                price = oriPrice;
+                if(TextUtils.isEmpty(oriPrice)){
+                    showShortToast("请输入价格");
+                    return;
+                }
+//                if(price.equals(((BaseList)adapter.getItem(position)).getPrice())){
+//                    return;
+//                }
+                mPresenter.updatePrice(PreferencesUtils.getString(mContext, Constants.SHOP_ID), ((BaseList)adapter.getItem(position)).getBankId(), oriPrice, "");
+            }
+        });
+    }
+
+    private void showUpdateDialog(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        View view = View
+                .inflate(mContext, R.layout.dialog_update_price, null);
+        builder.setView(view);
+        builder.setCancelable(true);
+        final EditText etPrice= (EditText) view
+                .findViewById(R.id.etPrice);//输入内容
+        TextView tvCancel=(TextView) view
+                .findViewById(R.id.tvCancel);//取消按钮
+        TextView tvSure=(TextView)view.findViewById(R.id.tvSure);//确定按钮
+
+        //取消或确定按钮监听事件处理
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        tvSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                price = etPrice.getText().toString().trim();
+                if(TextUtils.isEmpty(price)){
+                    showShortToast("请输入价格");
+                    return;
+                }
+                mPresenter.updatePrice(PreferencesUtils.getString(mContext, Constants.SHOP_ID), "", price, ((BaseList)adapter.getItem(position)).getGoodsId());
+                dialog.dismiss();
+            }
+        });
     }
 
     @Override
@@ -438,7 +509,7 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
                 if(null!=baseBeanResult.getData()){
                     if(null!=baseBeanResult.getData().getList()&&baseBeanResult.getData().getList().size()>0){
                         categoryList = baseBeanResult.getData().getList();
-                        categoryAdapter = new CategoryAdapter(R.layout.item_category, categoryList);
+                        categoryAdapter = new CategoryAdapter(R.layout.item_category, categoryList, "1");
                         recyclerCategory.setAdapter(categoryAdapter);
                         if(!"typeName".equals(typeName)&&!"".equals(typeName)&&null!=typeName){
                             for(int i=0; i<categoryList.size(); i++){
@@ -460,6 +531,12 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
                                 mPresenter.getGoods(PreferencesUtils.getString(mContext, Constants.SHOP_ID), typeId, type, stock, PAGE+"", "10", "");
                             }
                         }
+                    }else{
+                        categoryList = baseBeanResult.getData().getList();
+                        categoryAdapter = new CategoryAdapter(R.layout.item_category, categoryList, "1");
+                        recyclerCategory.setAdapter(categoryAdapter);
+                        adapter.getData().clear();
+                        adapter.notifyDataSetChanged();
                     }
                 }
             }
@@ -508,6 +585,13 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
                 if("1".equals(baseBeanResult.getCode())){
                     adapter.getData().remove(adapterPosition);
                     adapter.notifyDataSetChanged();
+                    BaseList bean = ((BaseList) categoryAdapter.getItem(selectTypePos));
+//                    if("1".equals(type)){
+                        bean.setNum((Integer.parseInt(bean.getNum())-1)+"");
+//                    }else{
+//                        bean.setNum((Integer.parseInt(bean.getNum())-1)+"");
+//                    }
+                    categoryAdapter.notifyDataSetChanged();
                 }
             }
         }catch (Exception e){
@@ -609,6 +693,23 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
                     }
                     intent.putExtra("barCode", barCode);
                     startActivity(intent);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void showUpdate(BaseBeanResult baseBeanResult) {
+        try{
+            if(null!=baseBeanResult){
+                if(null!=baseBeanResult.getMsg()){
+                    showShortToast(baseBeanResult.getMsg());
+                }
+                if("1".equals(baseBeanResult.getCode())) {
+                    ((BaseList)adapter.getItem(updatePos)).setPrice(price);
+                    adapter.notifyDataSetChanged();
                 }
             }
         }catch (Exception e){

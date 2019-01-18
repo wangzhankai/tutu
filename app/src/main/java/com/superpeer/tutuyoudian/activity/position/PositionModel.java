@@ -1,6 +1,7 @@
 package com.superpeer.tutuyoudian.activity.position;
 
 import com.superpeer.base_libs.baserx.RxSchedulers;
+import com.superpeer.tutuyoudian.api.Api;
 import com.superpeer.tutuyoudian.api.TencentApi;
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 import com.superpeer.tutuyoudian.bean.BaseLocationBean;
@@ -15,6 +16,16 @@ import rx.functions.Func1;
  */
 
 public class PositionModel implements PositionContract.Model {
+    @Override
+    public Observable<BaseLocationBean> getLocationBack(String location, String key) {
+        return TencentApi.getInstance().service.getLocationBack(location, key).map(new Func1<BaseLocationBean, BaseLocationBean>() {
+            @Override
+            public BaseLocationBean call(BaseLocationBean baseLocationBean) {
+                return baseLocationBean;
+            }
+        }).compose(RxSchedulers.<BaseLocationBean>io_main());
+    }
+
     @Override
     public Observable<BaseLocationBean> getLocation(String address, String region, String key, OnLocationListener callback) {
         return TencentApi.getInstance().service.getLocation(address, region, key, callback).map(new Func1<BaseLocationBean, BaseLocationBean>() {

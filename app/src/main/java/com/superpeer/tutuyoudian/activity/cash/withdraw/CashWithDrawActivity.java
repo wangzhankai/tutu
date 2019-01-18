@@ -188,10 +188,10 @@ public class CashWithDrawActivity extends BaseActivity<CashWithDrawPresenter, Ca
 
     private void initData(BaseObject object) {
         try{
-            if(null!=object.getAccountBalance()){
+            if(null!=object.getAccountBalance()&&!"".equals(object.getAccountBalance())){
                 tvRest.setText(numberFormat.format(new BigDecimal(object.getAccountBalance())));
             }
-            if(null!=object.getAvailableBalance()){
+            if(null!=object.getAvailableBalance()&&!"".equals(object.getAvailableBalance())){
                 tvWithDrawCash.setText(numberFormat.format(new BigDecimal(object.getAvailableBalance())));
             }
             /*if(null!=object.getAccountType()){

@@ -14,7 +14,7 @@ import rx.Observable;
 public interface SelectShopContract {
 
     interface Model extends BaseModel{
-        Observable<BaseBeanResult> getType(String shopId);
+        Observable<BaseBeanResult> getType(String shopId, String saleState);
 
         Observable<BaseBeanResult> getGoods(String shopId, String goodsTypeId, String saleState, String stock, String defaultCurrent, String pageSize, String name);
     }
@@ -26,7 +26,7 @@ public interface SelectShopContract {
     }
 
     abstract class Presenter extends BasePresenter<View, Model>{
-        public abstract void getType(String shopId);
+        public abstract void getType(String shopId, String saleState);
 
         public abstract void getGoods(String shopId, String goodsTypeId, String saleState, String stock, String defaultCurrent, String pageSize, String name);
     }
