@@ -1,5 +1,6 @@
 package com.superpeer.tutuyoudian.activity.selectshopsearch;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,12 +16,15 @@ import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.base_libs.view.refresh.NormalRefreshViewHolder;
 import com.superpeer.base_libs.view.refresh.RefreshLayout;
 import com.superpeer.tutuyoudian.R;
+import com.superpeer.tutuyoudian.activity.image.ImageActivity;
 import com.superpeer.tutuyoudian.adapter.ShopAdapter;
 import com.superpeer.tutuyoudian.adapter.ShopLibraryAdapter;
 import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 import com.superpeer.tutuyoudian.bean.BaseList;
 import com.superpeer.tutuyoudian.constant.Constants;
+import com.superpeer.tutuyoudian.listener.OnImgListener;
+import com.superpeer.tutuyoudian.listener.OnItemListener;
 
 public class SelectShopSearchActivity extends BaseActivity<SelectShopSearchPresenter, SelectShopSearchModel> implements SelectShopSearchContract.View, BaseQuickAdapter.RequestLoadMoreListener, RefreshLayout.RefreshLayoutDelegate {
 
@@ -83,7 +87,28 @@ public class SelectShopSearchActivity extends BaseActivity<SelectShopSearchPrese
         refresh.setDelegate(this);
         refresh.setRefreshViewHolder(new NormalRefreshViewHolder(mContext, true));
 
-        rvContent.addOnItemTouchListener(new OnItemClickListener() {
+        //图片放大
+        adapter.setOnImgListener(new OnImgListener() {
+            @Override
+            public void onImgListener(int position) {
+                Intent intent = new Intent(mContext, ImageActivity.class);
+                intent.putExtra("url", ((BaseList) adapter.getItem(position)).getImagePath());
+                startActivity(intent);
+            }
+        });
+
+        adapter.setOnItemListener(new OnItemListener() {
+            @Override
+            public void onItem(int position) {
+                adapter.setSelectPos(position);
+                adapter.notifyDataSetChanged();
+                mRxManager.post("selectShop", ((BaseList)adapter.getItem(position)));
+                mRxManager.post("selectCollage", "");
+                finish();
+            }
+        });
+
+        /*rvContent.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter myadapter, View view, int position) {
                 adapter.setSelectPos(position);
@@ -91,7 +116,7 @@ public class SelectShopSearchActivity extends BaseActivity<SelectShopSearchPrese
                 mRxManager.post("selectShop", ((BaseList)adapter.getItem(position)));
                 finish();
             }
-        });
+        });*/
 
     }
 
@@ -126,6 +151,9 @@ public class SelectShopSearchActivity extends BaseActivity<SelectShopSearchPrese
                         adapter.getData().clear();
                         adapter.notifyDataSetChanged();
                     }
+                    adapter.loadComplete();
+                    refresh.endLoadingMore();
+                    refresh.endRefreshing();
                 }
             }
         }catch (Exception e){
@@ -141,7 +169,7 @@ public class SelectShopSearchActivity extends BaseActivity<SelectShopSearchPrese
     @Override
     public void onRefreshLayoutBeginRefreshing(RefreshLayout refreshLayout) {
         PAGE = 1;
-        mPresenter.getGoods(PreferencesUtils.getString(mContext, Constants.SHOP_ID), "", "", "", PAGE+"", "10", "");
+        mPresenter.getGoods(PreferencesUtils.getString(mContext, Constants.SHOP_ID), "", "", "", PAGE+"", "10", name);
     }
 
     @Override
@@ -150,7 +178,7 @@ public class SelectShopSearchActivity extends BaseActivity<SelectShopSearchPrese
             if(null!=result.getData()&&null!=result.getData().getTotal()) {
                 if (PAGE + 1 <= (Integer.parseInt(result.getData().getTotal())%10>0?Integer.parseInt(result.getData().getTotal())/10+1:Integer.parseInt(result.getData().getTotal())/10)) {
                     PAGE++;
-                    mPresenter.getGoods(PreferencesUtils.getString(mContext, Constants.SHOP_ID), "", "", "", PAGE+"", "10", "");
+                    mPresenter.getGoods(PreferencesUtils.getString(mContext, Constants.SHOP_ID), "", "", "", PAGE+"", "10", name);
                 } else {
                     return false;
                 }

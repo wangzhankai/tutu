@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -17,13 +18,16 @@ import com.superpeer.base_libs.view.refresh.NormalRefreshViewHolder;
 import com.superpeer.base_libs.view.refresh.RefreshLayout;
 import com.superpeer.tutuyoudian.R;
 import com.superpeer.tutuyoudian.activity.addshop.AddShopActivity;
+import com.superpeer.tutuyoudian.activity.image.ImageActivity;
 import com.superpeer.tutuyoudian.adapter.ShopLibraryAdapter;
 import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 import com.superpeer.tutuyoudian.bean.BaseList;
 import com.superpeer.tutuyoudian.constant.Constants;
 import com.superpeer.tutuyoudian.listener.OnEditListener;
+import com.superpeer.tutuyoudian.listener.OnImgListener;
 import com.superpeer.tutuyoudian.listener.OnOperListener;
+import com.superpeer.tutuyoudian.listener.OnUpdatePriceListener;
 
 public class GoodsSearchActivity extends BaseActivity<GoodsSearchPresenter, GoodsSearchModel> implements GoodsSearchContract.View, BaseQuickAdapter.RequestLoadMoreListener, RefreshLayout.RefreshLayoutDelegate {
 
@@ -36,6 +40,8 @@ public class GoodsSearchActivity extends BaseActivity<GoodsSearchPresenter, Good
     private int PAGE = 1;
     private BaseBeanResult result;
     private int editPos;
+    private String price = "";
+    private int updatePos;
 
     @Override
     public int getLayoutId() {
@@ -89,6 +95,16 @@ public class GoodsSearchActivity extends BaseActivity<GoodsSearchPresenter, Good
         refresh.setDelegate(this);
         refresh.setRefreshViewHolder(new NormalRefreshViewHolder(mContext, true));
 
+        //图片放大
+        adapter.setOnImgListener(new OnImgListener() {
+            @Override
+            public void onImgListener(int position) {
+                Intent intent = new Intent(mContext, ImageActivity.class);
+                intent.putExtra("url", ((BaseList) adapter.getItem(position)).getImagePath());
+                startActivity(intent);
+            }
+        });
+
         adapter.setOnOperListener(new OnOperListener() {
             @Override
             public void onOperListener(int position) {
@@ -105,6 +121,23 @@ public class GoodsSearchActivity extends BaseActivity<GoodsSearchPresenter, Good
                 intent.putExtra("shopManager", ((BaseList)adapter.getItem(position)));
                 intent.putExtra("barCode", ((BaseList) adapter.getItem(position)).getBarCode());
                 startActivity(intent);
+            }
+        });
+
+        adapter.setOnUpdatePriceListener(new OnUpdatePriceListener() {
+            @Override
+            public void onUpdatePrice(int position, String oriPrice) {
+                updatePos = position;
+//                showUpdateDialog(position);
+                price = oriPrice;
+                if(TextUtils.isEmpty(oriPrice)){
+                    showShortToast("请输入价格");
+                    return;
+                }
+//                if(price.equals(((BaseList)adapter.getItem(position)).getPrice())){
+//                    return;
+//                }
+                mPresenter.updatePrice(PreferencesUtils.getString(mContext, Constants.SHOP_ID), ((BaseList)adapter.getItem(position)).getBankId(), oriPrice, "");
             }
         });
 
@@ -158,6 +191,23 @@ public class GoodsSearchActivity extends BaseActivity<GoodsSearchPresenter, Good
                 if(selectPos!=-1){
                     BaseList bean = (BaseList) adapter.getItem(selectPos);
                     bean.setChecked(!bean.isChecked());
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void showUpdate(BaseBeanResult baseBeanResult) {
+        try{
+            if(null!=baseBeanResult){
+                if(null!=baseBeanResult.getMsg()){
+                    showShortToast(baseBeanResult.getMsg());
+                }
+                if("1".equals(baseBeanResult.getCode())) {
+                    ((BaseList)adapter.getItem(updatePos)).setPrice(price);
                     adapter.notifyDataSetChanged();
                 }
             }

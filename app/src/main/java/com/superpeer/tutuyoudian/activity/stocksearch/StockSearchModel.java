@@ -38,4 +38,14 @@ public class StockSearchModel implements StockSearchContract.Model {
         }).compose(RxSchedulers.<BaseBeanResult>io_main());
     }
 
+    @Override
+    public Observable<BaseBeanResult> updatePrice(String shopId, String goodsBankId, String price, String goodsId) {
+        return Api.getInstance().service.updatePrice(shopId, goodsBankId, price, goodsId).map(new Func1<BaseBeanResult, BaseBeanResult>() {
+            @Override
+            public BaseBeanResult call(BaseBeanResult baseBeanResult) {
+                return baseBeanResult;
+            }
+        }).compose(RxSchedulers.<BaseBeanResult>io_main());
+    }
+
 }

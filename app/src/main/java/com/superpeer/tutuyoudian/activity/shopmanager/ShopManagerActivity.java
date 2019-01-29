@@ -27,6 +27,7 @@ import com.superpeer.base_libs.view.refresh.NormalRefreshViewHolder;
 import com.superpeer.base_libs.view.refresh.RefreshLayout;
 import com.superpeer.tutuyoudian.R;
 import com.superpeer.tutuyoudian.activity.addshop.AddShopActivity;
+import com.superpeer.tutuyoudian.activity.image.ImageActivity;
 import com.superpeer.tutuyoudian.activity.main.MainActivity;
 import com.superpeer.tutuyoudian.activity.search.SearchActivity;
 import com.superpeer.tutuyoudian.activity.stocksearch.StockSearchActivity;
@@ -40,6 +41,7 @@ import com.superpeer.tutuyoudian.constant.Constants;
 import com.superpeer.tutuyoudian.listener.OnAddListener;
 import com.superpeer.tutuyoudian.listener.OnDownListener;
 import com.superpeer.tutuyoudian.listener.OnEditListener;
+import com.superpeer.tutuyoudian.listener.OnImgListener;
 import com.superpeer.tutuyoudian.listener.OnOperListener;
 import com.superpeer.tutuyoudian.listener.OnStockListener;
 import com.superpeer.tutuyoudian.listener.OnSubListener;
@@ -344,6 +346,16 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
                 }else{
                     mPresenter.getGoods(PreferencesUtils.getString(mContext, Constants.SHOP_ID), typeId, type, stock, PAGE+"", "10", "");
                 }
+            }
+        });
+
+        //图片放大
+        adapter.setOnImgListener(new OnImgListener() {
+            @Override
+            public void onImgListener(int position) {
+                Intent intent = new Intent(mContext, ImageActivity.class);
+                intent.putExtra("url", ((BaseList) adapter.getItem(position)).getImagePath());
+                startActivity(intent);
             }
         });
         /*recyclerCategory.addOnItemTouchListener(new OnItemClickListener() {

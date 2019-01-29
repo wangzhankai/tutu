@@ -19,12 +19,14 @@ import com.superpeer.base_libs.view.refresh.NormalRefreshViewHolder;
 import com.superpeer.base_libs.view.refresh.RefreshLayout;
 import com.superpeer.tutuyoudian.R;
 import com.superpeer.tutuyoudian.activity.addshop.AddShopActivity;
+import com.superpeer.tutuyoudian.activity.image.ImageActivity;
 import com.superpeer.tutuyoudian.adapter.ShopManagerAdapter;
 import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 import com.superpeer.tutuyoudian.bean.BaseList;
 import com.superpeer.tutuyoudian.constant.Constants;
 import com.superpeer.tutuyoudian.listener.OnEditListener;
+import com.superpeer.tutuyoudian.listener.OnImgListener;
 import com.superpeer.tutuyoudian.listener.OnUpOrDownListener;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
@@ -43,6 +45,9 @@ public class StockSearchActivity extends BaseActivity<StockSearchPresenter, Stoc
     private RefreshLayout refresh;
     private ShopManagerAdapter adapter;
     private BaseBeanResult result;
+
+    private int updatePos;
+    private String price = "";
 
     @Override
     public int getLayoutId() {
@@ -99,6 +104,16 @@ public class StockSearchActivity extends BaseActivity<StockSearchPresenter, Stoc
         //设置下拉、上拉
         refresh.setDelegate(this);
         refresh.setRefreshViewHolder(new NormalRefreshViewHolder(mContext, true));
+
+        //图片放大
+        adapter.setOnImgListener(new OnImgListener() {
+            @Override
+            public void onImgListener(int position) {
+                Intent intent = new Intent(mContext, ImageActivity.class);
+                intent.putExtra("url", ((BaseList) adapter.getItem(position)).getImagePath());
+                startActivity(intent);
+            }
+        });
 
         //编辑
         adapter.setOnEditListener(new OnEditListener() {
@@ -267,6 +282,23 @@ public class StockSearchActivity extends BaseActivity<StockSearchPresenter, Stoc
                     adapter.notifyDataSetChanged();
                     mRxManager.post("delGoods", "");
                     mRxManager.post("stocksearch", "");
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void showUpdate(BaseBeanResult baseBeanResult) {
+        try{
+            if(null!=baseBeanResult){
+                if(null!=baseBeanResult.getMsg()){
+                    showShortToast(baseBeanResult.getMsg());
+                }
+                if("1".equals(baseBeanResult.getCode())) {
+                    ((BaseList)adapter.getItem(updatePos)).setPrice(price);
+                    adapter.notifyDataSetChanged();
                 }
             }
         }catch (Exception e){

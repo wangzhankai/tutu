@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.superpeer.base_libs.view.refresh.NormalRefreshViewHolder;
 import com.superpeer.base_libs.view.refresh.RefreshLayout;
 import com.superpeer.tutuyoudian.R;
 import com.superpeer.tutuyoudian.activity.addshop.AddShopActivity;
+import com.superpeer.tutuyoudian.activity.image.ImageActivity;
 import com.superpeer.tutuyoudian.adapter.ShopManagerAdapter;
 import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
@@ -30,10 +32,12 @@ import com.superpeer.tutuyoudian.constant.Constants;
 import com.superpeer.tutuyoudian.listener.OnAddListener;
 import com.superpeer.tutuyoudian.listener.OnDownListener;
 import com.superpeer.tutuyoudian.listener.OnEditListener;
+import com.superpeer.tutuyoudian.listener.OnImgListener;
 import com.superpeer.tutuyoudian.listener.OnStockListener;
 import com.superpeer.tutuyoudian.listener.OnSubListener;
 import com.superpeer.tutuyoudian.listener.OnUpListener;
 import com.superpeer.tutuyoudian.listener.OnUpOrDownListener;
+import com.superpeer.tutuyoudian.listener.OnUpdatePriceListener;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
@@ -52,6 +56,8 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchModel> i
     private int PAGE = 1;
     private BaseBeanResult result;
     private String name = "";
+    private int updatePos;
+    private String price = "";
 
     @Override
     protected void doBeforeSetcontentView() {
@@ -122,6 +128,16 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchModel> i
         refresh.setDelegate(this);
         refresh.setRefreshViewHolder(new NormalRefreshViewHolder(mContext, true));
 
+        //图片放大
+        adapter.setOnImgListener(new OnImgListener() {
+            @Override
+            public void onImgListener(int position) {
+                Intent intent = new Intent(mContext, ImageActivity.class);
+                intent.putExtra("url", ((BaseList) adapter.getItem(position)).getImagePath());
+                startActivity(intent);
+            }
+        });
+
         //编辑
         adapter.setOnEditListener(new OnEditListener() {
             @Override
@@ -137,6 +153,24 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchModel> i
             @Override
             public void onUpOrDownListener(int position, String type) {
                 mPresenter.modifySaleState(((BaseList)adapter.getItem(adapterPosition)).getGoodsId(), ("1".equals(type)||"".equals(type))?"0":"1");
+            }
+        });
+
+        //更新价格
+        adapter.setOnUpdatePriceListener(new OnUpdatePriceListener() {
+            @Override
+            public void onUpdatePrice(int position, String oriPrice) {
+                updatePos = position;
+//                showUpdateDialog(position);
+                price = oriPrice;
+                if(TextUtils.isEmpty(oriPrice)){
+                    showShortToast("请输入价格");
+                    return;
+                }
+//                if(price.equals(((BaseList)adapter.getItem(position)).getPrice())){
+//                    return;
+//                }
+                mPresenter.updatePrice(PreferencesUtils.getString(mContext, Constants.SHOP_ID), ((BaseList)adapter.getItem(position)).getBankId(), oriPrice, "");
             }
         });
 
@@ -318,6 +352,23 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchModel> i
                     adapter.getData().remove(adapterPosition);
                     adapter.notifyDataSetChanged();
                     mRxManager.post("shopsearch", "");
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void showUpdate(BaseBeanResult baseBeanResult) {
+        try{
+            if(null!=baseBeanResult){
+                if(null!=baseBeanResult.getMsg()){
+                    showShortToast(baseBeanResult.getMsg());
+                }
+                if("1".equals(baseBeanResult.getCode())) {
+                    ((BaseList)adapter.getItem(updatePos)).setPrice(price);
+                    adapter.notifyDataSetChanged();
                 }
             }
         }catch (Exception e){

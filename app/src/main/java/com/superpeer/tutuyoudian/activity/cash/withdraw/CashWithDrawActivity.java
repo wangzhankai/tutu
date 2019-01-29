@@ -6,6 +6,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.superpeer.base_libs.utils.ConstantsUtils;
 import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.tutuyoudian.R;
 import com.superpeer.tutuyoudian.activity.cash.record.CashRecordActivity;
@@ -34,6 +35,7 @@ public class CashWithDrawActivity extends BaseActivity<CashWithDrawPresenter, Ca
     private TextView tvWithDraw;
     private String accountType = "";
     private TextView etUserName;
+    private TextView tvContract;
 
     @Override
     public int getLayoutId() {
@@ -64,6 +66,7 @@ public class CashWithDrawActivity extends BaseActivity<CashWithDrawPresenter, Ca
         etUserName = (TextView) findViewById(R.id.etUserName);
         etCash = (EditText) findViewById(R.id.etCash);
         linearPayType = (LinearLayout) findViewById(R.id.linearPayType);
+        tvContract = (TextView) findViewById(R.id.tvContract);
 
         mPresenter.getAccountInfo(PreferencesUtils.getString(mContext, Constants.SHOP_ID));
 
@@ -135,6 +138,13 @@ public class CashWithDrawActivity extends BaseActivity<CashWithDrawPresenter, Ca
 
             }
         });
+
+        tvContract.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ConstantsUtils.callPhone(mContext, Constants.call);
+            }
+        });
     }
 
     @Override
@@ -189,10 +199,10 @@ public class CashWithDrawActivity extends BaseActivity<CashWithDrawPresenter, Ca
     private void initData(BaseObject object) {
         try{
             if(null!=object.getAccountBalance()&&!"".equals(object.getAccountBalance())){
-                tvRest.setText(numberFormat.format(new BigDecimal(object.getAccountBalance())));
+                tvRest.setText("￥"+numberFormat.format(new BigDecimal(object.getAccountBalance())));
             }
             if(null!=object.getAvailableBalance()&&!"".equals(object.getAvailableBalance())){
-                tvWithDrawCash.setText(numberFormat.format(new BigDecimal(object.getAvailableBalance())));
+                tvWithDrawCash.setText("￥"+numberFormat.format(new BigDecimal(object.getAvailableBalance())));
             }
             /*if(null!=object.getAccountType()){
                 if("0".equals(object.getAccountType())){

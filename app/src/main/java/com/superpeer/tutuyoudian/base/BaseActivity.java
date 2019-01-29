@@ -93,7 +93,14 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                         PushBean bean = new Gson().fromJson(extras, PushBean.class);
 
                         if(null!=bean&&null!=bean.getOrderType()&&"1".equals(bean.getOrderType())){
-                            if(!dialog.isShowing()){
+                            if(null!=dialog){
+                                if(!dialog.isShowing()){
+                                    if(null!=bean.getSound()){
+                                        playVoice(bean.getSound());
+                                    }
+                                    showOrderDialog(bean);
+                                }
+                            }else{
                                 if(null!=bean.getSound()){
                                     playVoice(bean.getSound());
                                 }
@@ -101,7 +108,11 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                             }
                         }
                     }else{
-                        if(!dialog.isShowing()){
+                        if(null!=dialog){
+                            if(!dialog.isShowing()){
+                                showOrderDialog(extras, message);
+                            }
+                        }else{
                             showOrderDialog(extras, message);
                         }
                         mRxManager.post("drivermain", "");

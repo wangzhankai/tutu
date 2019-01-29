@@ -12,6 +12,7 @@ import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.base_libs.view.refresh.NormalRefreshViewHolder;
 import com.superpeer.base_libs.view.refresh.RefreshLayout;
 import com.superpeer.tutuyoudian.R;
+import com.superpeer.tutuyoudian.activity.image.ImageActivity;
 import com.superpeer.tutuyoudian.activity.selectshopsearch.SelectShopSearchActivity;
 import com.superpeer.tutuyoudian.adapter.CategoryAdapter;
 import com.superpeer.tutuyoudian.adapter.ShopAdapter;
@@ -19,8 +20,12 @@ import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 import com.superpeer.tutuyoudian.bean.BaseList;
 import com.superpeer.tutuyoudian.constant.Constants;
+import com.superpeer.tutuyoudian.listener.OnImgListener;
+import com.superpeer.tutuyoudian.listener.OnItemListener;
 
 import java.util.List;
+
+import rx.functions.Action1;
 
 public class SelectShopActivity extends BaseActivity<SelectShopPresenter, SelectShopModel> implements SelectShopContract.View, BaseQuickAdapter.RequestLoadMoreListener, RefreshLayout.RefreshLayoutDelegate {
 
@@ -64,6 +69,13 @@ public class SelectShopActivity extends BaseActivity<SelectShopPresenter, Select
                 startActivity(intent);
             }
         });
+
+        mRxManager.on("selectCollage", new Action1<String>() {
+            @Override
+            public void call(String s) {
+                finish();
+            }
+        });
     }
 
     private void initRecyclerView() {
@@ -84,7 +96,27 @@ public class SelectShopActivity extends BaseActivity<SelectShopPresenter, Select
         refresh.setDelegate(this);
         refresh.setRefreshViewHolder(new NormalRefreshViewHolder(mContext, true));
 
-        rvContent.addOnItemTouchListener(new OnItemClickListener() {
+        //图片放大
+        adapter.setOnImgListener(new OnImgListener() {
+            @Override
+            public void onImgListener(int position) {
+                Intent intent = new Intent(mContext, ImageActivity.class);
+                intent.putExtra("url", ((BaseList) adapter.getItem(position)).getImagePath());
+                startActivity(intent);
+            }
+        });
+
+        adapter.setOnItemListener(new OnItemListener() {
+            @Override
+            public void onItem(int position) {
+                adapter.setSelectPos(position);
+                adapter.notifyDataSetChanged();
+                mRxManager.post("selectShop", ((BaseList)adapter.getItem(position)));
+                finish();
+            }
+        });
+
+        /*rvContent.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter myadapter, View view, int position) {
                 adapter.setSelectPos(position);
@@ -92,7 +124,7 @@ public class SelectShopActivity extends BaseActivity<SelectShopPresenter, Select
                 mRxManager.post("selectShop", ((BaseList)adapter.getItem(position)));
                 finish();
             }
-        });
+        });*/
 
     }
 
@@ -159,6 +191,9 @@ public class SelectShopActivity extends BaseActivity<SelectShopPresenter, Select
                         adapter.getData().clear();
                         adapter.notifyDataSetChanged();
                     }
+                    adapter.loadComplete();
+                    refresh.endRefreshing();
+                    refresh.endLoadingMore();
                 }
             }
         }catch (Exception e){

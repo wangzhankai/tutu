@@ -18,6 +18,7 @@ import com.superpeer.tutuyoudian.bean.BaseList;
 import com.superpeer.tutuyoudian.listener.OnAddListener;
 import com.superpeer.tutuyoudian.listener.OnDownListener;
 import com.superpeer.tutuyoudian.listener.OnEditListener;
+import com.superpeer.tutuyoudian.listener.OnImgListener;
 import com.superpeer.tutuyoudian.listener.OnOperListener;
 import com.superpeer.tutuyoudian.listener.OnStockListener;
 import com.superpeer.tutuyoudian.listener.OnSubListener;
@@ -45,6 +46,16 @@ public class ShopManagerAdapter extends BaseQuickAdapter {
     private OnEditListener onEditListener;
     private OnUpOrDownListener onUpOrDownListener;
     private OnUpdatePriceListener onUpdatePriceListener;
+
+    private OnImgListener onImgListener;
+
+    public OnImgListener getOnImgListener() {
+        return onImgListener;
+    }
+
+    public void setOnImgListener(OnImgListener onImgListener) {
+        this.onImgListener = onImgListener;
+    }
 
     public OnUpdatePriceListener getOnUpdatePriceListener() {
         return onUpdatePriceListener;
@@ -192,6 +203,13 @@ public class ShopManagerAdapter extends BaseQuickAdapter {
             @Override
             public void onClick(View v) {
                 onDownListener.onDown(position);
+            }
+        });
+
+        ivImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onImgListener.onImgListener(position);
             }
         });
 

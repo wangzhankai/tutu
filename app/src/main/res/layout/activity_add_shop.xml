@@ -273,11 +273,18 @@
                 <EditText
                     android:id="@+id/etPrice"
                     style="@style/textGrey3Style14"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:hint="请输入商品价格（单位：元）"
                     android:textColorHint="@color/grey9" />
+
+                <TextView
+                    android:text="(元)"
+                    style="@style/textGrey3Style14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
@@ -335,12 +342,19 @@
                 <EditText
                     android:id="@+id/etCoupon"
                     style="@style/textGrey3Style14"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:hint="请填写优惠后的价格"
                     android:inputType="textEmailAddress"
                     android:textColorHint="@color/grey9" />
+
+                <TextView
+                    android:text="(元)"
+                    style="@style/textGrey3Style14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 

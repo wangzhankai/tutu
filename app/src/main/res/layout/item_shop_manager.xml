@@ -39,23 +39,31 @@
                     android:id="@+id/tvRest"
                     style="@style/textGrey9Style14"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:text="￥"
                     style="@style/textRedStyle14"
+                    android:layout_marginLeft="@dimen/dp_10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <EditText
                     android:id="@+id/tvPrice"
                     style="@style/textRedStyle14"
+                    android:imeOptions="actionDone"
                     android:paddingLeft="@dimen/dp_10"
                     android:paddingRight="@dimen/dp_10"
                     android:paddingTop="@dimen/dp_5"
                     android:paddingBottom="@dimen/dp_5"
                     android:background="@drawable/bg_greyd8_stroke"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="元"
+                    style="@style/textRedStyle14"
+                    android:layout_marginLeft="@dimen/dp_10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 

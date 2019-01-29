@@ -109,7 +109,7 @@
             style="@style/textGrey3Style14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="满多少配送费金额" />
+            android:text="满" />
 
         <EditText
             android:id="@+id/etStartMoney"
@@ -123,12 +123,18 @@
             android:layout_height="match_parent"
             android:background="@null"/>
 
-        <TextView
+       <!-- <TextView
             android:text="(元)"
             style="@style/textGrey9Style14"
             android:layout_marginLeft="@dimen/dp_10"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" />-->
+
+        <TextView
+            style="@style/textGrey3Style14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(元)免配送费" />
 
     </LinearLayout>
 

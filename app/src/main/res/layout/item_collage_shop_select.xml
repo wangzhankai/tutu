@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/dp_1"
     android:padding="@dimen/dp_15"
+    android:id="@+id/linearItem"
     android:orientation="vertical"
     android:gravity="center_vertical"
     android:background="@color/white">

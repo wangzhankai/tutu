@@ -35,4 +35,19 @@ public class GoodsSearchPresenter extends GoodsSearchContract.Presenter {
         }));
     }
 
+    @Override
+    public void updatePrice(String shopId, String goodsBankId, String price, String goodsId) {
+        mRxManage.add(mModel.updatePrice(shopId, goodsBankId, price, goodsId).subscribe(new RxSubscriber<BaseBeanResult>(mContext, true) {
+            @Override
+            protected void _onNext(BaseBeanResult baseBeanResult) {
+                mView.showUpdate(baseBeanResult);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                mView.showErrorTip(message);
+            }
+        }));
+    }
+
 }

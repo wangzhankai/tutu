@@ -18,6 +18,9 @@ public interface SearchContract {
         //删除
         Observable<BaseBeanResult> delMyGoods(String goodsId);
 
+        //修改价格
+        Observable<BaseBeanResult> updatePrice(String shopId, String goodsBankId, String price, String goodsId);
+
     }
 
     interface View extends BaseView{
@@ -26,6 +29,8 @@ public interface SearchContract {
         void showModifyResult(BaseBeanResult baseBeanResult);
 
         void showDeleteResult(BaseBeanResult baseBeanResult);
+
+        void showUpdate(BaseBeanResult baseBeanResult);
     }
 
     abstract class Presenter extends BasePresenter<View, Model>{
@@ -34,6 +39,8 @@ public interface SearchContract {
         public abstract void modifySaleState(String goodsId, String saleState);
 
         public abstract void delMyGoods(String goodsId);
+
+        public abstract void updatePrice(String shopId, String goodsBankId, String price, String goodsId);
 
     }
 

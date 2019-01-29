@@ -295,7 +295,8 @@
         <activity android:name=".activity.goodssearch.GoodsSearchActivity" />
         <activity android:name=".activity.selectshopsearch.SelectShopSearchActivity" />
         <activity android:name=".activity.shopcode.ShopCodeActivity" />
-        <activity android:name=".activity.stocksearch.StockSearchActivity"></activity>
+        <activity android:name=".activity.stocksearch.StockSearchActivity" />
+        <activity android:name=".activity.image.ImageActivity"></activity>
     </application>
 
 </manifest>

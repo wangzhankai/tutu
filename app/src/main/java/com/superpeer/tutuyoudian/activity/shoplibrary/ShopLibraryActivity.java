@@ -18,6 +18,7 @@ import com.superpeer.base_libs.view.refresh.RefreshLayout;
 import com.superpeer.tutuyoudian.R;
 import com.superpeer.tutuyoudian.activity.addshop.AddShopActivity;
 import com.superpeer.tutuyoudian.activity.goodssearch.GoodsSearchActivity;
+import com.superpeer.tutuyoudian.activity.image.ImageActivity;
 import com.superpeer.tutuyoudian.activity.shopmanager.ShopManagerActivity;
 import com.superpeer.tutuyoudian.adapter.CategoryAdapter;
 import com.superpeer.tutuyoudian.adapter.ShopLibraryAdapter;
@@ -27,6 +28,7 @@ import com.superpeer.tutuyoudian.bean.BaseList;
 import com.superpeer.tutuyoudian.bean.BaseObject;
 import com.superpeer.tutuyoudian.constant.Constants;
 import com.superpeer.tutuyoudian.listener.OnEditListener;
+import com.superpeer.tutuyoudian.listener.OnImgListener;
 import com.superpeer.tutuyoudian.listener.OnOperListener;
 import com.superpeer.tutuyoudian.listener.OnUpdatePriceListener;
 
@@ -173,6 +175,15 @@ public class ShopLibraryActivity extends BaseActivity<ShopLibraryPresenter, Shop
         //设置下拉、上拉
         refresh.setDelegate(this);
         refresh.setRefreshViewHolder(new NormalRefreshViewHolder(mContext, true));
+        //图片放大
+        adapter.setOnImgListener(new OnImgListener() {
+            @Override
+            public void onImgListener(int position) {
+                Intent intent = new Intent(mContext, ImageActivity.class);
+                intent.putExtra("url", ((BaseList) adapter.getItem(position)).getImagePath());
+                startActivity(intent);
+            }
+        });
 
         adapter.setOnOperListener(new OnOperListener() {
             @Override
