@@ -77,15 +77,17 @@ public class CashRecordActivity extends BaseActivity<CashRecordPresenter, CashRe
             if(null!=baseBeanResult){
                 result = baseBeanResult;
                 if("1".equals(baseBeanResult.getCode())){
-                    if(null!=baseBeanResult.getData().getList()&&baseBeanResult.getData().getList().size()>0){
-                        if(PAGE == 1){
-                            adapter.setNewData(baseBeanResult.getData().getList());
-                        }else{
-                            adapter.addData(baseBeanResult.getData().getList());
+                    if(null!=baseBeanResult.getData()) {
+                        if (null != baseBeanResult.getData().getList() && baseBeanResult.getData().getList().size() > 0) {
+                            if (PAGE == 1) {
+                                adapter.setNewData(baseBeanResult.getData().getList());
+                            } else {
+                                adapter.addData(baseBeanResult.getData().getList());
+                            }
+                        } else {
+                            adapter.getData().clear();
+                            adapter.notifyDataSetChanged();
                         }
-                    }else{
-                        adapter.getData().clear();
-                        adapter.notifyDataSetChanged();
                     }
                 }
                 adapter.loadComplete();
