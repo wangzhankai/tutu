@@ -95,6 +95,7 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
     private int updatePos;
     private String price = "";
     private int selectTypePos;
+    private int operPosition;
 
     @Override
     protected void doBeforeSetcontentView() {
@@ -440,7 +441,8 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
         adapter.setOnUpOrDownListener(new OnUpOrDownListener() {
             @Override
             public void onUpOrDownListener(int position, String type) {
-                mPresenter.modifySaleState(((BaseList)adapter.getItem(adapterPosition)).getGoodsId(), ("1".equals(type)||"".equals(type))?"0":"1");
+                operPosition = position;
+                mPresenter.modifySaleState(((BaseList)adapter.getItem(operPosition)).getGoodsId(), ("1".equals(type)||"".equals(type))?"0":"1");
             }
         });
         //更新价格
@@ -595,7 +597,7 @@ public class ShopManagerActivity extends BaseActivity<ShopManagerPresenter, Shop
                     showShortToast(baseBeanResult.getMsg());
                 }
                 if("1".equals(baseBeanResult.getCode())){
-                    adapter.getData().remove(adapterPosition);
+                    adapter.getData().remove(operPosition);
                     adapter.notifyDataSetChanged();
                     BaseList bean = ((BaseList) categoryAdapter.getItem(selectTypePos));
 //                    if("1".equals(type)){

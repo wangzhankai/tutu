@@ -30,6 +30,7 @@
             style="@style/textGrey3Style14"
             android:textColorHint="@color/grey9"
             android:hint="周边配送距离"
+            android:inputType="number"
             android:gravity="right|center_vertical"
             android:layout_width="0dp"
             android:layout_weight="1"

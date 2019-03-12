@@ -28,4 +28,5 @@
     <color name="oper_orange">#FFB41A</color>
     <color name="oper_grey">#CCCCCC</color>
     <color name="navpage">#FFE1E8EB</color>
+    <color name="grey_light">#BC7326</color>
 </resources>

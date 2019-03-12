@@ -24,11 +24,14 @@ public class Constants {
     public static final String USER_INFO = "USER_INFO";
     //用户id
     public static final String SHOP_ID = "SHOP_ID";
+    public static final String VIDEO_ORDER_ID = "VIDEO_ORDER_ID";
     //用户
     public static final String SHOP_STATE = "SHOP_STATE";
     public static final String VALIDITYPERIOD = "validityPeriod";
     //登录类型（商家/骑手）
     public static final String USER_TYPE = "USER_TYPE";
+
+    public static final String INVITATION_CODE = "INVITATION_CODE";
 
     public static final String SHOP_NOTICE = "SHOP_NOTICE";
 

@@ -81,6 +81,35 @@ public class BaseObject implements Serializable {
     private String fiveNum;
     private String sixNum;
 
+    //
+    private String activationAmount;
+    private String operatorId;
+    private String settingId;
+
+    public String getSettingId() {
+        return settingId;
+    }
+
+    public void setSettingId(String settingId) {
+        this.settingId = settingId;
+    }
+
+    public String getActivationAmount() {
+        return activationAmount;
+    }
+
+    public void setActivationAmount(String activationAmount) {
+        this.activationAmount = activationAmount;
+    }
+
+    public String getOperatorId() {
+        return operatorId;
+    }
+
+    public void setOperatorId(String operatorId) {
+        this.operatorId = operatorId;
+    }
+
     public String getDeliveryStatus() {
         return deliveryStatus;
     }

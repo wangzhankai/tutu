@@ -54,7 +54,7 @@ public class MyReceiver extends BroadcastReceiver {
 
             } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
                 Log.i(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
-                processCustomMessage(context, bundle);
+//                processCustomMessage(context, bundle);
 
             } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
                 Log.i(TAG, "[MyReceiver] 接收到推送下来的通知");
@@ -127,10 +127,10 @@ public class MyReceiver extends BroadcastReceiver {
     private void processCustomMessage(Context context, Bundle bundle) {
 
         if("0".equals(PreferencesUtils.getString(context, Constants.USER_TYPE))){
+            String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
+            String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+            String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
             if (BaseActivity.isForeground) {
-                String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
-                String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
-                String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
                 Intent msgIntent = new Intent(BaseActivity.MESSAGE_RECEIVED_ACTION);
                 msgIntent.putExtra(BaseActivity.KEY_MESSAGE, message);
                 msgIntent.putExtra(BaseActivity.KEY_EXTRAS, extras);
@@ -141,6 +141,11 @@ public class MyReceiver extends BroadcastReceiver {
                     Notification notification = new Notification();
                     notification.sound= Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.notification);
                 }*/
+            }else{
+                Intent msgIntent = new Intent(BaseActivity.MESSAGE_RECEIVED_ACTION);
+                msgIntent.putExtra(BaseActivity.KEY_MESSAGE, message);
+                msgIntent.putExtra(BaseActivity.KEY_EXTRAS, extras);
+                LocalBroadcastManager.getInstance(context).sendBroadcast(msgIntent);
             }
         }else{
             if (BaseActivity.isForeground) {
@@ -151,22 +156,7 @@ public class MyReceiver extends BroadcastReceiver {
                 msgIntent.putExtra(BaseActivity.KEY_MESSAGE, message);
                 msgIntent.putExtra(BaseActivity.KEY_EXTRAS, extras);
                 LocalBroadcastManager.getInstance(context).sendBroadcast(msgIntent);
-        }
-            /*if (MainActivity.isForeground) {
-            String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
-            String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-            if("0".equals(PreferencesUtils.getString(context, Constants.USER_TYPE))){      //商家
-                Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION);
-                msgIntent.putExtra(MainActivity.KEY_MESSAGE, title);
-                msgIntent.putExtra(MainActivity.KEY_EXTRAS, extras);
-                LocalBroadcastManager.getInstance(context).sendBroadcast(msgIntent);
-            }else {
-                Intent msgIntent = new Intent(DriverMainActivity.MESSAGE_RECEIVED_ACTION);
-                msgIntent.putExtra(DriverMainActivity.KEY_MESSAGE, title);
-                msgIntent.putExtra(DriverMainActivity.KEY_EXTRAS, extras);
-                LocalBroadcastManager.getInstance(context).sendBroadcast(msgIntent);
-            }*/
-
+            }
         }
     }
 }

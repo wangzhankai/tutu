@@ -6,6 +6,7 @@ import com.superpeer.base_libs.base.baseadapter.BaseQuickAdapter;
 import com.superpeer.base_libs.base.baseadapter.BaseViewHolder;
 import com.superpeer.tutuyoudian.R;
 import com.superpeer.tutuyoudian.bean.BaseList;
+import com.superpeer.tutuyoudian.utils.DateUtils;
 
 import java.util.List;
 

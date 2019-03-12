@@ -10,6 +10,7 @@ import com.superpeer.tutuyoudian.activity.main.MainActivity;
 import com.superpeer.tutuyoudian.activity.store.StoreApplyActivity;
 import com.superpeer.tutuyoudian.activity.storesendset.StoreSendSetActivity;
 import com.superpeer.tutuyoudian.activity.storeuse.StoreUseActivity;
+import com.superpeer.tutuyoudian.activity.storeusernew.StoreUserNewActivity;
 import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 import com.superpeer.tutuyoudian.constant.Constants;
@@ -130,6 +131,7 @@ public class WXPayEntryActivity extends BaseActivity<PayPresenter, PayModel> imp
 					PreferencesUtils.putString(mContext, Constants.SHOP_NOTICE, baseBeanResult.getData().getObject().getContent());
 					PreferencesUtils.putString(mContext, Constants.ACCOUNT_ID, baseBeanResult.getData().getObject().getAccountId());
 					PreferencesUtils.putString(mContext, Constants.USER_TYPE, baseBeanResult.getData().getObject().getRoleType());
+					PreferencesUtils.putString(mContext, Constants.INVITATION_CODE, baseBeanResult.getData().getObject().getInvitationCode());
 //					if(null!=baseBeanResult.getData().getObject().getRoleType()){
 //						if ("0".equals(baseBeanResult.getData().getObject().getRoleType())) {
 							if(null!=baseBeanResult.getData().getObject().getState()){
@@ -140,7 +142,7 @@ public class WXPayEntryActivity extends BaseActivity<PayPresenter, PayModel> imp
 								}else if("2".equals(baseBeanResult.getData().getObject().getState())){
 									startActivity(StoreInfoActivity.class);
 								}else if("3".equals(baseBeanResult.getData().getObject().getState())){
-									startActivity(StoreUseActivity.class);
+									startActivity(StoreUserNewActivity.class);
 								}else{
 									startActivity(MainActivity.class);
 									AppManager.getAppManager().finishAllActivity();

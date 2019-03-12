@@ -17,6 +17,7 @@ import com.superpeer.tutuyoudian.activity.storedriver.DriverListActivity;
 import com.superpeer.tutuyoudian.activity.storeorder.StoreOrderActivity;
 import com.superpeer.tutuyoudian.activity.storesendset.StoreSendSetActivity;
 import com.superpeer.tutuyoudian.activity.storeuse.StoreUseActivity;
+import com.superpeer.tutuyoudian.activity.storeusernew.StoreUserNewActivity;
 import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.constant.Constants;
 
@@ -131,7 +132,7 @@ public class StoreSettingActivity extends BaseActivity<StoreSettingPresenter, St
         linearStoreUse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(StoreUseActivity.class);
+                startActivity(StoreUserNewActivity.class);
             }
         });
 

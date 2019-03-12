@@ -154,6 +154,9 @@ public class ApplyActivity extends BaseActivity<ApplyPresenter, ApplyModel> impl
                     showShortToast("请输入密码");
                     return;
                 }
+                if(password.length()<6){
+                    showShortToast("请输入6位以上密码");
+                }
                 if(TextUtils.isEmpty(passwordAgain)){
                     showShortToast("请再次输入密码");
                     return;

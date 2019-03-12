@@ -322,7 +322,7 @@ public interface ApiService {
     //获取提现记录
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @GET("app/shop/getSettleDetail")
-    Observable<BaseBeanResult> getRecord(@Query("shopId") String shopId, @Query("pageSize") String pageSize, @Query("defaultCurrent") String defaultCurrent);
+    Observable<BaseBeanResult> getRecord(@Query("shopId") String shopId, @Query("defaultCurrent") String defaultCurrent, @Query("pageSize") String pageSize);
 
     //保存提现记录
     @FormUrlEncoded
@@ -507,10 +507,21 @@ public interface ApiService {
     @POST("app/shop/activation")
     Observable<BaseBeanResult> activation(@Field("shopId") String shopId, @Field("feeSettingId") String feeSettingId);
 
+    //店铺激活
+    @FormUrlEncoded
+    @POST("app/shop/activationNew")
+    Observable<BaseBeanResult> activationNew(@Field("shopId") String shopId, @Field("feeSettingId") String feeSettingId,
+                                             @Field("visitCode") String visitCode, @Field("type") String type);
+
     //获取套餐
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @GET("app/shop/queryFeeSetting")
     Observable<BaseBeanResult> queryFeeSetting();
+
+    //获取套餐
+    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+    @GET("app/shop/queryFeeSettingNew")
+    Observable<BaseBeanResult> queryFeeSettingNew(@Query("phone") String phone);
 
     //召唤骑士
     @FormUrlEncoded

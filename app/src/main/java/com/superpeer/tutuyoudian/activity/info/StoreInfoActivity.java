@@ -20,6 +20,7 @@ import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.base_libs.view.LoadingDialog;
 import com.superpeer.tutuyoudian.R;
 import com.superpeer.tutuyoudian.activity.storeuse.StoreUseActivity;
+import com.superpeer.tutuyoudian.activity.storeusernew.StoreUserNewActivity;
 import com.superpeer.tutuyoudian.api.Url;
 import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
@@ -316,7 +317,7 @@ public class StoreInfoActivity extends BaseActivity<StoreInfoPresenter, StoreInf
                 if("1".equals(baseBeanResult.getCode())){
                     PreferencesUtils.putString(mContext, Constants.USER_INFO, new Gson().toJson(baseBeanResult.getData().getObject()));
                     if("1".equals(flag)){
-                        Intent intent = new Intent(mContext, StoreUseActivity.class);
+                        Intent intent = new Intent(mContext, StoreUserNewActivity.class);
                         intent.putExtra("type", type);
                         startActivity(intent);
                     }else{

@@ -9,6 +9,7 @@
         style="@style/textGrey3Style14"
         android:background="@color/white"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="@dimen/dp_45"
         android:text="银行卡"
         android:gravity="center"/>

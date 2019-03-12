@@ -111,30 +111,34 @@ public class CashWithDrawActivity extends BaseActivity<CashWithDrawPresenter, Ca
         tvWithDraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String money = etCash.getText().toString().trim();
-                String canWithDraw = tvWithDrawCash.getText().toString().trim();
-                if(TextUtils.isEmpty(money)){
-                    showShortToast("请输入提现金额");
-                    return;
-                }
-                if(Double.parseDouble(money)>Double.parseDouble(canWithDraw)){
-                    showShortToast("提现金额不能大于可提现金额");
-                    return;
-                }
-                if(TextUtils.isEmpty(accountType)){
-                    showShortToast("请选择付款方式");
-                    return;
-                }
-                final InputPasswordDialog inputDialog = InputPasswordDialog.newInstance();
+                try {
+                    final String money = etCash.getText().toString().trim();
+                    String canWithDraw = tvWithDrawCash.getText().toString().trim().substring(1);
+                    if (TextUtils.isEmpty(money)) {
+                        showShortToast("请输入提现金额");
+                        return;
+                    }
+                    if (Double.parseDouble(money) > Double.parseDouble(canWithDraw)) {
+                        showShortToast("提现金额不能大于可提现金额");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(accountType)) {
+                        showShortToast("请选择付款方式");
+                        return;
+                    }
+                    final InputPasswordDialog inputDialog = InputPasswordDialog.newInstance();
                     inputDialog.setTextChangeListener(new TextChangeListener() {
-                            @Override
-                            public void textChange(String text) {
-                                if(text.length() == 6){
-                                    mPresenter.saveWithDraw(PreferencesUtils.getString(mContext, Constants.SHOP_ID), money, accountType, text);
-                                    inputDialog.dismiss();
-                                }
+                        @Override
+                        public void textChange(String text) {
+                            if (text.length() == 6) {
+                                mPresenter.saveWithDraw(PreferencesUtils.getString(mContext, Constants.SHOP_ID), money, accountType, text);
+                                inputDialog.dismiss();
                             }
-                        }).show(getSupportFragmentManager(), "");
+                        }
+                    }).show(getSupportFragmentManager(), "");
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
 
             }
         });
@@ -167,9 +171,9 @@ public class CashWithDrawActivity extends BaseActivity<CashWithDrawPresenter, Ca
         try{
             if(null!=baseBeanResult){
                 if(null!=baseBeanResult.getData()){
-                    if(null!=baseBeanResult.getMsg()){
+                    /*if(null!=baseBeanResult.getMsg()){
                         showShortToast(baseBeanResult.getMsg());
-                    }
+                    }*/
                     if(null!=baseBeanResult.getData().getObject()){
                         initData(baseBeanResult.getData().getObject());
                     }

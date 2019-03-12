@@ -1,9 +1,11 @@
 package com.superpeer.tutuyoudian.base;
 
 import android.app.AlertDialog;
+import android.app.Application;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
@@ -12,6 +14,7 @@ import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
@@ -28,9 +31,11 @@ import com.superpeer.base_libs.baserx.RxManager;
 import com.superpeer.base_libs.baserx.RxSchedulers;
 import com.superpeer.base_libs.utils.ConstantsUtils;
 import com.superpeer.base_libs.utils.MPermissionUtils;
+import com.superpeer.base_libs.utils.MediaManager;
 import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.base_libs.utils.TUtil;
 import com.superpeer.base_libs.utils.ToastUitl;
+import com.superpeer.tutuyoudian.BaseApplication;
 import com.superpeer.tutuyoudian.R;
 import com.superpeer.tutuyoudian.activity.driver.orderdetail.DriverOrderDetailActivity;
 import com.superpeer.tutuyoudian.activity.main.MainActivity;
@@ -63,6 +68,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     public static boolean isForeground = false;
     private MessageReceiver mMessageReceiver;
     public static final String MESSAGE_RECEIVED_ACTION = "com.lxkj.video.MESSAGE_RECEIVED_ACTION";
+    public static final String MESSAGE_RECEIVED_FOREGROUND = "com.lxkj.video.MESSAGE_RECEIVED_FOREGROUND";
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_EXTRAS = "extras";
     public T mPresenter;
@@ -74,6 +80,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     protected ViewStub mViewStub;
     public Format numberFormat = new DecimalFormat("0.00");
     private AlertDialog dialog;
+    private MediaPlayer mp;
 
     public class MessageReceiver extends BroadcastReceiver {
 
@@ -88,16 +95,23 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                     if (!ConstantsUtils.isEmpty(extras)) {
                         showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
                     }
+                    PushBean bean = new Gson().fromJson(extras, PushBean.class);
+
+                    if(PreferencesUtils.getString(BaseApplication.getAppContext(), Constants.VIDEO_ORDER_ID, "").equals(bean.getOrderId())){
+                        return;
+                    }else{
+                        PreferencesUtils.putString(BaseApplication.getAppContext(), Constants.VIDEO_ORDER_ID, bean.getOrderId());
+                    }
 
                     if("0".equals(PreferencesUtils.getString(context, Constants.USER_TYPE))){       //商家
-                        PushBean bean = new Gson().fromJson(extras, PushBean.class);
 
                         if(null!=bean&&null!=bean.getOrderType()&&"1".equals(bean.getOrderType())){
                             if(null!=dialog){
+                                if(null!=bean.getSound()){
+                                    Log.i("aaaa", "12");
+                                    playVoice(bean.getSound());
+                                }
                                 if(!dialog.isShowing()){
-                                    if(null!=bean.getSound()){
-                                        playVoice(bean.getSound());
-                                    }
                                     showOrderDialog(bean);
                                 }
                             }else{
@@ -109,16 +123,32 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                         }
                     }else{
                         if(null!=dialog){
+                            if(null!=bean.getSound()) {
+                                Log.i("base", "4");
+                                playVoice(bean.getSound());
+                            }
                             if(!dialog.isShowing()){
-                                showOrderDialog(extras, message);
+                                showOrderDialog(bean, message);
                             }
                         }else{
-                            showOrderDialog(extras, message);
+                            showOrderDialog(bean, message);
                         }
                         mRxManager.post("drivermain", "");
                     }
+                }else{
+                    String extras = intent.getStringExtra(KEY_EXTRAS);
+                    PushBean bean = new Gson().fromJson(extras, PushBean.class);
+                    if(PreferencesUtils.getString(BaseApplication.getAppContext(), Constants.VIDEO_ORDER_ID).equals(bean.getOrderId())){
+                        return;
+                    }else{
+                        PreferencesUtils.putString(BaseApplication.getAppContext(), Constants.VIDEO_ORDER_ID, bean.getOrderId());
+                    }
+                    if(null!=bean.getSound()){
+                        playVoice(bean.getSound());
+                    }
                 }
             } catch (Exception e){
+                e.printStackTrace();
             }
         }
     }
@@ -131,7 +161,15 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, filter);
     }
 
-    public void showOrderDialog(String extra, String msg) {
+    public void registerMessageReceiverForeground() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(MESSAGE_RECEIVED_FOREGROUND);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, filter);
+    }
+
+    public void showOrderDialog(final PushBean bean, String msg) {
         try {
             if (null != dialog && dialog.isShowing()) {
                 dialog.dismiss();
@@ -153,10 +191,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         dialog.getWindow().setContentView(view);
 
         try {
-            final PushBean bean = new Gson().fromJson(extra, PushBean.class);
-            if(null!=bean.getSound()) {
-                playVoice(bean.getSound());
-            }
             if (null != bean) {
                 if (null != bean.getShopName()) {
                     tvDesc.setText(bean.getShopName()+"有新订单了，兔兔跑腿，快抢单吧");
@@ -178,6 +212,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                             @Override
                             protected void _onNext(BaseBeanResult baseBeanResult) {
                                 try{
+                                    releaseMediaPlayer();
                                     if(null!=baseBeanResult){
                                         if(null!=baseBeanResult.getMsg()){
                                             showShortToast(baseBeanResult.getMsg());
@@ -209,6 +244,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                releaseMediaPlayer();
             }
         });
 
@@ -216,9 +252,33 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                releaseMediaPlayer();
             }
         });
 
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                releaseMediaPlayer();
+            }
+        });
+
+    }
+
+    private void releaseMediaPlayer() {
+        try {
+            if (null != mp) {
+                if (mp.isPlaying()) {
+                    mp.pause();
+                    mp.stop();
+                }
+                mp.reset();
+                mp.release();
+                mp = null;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void showOrderDialog(final PushBean bean) {
@@ -269,6 +329,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                                         if(null!=baseBeanResult.getMsg()){
                                             showShortToast(baseBeanResult.getMsg());
                                         }
+                                        releaseMediaPlayer();
                                         if("1".equals(baseBeanResult.getCode())){
                                             Intent intent = new Intent(mContext, OrderDetailActivity.class);
                                             intent.putExtra("orderId", bean.getOrderId());
@@ -292,6 +353,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
+                    releaseMediaPlayer();
                 }
             });
         }catch (Exception e){
@@ -302,6 +364,14 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                releaseMediaPlayer();
+            }
+        });
+
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                releaseMediaPlayer();
             }
         });
 
@@ -341,6 +411,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         this.initView();
 
         registerMessageReceiver();
+        registerMessageReceiverForeground();
 
         /*mRxManager.on("jpush", new Action1<PushBean>() {
             @Override
@@ -535,12 +606,14 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     @Override
     protected void onResume() {
         isForeground = true;
+        releaseMediaPlayer();
         super.onResume();
     }
 
     @Override
     protected void onPause() {
         isForeground = false;
+        releaseMediaPlayer();
         super.onPause();
     }
 
@@ -556,18 +629,21 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
 
     public void playVoice(String voiceName){
         try {
+            if(null!=mp){
+                return;
+            }
+            releaseMediaPlayer();
+
+            Log.i("aaaa", "1");
             int rawId = getResources().getIdentifier(voiceName.substring(0, voiceName.indexOf(".")), "raw", "com.superpeer.tutuyoudian");
-            final MediaPlayer mp = MediaPlayer.create(mContext, rawId);//重新设置要播放的音频
+            mp = MediaPlayer.create(mContext, rawId);//重新设置要播放的音频
 
             mp.start();//开始播放
 
             mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer arg0) {
-                    if (null != mp) {
-                        mp.stop();
-                        mp.release();
-                    }
+                    releaseMediaPlayer();
                 }
             });
         }catch (Exception e){

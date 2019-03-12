@@ -59,7 +59,7 @@ public class StoreUseActivity extends BaseActivity<StoreUsePresenter, StoreUseMo
 
     @Override
     public void initView() {
-        setHeadTitle("兔兔店家服务费");
+        setHeadTitle("兔兔服务");
 
         tvSure = (TextView) findViewById(R.id.tvSure);
         linearWx = (LinearLayout) findViewById(R.id.linearWx);

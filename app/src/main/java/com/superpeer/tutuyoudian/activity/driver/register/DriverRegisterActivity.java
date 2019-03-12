@@ -203,6 +203,10 @@ public class DriverRegisterActivity extends BaseActivity<DriverRegisterPresenter
                     showShortToast("请输入密码");
                     return;
                 }
+                if(password.length()<6){
+                    showShortToast("请输入6位以上密码");
+                    return;
+                }
                 if(TextUtils.isEmpty(passwordAgain)){
                     showShortToast("请再次输入密码");
                     return;

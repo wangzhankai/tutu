@@ -9,17 +9,20 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_weight="1"
+        android:orientation="vertical"
         android:gravity="center_vertical"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/tvType"
+            android:text="aaa"
             style="@style/textGrey3Style14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/tvTime"
+            android:text="fasd"
             style="@style/textGrey9Style14"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_width="wrap_content"

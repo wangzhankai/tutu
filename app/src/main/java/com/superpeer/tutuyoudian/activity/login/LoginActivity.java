@@ -30,6 +30,7 @@ import com.superpeer.tutuyoudian.activity.main.MainActivity;
 import com.superpeer.tutuyoudian.activity.store.StoreApplyActivity;
 import com.superpeer.tutuyoudian.activity.storesendset.StoreSendSetActivity;
 import com.superpeer.tutuyoudian.activity.storeuse.StoreUseActivity;
+import com.superpeer.tutuyoudian.activity.storeusernew.StoreUserNewActivity;
 import com.superpeer.tutuyoudian.base.BaseActivity;
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 import com.superpeer.tutuyoudian.bean.BaseObject;
@@ -197,6 +198,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                         PreferencesUtils.putString(mContext, Constants.SHOP_NOTICE, baseBeanResult.getData().getObject().getContent());
                         PreferencesUtils.putString(mContext, Constants.ACCOUNT_ID, baseBeanResult.getData().getObject().getAccountId());
                         PreferencesUtils.putString(mContext, Constants.USER_TYPE, baseBeanResult.getData().getObject().getRoleType());
+                        PreferencesUtils.putString(mContext, Constants.INVITATION_CODE, baseBeanResult.getData().getObject().getInvitationCode());
                         if(null!=baseBeanResult.getData().getObject().getRoleType()){
                             if ("0".equals(baseBeanResult.getData().getObject().getRoleType())) {
                                 PreferencesUtils.putString(mContext, Constants.SHOP_ID, baseBeanResult.getData().getObject().getShopId());
@@ -215,7 +217,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                                         intent.putExtra("type", "1");
                                         startActivity(intent);
                                     }else if("3".equals(baseBeanResult.getData().getObject().getState())){
-                                        Intent intent = new Intent(mContext, StoreUseActivity.class);
+                                        Intent intent = new Intent(mContext, StoreUserNewActivity.class);
                                         intent.putExtra("type", "1");
                                         startActivity(intent);
                                     }else{
