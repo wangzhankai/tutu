@@ -1,5 +1,6 @@
 package com.superpeer.base_libs.utils;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -53,5 +54,16 @@ public class ConstantsUtils {
         String reg1 = "[0-9]{15}";
         String regex = "[0-9]{18}";
         return text.matches(regx) || text.matches(reg1) || text.matches(regex);
+    }
+
+    /**
+     * *
+     * * 判断某activity是否处于栈顶
+     * * @return  true在栈顶 false不在栈顶
+     * */
+    public static boolean isActivityTop(Context context, Class cls){
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        String name = manager.getRunningTasks(1).get(0).topActivity.getClassName();
+        return name.equals(cls.getName());
     }
 }
