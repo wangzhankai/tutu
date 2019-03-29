@@ -284,6 +284,12 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                             tvComplete.setVisibility(View.GONE);
                         }
                     }
+                    if(null!=baseBeanResult.getData()&&
+                            null!=baseBeanResult.getData().getObject()&&
+                            null!=baseBeanResult.getData().getObject().getReceiveRedPacketMoney()
+                            &&Double.parseDouble(baseBeanResult.getData().getObject().getReceiveRedPacketMoney())>0){
+                        showRedbagDialog(baseBeanResult.getData().getObject().getReceiveRedPacketMoney());
+                    }
                 }
             }
         }catch (Exception e){

@@ -346,7 +346,7 @@ public interface ApiService {
 
     //接单
     @FormUrlEncoded
-    @POST("app/order/receiptOrder")
+    @POST("app/order/receiptOrder_18_1")
     Observable<BaseBeanResult> receiptOrder(@Field("orderId") String orderId);
 
     //获取拼团订单详情

@@ -86,6 +86,16 @@ public class BaseObject implements Serializable {
     private String operatorId;
     private String settingId;
 
+    private String receiveRedPacketMoney;
+
+    public String getReceiveRedPacketMoney() {
+        return receiveRedPacketMoney;
+    }
+
+    public void setReceiveRedPacketMoney(String receiveRedPacketMoney) {
+        this.receiveRedPacketMoney = receiveRedPacketMoney;
+    }
+
     public String getSettingId() {
         return settingId;
     }

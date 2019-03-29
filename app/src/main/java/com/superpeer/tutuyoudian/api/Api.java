@@ -1,5 +1,6 @@
 package com.superpeer.tutuyoudian.api;
 
+import android.app.Application;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -47,7 +48,7 @@ public class Api {
         public Response intercept(Chain chain) throws IOException {
             Request build = chain.request().newBuilder()
                     .addHeader("Content-Type", "application/json")
-                    .addHeader("token", Constants.TOKEN)
+                    .addHeader("token", PreferencesUtils.getString(BaseApplication.getAppContext(), Constants.TOKEN, ""))
                     .build();
             return chain.proceed(build);
         }

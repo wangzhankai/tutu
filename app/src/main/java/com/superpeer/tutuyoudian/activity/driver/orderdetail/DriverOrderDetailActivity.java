@@ -249,6 +249,12 @@ public class DriverOrderDetailActivity extends BaseActivity<DriverOrderDetailPre
                 if("1".equals(baseBeanResult.getCode())){
                     object.setOrderStatus("4");
                     initData(object);
+                    if(null!=baseBeanResult.getData()&&
+                            null!=baseBeanResult.getData().getObject()&&
+                            null!=baseBeanResult.getData().getObject().getReceiveRedPacketMoney()
+                            &&Double.parseDouble(baseBeanResult.getData().getObject().getReceiveRedPacketMoney())>0){
+                        showRedbagDialog(baseBeanResult.getData().getObject().getReceiveRedPacketMoney());
+                    }
                     /*ivStatus.setImageResource(R.mipmap.iv_order_readyget);
                     mRxManager.post("order", "");
                     tvGet.setVisibility(View.GONE);

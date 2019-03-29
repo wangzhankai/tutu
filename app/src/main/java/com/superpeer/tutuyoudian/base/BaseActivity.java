@@ -1,8 +1,6 @@
 package com.superpeer.tutuyoudian.base;
 
 import android.app.AlertDialog;
-import android.app.Application;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,14 +29,12 @@ import com.superpeer.base_libs.baserx.RxManager;
 import com.superpeer.base_libs.baserx.RxSchedulers;
 import com.superpeer.base_libs.utils.ConstantsUtils;
 import com.superpeer.base_libs.utils.MPermissionUtils;
-import com.superpeer.base_libs.utils.MediaManager;
 import com.superpeer.base_libs.utils.PreferencesUtils;
 import com.superpeer.base_libs.utils.TUtil;
 import com.superpeer.base_libs.utils.ToastUitl;
 import com.superpeer.tutuyoudian.BaseApplication;
 import com.superpeer.tutuyoudian.R;
 import com.superpeer.tutuyoudian.activity.driver.orderdetail.DriverOrderDetailActivity;
-import com.superpeer.tutuyoudian.activity.main.MainActivity;
 import com.superpeer.tutuyoudian.activity.order.detail.OrderDetailActivity;
 import com.superpeer.tutuyoudian.api.Api;
 import com.superpeer.tutuyoudian.api.RxSubscriber;
@@ -46,16 +42,17 @@ import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 import com.superpeer.tutuyoudian.bean.BaseObject;
 import com.superpeer.tutuyoudian.bean.PushBean;
 import com.superpeer.tutuyoudian.constant.Constants;
-import com.superpeer.tutuyoudian.utils.SystemTTS;
+import com.superpeer.tutuyoudian.redbag.CustomDialog;
+import com.superpeer.tutuyoudian.redbag.OnRedPacketDialogClickListener;
+import com.superpeer.tutuyoudian.redbag.RedPacketEntity;
+import com.superpeer.tutuyoudian.redbag.RedPacketViewHolder;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.Format;
-import java.text.NumberFormat;
 
 import rx.Observable;
-import rx.functions.Action1;
 import rx.functions.Func1;
 
 /**
@@ -81,6 +78,10 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     public Format numberFormat = new DecimalFormat("0.00");
     private AlertDialog dialog;
     private MediaPlayer mp;
+    //红包弹窗
+    private RedPacketViewHolder mRedPacketViewHolder;
+    private View mRedPacketDialogView;
+    private CustomDialog mRedPacketDialog;
 
     public class MessageReceiver extends BroadcastReceiver {
 
@@ -108,7 +109,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                         if(null!=bean&&null!=bean.getOrderType()&&"1".equals(bean.getOrderType())){
                             if(null!=dialog){
                                 if(null!=bean.getSound()){
-                                    Log.i("aaaa", "12");
                                     playVoice(bean.getSound());
                                 }
                                 if(!dialog.isShowing()){
@@ -212,15 +212,31 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                             @Override
                             protected void _onNext(BaseBeanResult baseBeanResult) {
                                 try{
-                                    releaseMediaPlayer();
                                     if(null!=baseBeanResult){
                                         if(null!=baseBeanResult.getMsg()){
                                             showShortToast(baseBeanResult.getMsg());
                                         }
-                                        if("1".equals(baseBeanResult.getCode())){
-                                            Intent intent = new Intent(mContext, DriverOrderDetailActivity.class);
-                                            intent.putExtra("orderId", bean.getOrderId());
-                                            startActivity(intent);
+                                        if(null != bean.getButtonType()){
+                                            if("true".equals(bean.getButtonType())){
+                                                if(null!=baseBeanResult.getData()&&
+                                                        null!=baseBeanResult.getData().getObject()&&
+                                                        null!=baseBeanResult.getData().getObject().getReceiveRedPacketMoney()
+                                                        &&Double.parseDouble(baseBeanResult.getData().getObject().getReceiveRedPacketMoney())>0){
+                                                    showRedbagDialog(baseBeanResult.getData().getObject().getReceiveRedPacketMoney());
+                                                }
+                                            }else{
+                                                if ("1".equals(baseBeanResult.getCode())) {
+                                                    Intent intent = new Intent(mContext, DriverOrderDetailActivity.class);
+                                                    intent.putExtra("orderId", bean.getOrderId());
+                                                    startActivity(intent);
+                                                }
+                                            }
+                                        }else {
+                                            if ("1".equals(baseBeanResult.getCode())) {
+                                                Intent intent = new Intent(mContext, DriverOrderDetailActivity.class);
+                                                intent.putExtra("orderId", bean.getOrderId());
+                                                startActivity(intent);
+                                            }
                                         }
                                     }
                                 }catch (Exception e){
@@ -244,7 +260,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                releaseMediaPlayer();
             }
         });
 
@@ -252,7 +267,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                releaseMediaPlayer();
             }
         });
 
@@ -329,11 +343,27 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                                         if(null!=baseBeanResult.getMsg()){
                                             showShortToast(baseBeanResult.getMsg());
                                         }
-                                        releaseMediaPlayer();
-                                        if("1".equals(baseBeanResult.getCode())){
-                                            Intent intent = new Intent(mContext, OrderDetailActivity.class);
-                                            intent.putExtra("orderId", bean.getOrderId());
-                                            startActivity(intent);
+                                        if(null != bean.getButtonType()){
+                                            if("true".equals(bean.getButtonType())){
+                                                if(null!=baseBeanResult.getData()&&
+                                                        null!=baseBeanResult.getData().getObject()&&
+                                                        null!=baseBeanResult.getData().getObject().getReceiveRedPacketMoney()
+                                                        &&Double.parseDouble(baseBeanResult.getData().getObject().getReceiveRedPacketMoney())>0){
+                                                    showRedbagDialog(baseBeanResult.getData().getObject().getReceiveRedPacketMoney());
+                                                }
+                                            }else{
+                                                if ("1".equals(baseBeanResult.getCode())) {
+                                                    Intent intent = new Intent(mContext, OrderDetailActivity.class);
+                                                    intent.putExtra("orderId", bean.getOrderId());
+                                                    startActivity(intent);
+                                                }
+                                            }
+                                        }else {
+                                            if ("1".equals(baseBeanResult.getCode())) {
+                                                Intent intent = new Intent(mContext, OrderDetailActivity.class);
+                                                intent.putExtra("orderId", bean.getOrderId());
+                                                startActivity(intent);
+                                            }
                                         }
                                     }
                                 }catch (Exception e){
@@ -353,7 +383,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
-                    releaseMediaPlayer();
                 }
             });
         }catch (Exception e){
@@ -364,7 +393,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                releaseMediaPlayer();
             }
         });
 
@@ -411,7 +439,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         this.initView();
 
         registerMessageReceiver();
-        registerMessageReceiverForeground();
+//        registerMessageReceiverForeground();
 
         /*mRxManager.on("jpush", new Action1<PushBean>() {
             @Override
@@ -606,14 +634,12 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     @Override
     protected void onResume() {
         isForeground = true;
-        releaseMediaPlayer();
         super.onResume();
     }
 
     @Override
     protected void onPause() {
         isForeground = false;
-        releaseMediaPlayer();
         super.onPause();
     }
 
@@ -629,12 +655,8 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
 
     public void playVoice(String voiceName){
         try {
-            if(null!=mp){
-                return;
-            }
             releaseMediaPlayer();
 
-            Log.i("aaaa", "1");
             int rawId = getResources().getIdentifier(voiceName.substring(0, voiceName.indexOf(".")), "raw", "com.superpeer.tutuyoudian");
             mp = MediaPlayer.create(mContext, rawId);//重新设置要播放的音频
 
@@ -649,5 +671,41 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void showRedbagDialog(String receiveRedPacketMoney){
+        RedPacketEntity entity = new RedPacketEntity("兔兔优店", R.mipmap.logo, "给您送了一个红包");
+        showRedPacketDialog(entity, receiveRedPacketMoney);
+    }
+
+    public void showRedPacketDialog(RedPacketEntity entity, final String receiveRedPacketMoney) {
+        if (mRedPacketDialogView == null) {
+            mRedPacketDialogView = View.inflate(this, R.layout.dialog_red_packet, null);
+            mRedPacketViewHolder = new RedPacketViewHolder(mContext, mRedPacketDialogView);
+            mRedPacketDialog = new CustomDialog(this, mRedPacketDialogView, R.style.custom_dialog);
+            mRedPacketDialog.setCancelable(false);
+        }
+
+        mRedPacketViewHolder.setData(entity);
+        mRedPacketViewHolder.setOnRedPacketDialogClickListener(new OnRedPacketDialogClickListener() {
+            @Override
+            public void onCloseClick() {
+                mRedPacketDialog.dismiss();
+            }
+
+            @Override
+            public void onOpenClick() {
+                //领取红包,调用接口
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                mRedPacketViewHolder.stopAnim();
+                mRedPacketViewHolder.getMoney(numberFormat.format(new BigDecimal(receiveRedPacketMoney)));
+            }
+        });
+
+        mRedPacketDialog.show();
     }
 }

@@ -28,6 +28,10 @@ import com.superpeer.tutuyoudian.listener.OnGetListener;
 import com.superpeer.tutuyoudian.listener.OnItemListener;
 import com.superpeer.tutuyoudian.listener.OnSureListener;
 import com.superpeer.tutuyoudian.listener.OnVerifyListener;
+import com.superpeer.tutuyoudian.redbag.CustomDialog;
+import com.superpeer.tutuyoudian.redbag.OnRedPacketDialogClickListener;
+import com.superpeer.tutuyoudian.redbag.RedPacketEntity;
+import com.superpeer.tutuyoudian.redbag.RedPacketViewHolder;
 import com.superpeer.tutuyoudian.utils.DialogUtils;
 
 import rx.functions.Action1;
@@ -51,6 +55,10 @@ public class NormalOrderFragment extends BaseFragment<NormalOrderPresenter, Norm
     private int delPos;
     private int completePos;
     private boolean isViewCreate;
+    //红包弹窗
+    private RedPacketViewHolder mRedPacketViewHolder;
+    private View mRedPacketDialogView;
+    private CustomDialog mRedPacketDialog;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -315,6 +323,12 @@ public class NormalOrderFragment extends BaseFragment<NormalOrderPresenter, Norm
                         PAGE = 1;
                         mPresenter.getOrderList(PreferencesUtils.getString(getActivity(), Constants.SHOP_ID), PAGE+"", "10", "TYPE".equals(type)?"4":type, "TYPE".equals(type)?"1":("4".equals(type)?"2":""));
                     }
+                    if(null!=baseBeanResult.getData()&&
+                            null!=baseBeanResult.getData().getObject()&&
+                            null!=baseBeanResult.getData().getObject().getReceiveRedPacketMoney()
+                            &&Double.parseDouble(baseBeanResult.getData().getObject().getReceiveRedPacketMoney())>0){
+                        showRedbagDialog(baseBeanResult.getData().getObject().getReceiveRedPacketMoney());
+                    }
                 }
             }
         }catch (Exception e){
@@ -366,5 +380,41 @@ public class NormalOrderFragment extends BaseFragment<NormalOrderPresenter, Norm
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void showRedbagDialog(String receiveRedPacketMoney){
+        RedPacketEntity entity = new RedPacketEntity("兔兔优店", R.mipmap.logo, "给您送了一个红包");
+        showRedPacketDialog(entity, receiveRedPacketMoney);
+    }
+
+    public void showRedPacketDialog(RedPacketEntity entity, final String receiveRedPacketMoney) {
+        if (mRedPacketDialogView == null) {
+            mRedPacketDialogView = View.inflate(getActivity(), R.layout.dialog_red_packet, null);
+            mRedPacketViewHolder = new RedPacketViewHolder(getActivity(), mRedPacketDialogView);
+            mRedPacketDialog = new CustomDialog(getActivity(), mRedPacketDialogView, R.style.custom_dialog);
+            mRedPacketDialog.setCancelable(false);
+        }
+
+        mRedPacketViewHolder.setData(entity);
+        mRedPacketViewHolder.setOnRedPacketDialogClickListener(new OnRedPacketDialogClickListener() {
+            @Override
+            public void onCloseClick() {
+                mRedPacketDialog.dismiss();
+            }
+
+            @Override
+            public void onOpenClick() {
+                //领取红包,调用接口
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                mRedPacketViewHolder.stopAnim();
+                mRedPacketViewHolder.getMoney(receiveRedPacketMoney);
+            }
+        });
+
+        mRedPacketDialog.show();
     }
 }

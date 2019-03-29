@@ -1,7 +1,6 @@
 package com.superpeer.tutuyoudian.activity.driver.main;
 
 import com.superpeer.base_libs.baserx.RxSchedulers;
-import com.superpeer.tutuyoudian.R;
 import com.superpeer.tutuyoudian.api.Api;
 import com.superpeer.tutuyoudian.bean.BaseBeanResult;
 

@@ -8,6 +8,16 @@ public class PushBean {
     private String orderType;
     private String sound;
 
+    private String buttonType;
+
+    public String getButtonType() {
+        return buttonType;
+    }
+
+    public void setButtonType(String buttonType) {
+        this.buttonType = buttonType;
+    }
+
     public String getSound() {
         return sound;
     }

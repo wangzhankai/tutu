@@ -192,7 +192,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 if("1".equals(baseBeanResult.getCode())){
                     if(null!=baseBeanResult.getData()&&null!=baseBeanResult.getData().getObject()){
                         if(null!=baseBeanResult.getData().getObject().getToken())
-                            Constants.TOKEN = baseBeanResult.getData().getObject().getToken();
+                            PreferencesUtils.putString(mContext, Constants.TOKEN, baseBeanResult.getData().getObject().getToken());
                         PreferencesUtils.putString(mContext, Constants.USER_INFO, new Gson().toJson(baseBeanResult.getData().getObject()));
                         PreferencesUtils.putString(mContext, Constants.IS_IDENTIFY, baseBeanResult.getData().getObject().getState());
                         PreferencesUtils.putString(mContext, Constants.SHOP_NOTICE, baseBeanResult.getData().getObject().getContent());

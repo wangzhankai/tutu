@@ -8,7 +8,8 @@ public class Url {
 
     public static final String TENCENT_IP = "https://apis.map.qq.com/ws/";         //服务器
     public static final String WX_IP = "https://api.weixin.qq.com/";         //服务器
-    public static final String IP = "http://www.tutuyoudian.com/";         //服务器
+//    public static final String IP = "http://www.tutuyoudian.com/";         //服务器
+    public static final String IP = "http://dev.tutuyoudian.com/";
 //    public static final String IP = "http://47.92.241.140/";         //测试服
 //    public static final String IP = "http://139.196.121.26:8080/";         //服务器
 //    public static final String IP = "http://mmf7px.natappfree.cc/";           //服务器
